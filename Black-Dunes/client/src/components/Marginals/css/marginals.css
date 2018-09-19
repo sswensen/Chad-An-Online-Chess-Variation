@@ -1,0 +1,242 @@
+/* HEADER STYLES */
+
+/* General Header Styles */
+#responsiveHeaderContainer{
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+  height: 100%;
+}
+
+.add-header-height{
+  background-color: #1E4D2B;
+  height: 90px;
+  line-height: 90px;
+}
+
+/* CSU Header Styles */
+@media only screen{
+  #csuLargeLogo{
+    display: inline-block;
+  }
+  #csuMedLogo,
+  #csuSmallLogo{
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px){
+  #csuMedLogo{
+    display: inline-block;
+  }
+  #csuLargeLogo,
+  #csuSmallLogo{
+    display: none;
+  }
+}
+@media only screen and (max-width: 576px){
+  #csuSmallLogo{
+    display: inline-block;
+  }
+  #csuMedLogo,
+  #csuLargeLogo{
+    display: none;
+  }
+  /* Look into the A tag being 123px wide... this is the only case of the 3 that has that additional 10px */
+  #csuHeaderLink{
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+#csuHeaderLink{
+  z-index: 1000;
+  line-height: 0;
+}
+
+/* CS Header Styles */
+#responsiveLogoSubsystem{
+  align-items: center;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  color: rgb(108, 108, 108);
+  display: flex;
+  font-family: Lato, sans-serif;
+  font-size: 0;
+  height: 42.0469px;
+  line-height: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 32px;
+  position: relative;
+  text-size-adjust: 100%; /* ms & moz */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+#responsiveLogoSubsystem::before{
+  border-left-color: rgb(255, 255, 255);
+  border-left-style: solid;
+  border-left-width: 2px;
+  bottom: 0;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  height:42.0469px;
+  left: 0;
+  margin-left: 15px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 999;
+}
+#csHeaderLink{
+  display: block;
+  color: #FFFFFF;
+  z-index: 1000;
+  text-decoration: none !important; /* Don't Underline COMPUTER SCIENCE */
+}
+#csHeaderLink h1{
+  margin: .1em 0 0;
+  padding: 0;
+}
+/* FOOTER STYLES*/
+
+.add-footer{
+  background-color: #1E4D2B;
+  bottom: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.csuFooter-Resize {
+  width: 310px;
+  height: auto;
+}
+
+.wrapper {
+  display: flex;
+  display: -webkit-flex; /* Safari */
+  -webkit-flex-flow: row-reverse wrap; /* Safari 6.1+ */
+  flex-flow: row wrap;
+  justify-content: space-between !important;
+  width: 100%;
+}
+
+.wrapper-right{
+  margin-left: auto;
+  order: 2;
+}
+
+.wrapper-left{
+  padding-top: 1.8em;
+}
+
+@media only screen and (max-width: 576px) {
+.wrapper-right {margin-left: 0; }
+}
+
+.footer-copyright{
+  float:left;
+  -moz-opacity: 80;
+  opacity: .90;
+}
+.footer-copyright ul{
+  list-style-type: none;
+  padding-left: 0;
+  line-height: 160%;
+}
+.footer-copyright li{
+  float: left !important;
+  margin-left: 0;
+  margin-right: 20px;
+}
+.footer-copyright a{
+  color: #FFFFFF;
+}
+.footer-copyright a:hover{
+  text-decoration: underline;
+}
+.footer-copyright br{
+  line-height: 160%;
+}
+.copyright-text{
+  font-family: 'prox-light', sans-serif !important;
+  line-height: 1em;
+  letter-spacing: .1em;
+  font-size: 11px;
+  color: #dddddd;
+}
+
+
+
+/* COMPANY FOOTER */
+
+.add-company-footer{
+  padding: 35px 15px 10px 15px;
+  background-color: #255f35;
+  overflow: hidden;
+  margin: 0;
+}
+
+@media only screen and (max-width: 576px) {
+  .company-widget {margin-top: 10px; }
+}
+
+.company-widget{
+  font-family: 'prox-light', sans-serif !important;
+  letter-spacing: .18em;
+  line-height: 1.5em;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: bold;
+}
+
+ul.widget-list{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+li.widget-list{
+  line-height: 1.5;
+  margin: 5px 0;
+}
+
+a.widget-link:hover{
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a.widget-link{
+  font-family: 'prox-light', sans-serif !important;
+  font-weight: 400;
+  line-height: 1em;
+  font-size: 13px;
+  color: #dddddd;
+}
+
+.company-sub-widget {
+  font-family: 'prox-light', sans-serif !important;
+  line-height: 1em;
+  font-size: 13px;
+  color: #dddddd;
+}
+
+/* CSU Unit Identifier Font */
+
+.larger-CSUtext-upper{
+  font-family: 'prox-light', sans-serif !important;
+  letter-spacing: .11em;
+  line-height: 1.1em;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: white;
+}
+
+.larger-CSUtext{
+  font-family: 'prox-light', sans-serif !important;
+  letter-spacing: .11em;
+  line-height: 1.1em;
+  font-size: 18px;
+  color: white;
+}
