@@ -1,6 +1,6 @@
 # Fully Dressed Use Cases
 ## Table of Contents
-1. Use case name
+1. [Use case name](#use-case-name)
 
 
 ## Use Cases
