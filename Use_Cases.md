@@ -3,8 +3,8 @@
 1. [Use case name](#use-case-name)
 2. [User Registration](#user-registration)
 3. [Invitation Rejection](#invitation-rejection)
-4. [Player Turn](#player-turn)
-
+4. [Lock Game](#lock-game)
+5. [Player Turn](#player-turn)
 
 ## Use Cases
 ### <a name="use-case-name">Use Case Name</a>
@@ -48,6 +48,20 @@
 | Preconditions | End User 2 has sent End User 1 an invitation to a game |
 | Flow | <ul><li>Main Flow<ol><li>End User 1 rejects invitation from End User 2</li><li>End User 1 receives a notification that End User 2 has rejected the invitation</li></ol></li><li>Subflows<ol><li>System deletes End User 1's invitation</li><li>System notifies End User 2 of invitation rejection</li></ol></li></ul> |
 | Postconditions | <ul><li>End User 1's invitation will be gone</li><li>End User 2 will have a rejection notification</li></ul> |
+| Cross References | N/A |
+
+### <a name="lock-game">Lock game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-012 |
+| Use Case Name | Lock game |
+| Overview | Once two players join a game, other players who received invitations cannot enter the game |
+| Type | Primary |
+| Actors | End User[Primary, Initiator] |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | Player sends out invitations and is waiting for another player to join the game |
+| Flow | <ul><li>Main Flow<ol><li>End User 1 accepts invitation</li><li>End User 1 joins match created by End User 2</li></ol></li><li>Subflows<ol><li>System blocks other users from joining game</li><li>System deletes other invitations End User 2 sent out for this game</li></ol></li></ul>|
+| Postconditions | <ul><li>The match begins with exactly 2 players</li><li>All other invitations to this match will be deleted</li></ul> |
 | Cross References | N/A |
 
 ### <a name="player-turn">Player Turn</a>
