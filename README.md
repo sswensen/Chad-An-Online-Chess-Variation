@@ -1,3 +1,5 @@
+# Chad
+![Chad Board](https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Chad_init_config.png/360px-Chad_init_config.png)
 ## Game Rules
 Each player owns a castle consisting of 3×3 squares surrounded by a wall of 12 squares. A king may not leave its 3×3 castle, but the rooks are free to move unimpeded by castles or walls.
 * The king can move and capture like a chess king or a chess knight.
