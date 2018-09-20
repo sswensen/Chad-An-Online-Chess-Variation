@@ -4,7 +4,7 @@
 2. [User Registration](#user-registration)
 3. [Invitation Rejection](#invitation-rejection)
 4. [Lock Game](#lock-game)
-5. [Create new match](#create-new-match)
+5. [Create New Match](#create-new-match)
 6. [Player Turn](#player-turn)
 
 
@@ -56,7 +56,7 @@
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-012 |
-| Use Case Name | Lock game |
+| Use Case Name | Lock Game |
 | Overview | Once two players join a game, other players who received invitations cannot enter the game |
 | Type | Primary |
 | Actors | End User[Primary, Initiator] |
@@ -66,7 +66,7 @@
 | Postconditions | <ul><li>The match begins with exactly 2 players</li><li>All other invitations to this match will be deleted</li></ul> |
 | Cross References | N/A |
 
-### <a name="create-new-match">Create new match</a>
+### <a name="create-new-match">Create New Match</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-004 |
