@@ -4,6 +4,7 @@
 2. [User Registration](#user-registration)
 3. [Player-turn](#Player-turn)
 4. [Lock Game](#lock-game)
+5. [Create new match](#create-new-match)
 
 
 ## Use Cases
