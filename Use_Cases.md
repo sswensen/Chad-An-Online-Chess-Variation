@@ -43,7 +43,7 @@
 | Use Case Name | Invitation Rejection |
 | Overview | If a user receives an invitation, the user can reject that invitation. The user who sent the invitation will receive a notification that their invitation was rejected. |
 | Type | Primary |
-| Actors | End User 1 [primary, initiator], End User 2 [primary] |
+| Actors | <ul><li>End User 1 [primary, initiator]</li><li>End User 2 [primary]</li> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
 | Preconditions | End User 2 has sent End User 1 a notification |
 | Flow | <ul><li>Main Flow<ol><li>End User 1 rejects invitation from End User 2</li><li>End User 1 receives a notification that End User 2 has rejected the invitation</li></ol></li><li>Subflows<ol><li>System deletes End User 1's invitation</li><li>System notifies End User 2 of invitation rejection</li></ol></li></ul> |
