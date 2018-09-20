@@ -60,7 +60,7 @@
 | Overview | Once two players join a game, other players who received invitations cannot enter the game |
 | Type | Primary |
 | Actors | End User[Primary, Initiator] |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | Player sends out invitations and is waiting for another player to join the game |
 | Flow | <ul><li>Main Flow<ol><li>End User 1 accepts invitation</li><li>End User 1 joins match created by End User 2</li></ol></li><li>Subflows<ol><li>System blocks other users from joining game</li><li>System deletes other invitations End User 2 sent out for this game</li></ol></li></ul>|
 | Postconditions | <ul><li>The match begins with exactly 2 players</li><li>All other invitations to this match will be deleted</li></ul> |
