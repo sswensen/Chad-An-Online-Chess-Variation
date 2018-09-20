@@ -4,7 +4,9 @@
 2. [User Registration](#user-registration)
 3. [Invitation Rejection](#invitation-rejection)
 4. [Lock Game](#lock-game)
-5. [Player Turn](#player-turn)
+5. [Create new match](#create-new-match)
+6. [Player Turn](#player-turn)
+
 
 ## Use Cases
 ### <a name="use-case-name">Use Case Name</a>
@@ -63,6 +65,20 @@
 | Flow | <ul><li>Main Flow<ol><li>End User 1 accepts invitation</li><li>End User 1 joins match created by End User 2</li></ol></li><li>Subflows<ol><li>System blocks other users from joining game</li><li>System deletes other invitations End User 2 sent out for this game</li></ol></li></ul>|
 | Postconditions | <ul><li>The match begins with exactly 2 players</li><li>All other invitations to this match will be deleted</li></ul> |
 | Cross References | N/A |
+
+### <a name="create-new-match">Create new match</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-004 |
+| Use Case Name | Create new match |Link to any other reference here
+| Overview | Allows a Player to make a new match |
+| Type | Primary |
+| Actors | Primary Actor: Player |
+| Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
+| Preconditions | <ul><li>A Player is logged-in</li><li>A Player is in the main menu</li></ul>  |
+| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting and starting a game (Once the other player is in the game lobby)</ol></li></ul> |
+| Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
+| Cross References | 
 
 ### <a name="player-turn">Player Turn</a>
 | Section | Description |
