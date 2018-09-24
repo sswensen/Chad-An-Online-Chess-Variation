@@ -1,10 +1,10 @@
 # Fully Dressed Use Cases
 ## Table of Contents
 1. [Use case name](#use-case-name)
-2. [User Registration](#user-registration)
-3. [Invitation Rejection](#invitation-rejection)
+2. [Register User](#user-registration)
+3. [Reject Invitation](#invitation-rejection)
 4. [Lock Game](#lock-game)
-5. [Create New Match](#create-new-match)
+5. [Create Match](#create-new-match)
 6. [Player Turn](#player-turn)
 
 
@@ -24,11 +24,11 @@
 | Cross References | Link to any other reference here |
 
 
-### <a name="user-registration">User Registration</a>
+### <a name="user-registration">Register User</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-002 |
-| Use Case Name | User Registration |
+| Use Case Name | Register User |
 | Overview | A user shall have the ability to register themselves with the application. This will consist of capturing an email, nickname, and password. Associating all users with unique accounts allows us to save which users are in an active game. This will make it possible for a user to enter the game, make a move, and exit (possibly into another game). |
 | Type | Primary |
 | Actors | End User [primary, initiator] |
@@ -38,11 +38,11 @@
 | Postconditions | Account is created (i.e. email, nickname, and password (hashed) are stored in the database) |
 | Cross References | N/A|
 
- ### <a name="invitation-rejection">Invitation Rejection</a>
+ ### <a name="invitation-rejection">Reject Invitation</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-007 |
-| Use Case Name | Invitation Rejection |
+| Use Case Name | Reject Invitation |
 | Overview | If a user receives an invitation, the user can reject that invitation. The user who sent the invitation will receive a notification that their invitation was rejected. |
 | Type | Primary |
 | Actors | <ul><li>End User 1 [primary, initiator]</li><li>End User 2 [primary]</li> |
@@ -66,11 +66,11 @@
 | Postconditions | <ul><li>The match begins with exactly 2 players</li><li>All other invitations to this match will be deleted</li></ul> |
 | Cross References | N/A |
 
-### <a name="create-new-match">Create New Match</a>
+### <a name="create-new-match">Create match</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-004 |
-| Use Case Name | Create new match |Link to any other reference here
+| Use Case Name | Create match |
 | Overview | Allows a Player to make a new match |
 | Type | Primary |
 | Actors | Primary Actor: Player |
