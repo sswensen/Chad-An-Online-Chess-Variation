@@ -24,6 +24,47 @@
 | Postconditions | Enter any postconditions |
 | Cross References | Link to any other reference here |
 
+### <a name="view-profile">View Profile</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-027 |
+| Use Case Name | Name of Use Case |
+| Overview | Overview of use case |
+| Type | Primary, Secondary, Optional |
+| Actors | List all actors |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Preconditions | List all preconditions |
+| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
+| Postconditions | Enter any postconditions |
+| Cross References | Link to any other reference here |
+
+### <a name="switch-game">Switch Game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-026 |
+| Use Case Name | Name of Use Case |
+| Overview | Overview of use case |
+| Type | Primary, Secondary, Optional |
+| Actors | List all actors |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Preconditions | List all preconditions |
+| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
+| Postconditions | Enter any postconditions |
+| Cross References | Link to any other reference here |
+
+### <a name="join-game">Join Game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-011 |
+| Use Case Name | Name of Use Case |
+| Overview | Overview of use case |
+| Type | Primary, Secondary, Optional |
+| Actors | List all actors |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Preconditions | List all preconditions |
+| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
+| Postconditions | Enter any postconditions |
+| Cross References | Link to any other reference here |
 
 ### <a name="register-user">Register User</a>
 | Section | Description |
@@ -53,19 +94,20 @@
 | Postconditions | Account is deleted (i.e. email, nickname, and password (hashed) are removed in the database) |
 | Cross References | N/A|
 
- ### <a name="invitation-rejection">Reject Invitation</a>
+ ### <a name="respond-to-invitation">Respond to Invitation</a>
 | Section | Description |
 | ------- | ----------- |
-| Use Case Id | EU-007 |
-| Use Case Name | Reject Invitation |
+| Use Case Id | EU-xxx |
+| Use Case Name | Respond to Invitation |
 | Overview | If a user receives an invitation, the user can reject that invitation. The user who sent the invitation will receive a notification that their invitation was rejected. |
 | Type | Primary |
 | Actors | <ul><li>End User 1 [primary, initiator]</li><li>End User 2 [primary]</li> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | End User 2 has sent End User 1 an invitation to a game |
-| Flow | <ul><li>Main Flow<ol><li>End User 1 rejects invitation from End User 2</li><li>End User 1 receives a notification that End User 2 has rejected the invitation</li></ol></li><li>Subflows<ol><li>System deletes End User 1's invitation</li><li>System notifies End User 2 of invitation rejection</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>End User 1 rejects invitation from End User 2</li><li>End User 1 receives a notification that End User 2 has rejected the invitation</li></ol></li><li>Subflows<ol><li>User can accept invitation</li><li>User can reject invitation</li><li>Sender can cancle invitation</li></ol></li></ul> |
 | Postconditions | <ul><li>End User 1's invitation will be gone</li><li>End User 2 will have a rejection notification</li></ul> |
 | Cross References | N/A |
+ 
 
 ### <a name="lock-game">Lock game</a>
 | Section | Description |
@@ -87,6 +129,34 @@
 | Use Case Id | EU-004 |
 | Use Case Name | Create game |
 | Overview | Allows a Player to make a new game |
+| Type | Primary |
+| Actors | Primary Actor: Player |
+| Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
+| Preconditions | <ul><li>A Player is logged-in</li><li>A Player is in the main menu</li></ul>  |
+| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting and starting a game (Once the other player is in the game lobby)</ol></li></ul> |
+| Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
+| Cross References | 
+
+### <a name="start-game">Start game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-xxx |
+| Use Case Name | Start game |
+| Overview | Allows a Player to make a new game |
+| Type | Primary |
+| Actors | Primary Actor: Player |
+| Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
+| Preconditions | <ul><li>A Player is logged-in</li><li>A Player is in the main menu</li></ul>  |
+| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting and starting a game (Once the other player is in the game lobby)</ol></li></ul> |
+| Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
+| Cross References | 
+
+### <a name="play-game">Play game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-012 |
+| Use Case Name | Play game |
+| Overview | Allows a Player to play a game |
 | Type | Primary |
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
