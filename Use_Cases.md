@@ -1,11 +1,12 @@
 # Fully Dressed Use Cases
 ## Table of Contents
 1. [Use case name](#use-case-name)
-2. [Register User](#user-registration)
+2. [Register User](#register-user)
+2. [Unregister User](#unregister-user)
 3. [Reject Invitation](#invitation-rejection)
 4. [Lock Game](#lock-game)
-5. [Create Match](#create-new-match)
-6. [Player Turn](#player-turn)
+5. [Create Game](#create-game)
+6. [Make Move](#make-move)
 
 
 ## Use Cases
@@ -24,18 +25,32 @@
 | Cross References | Link to any other reference here |
 
 
-### <a name="user-registration">Register User</a>
+### <a name="register-user">Register User</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-002 |
 | Use Case Name | Register User |
-| Overview | A user shall have the ability to register themselves with the application. This will consist of capturing an email, nickname, and password. Associating all users with unique accounts allows us to save which users are in an active game. This will make it possible for a user to enter the game, make a move, and exit (possibly into another game). |
+| Overview | A user registers themselves with the application. This will consist of capturing an email, nickname, and password. Associating all users with unique accounts allows us to save which users are in an active game. This will make it possible for a user to enter the game, make a move, and exit (possibly into another game). |
 | Type | Primary |
 | Actors | End User [primary, initiator] |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
 | Preconditions | User should not already exist. |
 | Flow | <ul><li>Main Flow<ol><li>User inputs email</li><li>User inputs nickname</li><li>User inputs password</li></ol></li><li>Subflows<ol><li>After email input, system checks if email is unique</li><li>After nickname input, system checks if nickname is unique</li><li>After password input, system checks if password is strong and hashes</li></ol></li><li>Alternate Flows<ol><li>Email is already in system</li><li>Nickname is already registered</li><li>User inputs weak password</li></ol></li></ul> |
 | Postconditions | Account is created (i.e. email, nickname, and password (hashed) are stored in the database) |
+| Cross References | N/A|
+
+### <a name="unregister-user">Unregister User</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-003 |
+| Use Case Name | Unregister User |
+| Overview | A user unregisters themselves with the application. This will consist of removing an email, nickname, and password. Removing a user unlinks them and deassociates them with all their games, as well as removing their account. |
+| Type | Primary |
+| Actors | End User [primary, initiator] |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Preconditions | User should already exist. |
+| Flow | <ul><li>Main Flow<ol><li>User deletes account</li></ol></li><li>Subflows<ol><li>System deletes email</li><li>System deletes nickname</li><li>System deletes password</li></ol></li><li>Alternate Flows<ol><li>User is not in system</li></ol></li></ul> |
+| Postconditions | Account is deleted (i.e. email, nickname, and password (hashed) are removed in the database) |
 | Cross References | N/A|
 
  ### <a name="invitation-rejection">Reject Invitation</a>
@@ -66,12 +81,12 @@
 | Postconditions | <ul><li>The match begins with exactly 2 players</li><li>All other invitations to this match will be deleted</li></ul> |
 | Cross References | N/A |
 
-### <a name="create-new-match">Create match</a>
+### <a name="create-game">Create game</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-004 |
-| Use Case Name | Create match |
-| Overview | Allows a Player to make a new match |
+| Use Case Name | Create game |
+| Overview | Allows a Player to make a new game |
 | Type | Primary |
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
@@ -80,7 +95,7 @@
 | Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
 | Cross References | 
 
-### <a name="player-turn">Player Turn</a>
+### <a name="make-move">Make Move</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-015 |
