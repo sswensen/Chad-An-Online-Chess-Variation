@@ -226,9 +226,9 @@
 | Actors | User [primary, initiator]|
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | User has received an invitation to join a game |
-| Flow | <ul><li>Main Flow<ol><li>User accepts invitation to play a game</li></ol></li><li>Subflows<ol><li>System checks if User can join the game.</li></ol></li><li>Alternate Flows<ol><li>User cannot join the game since the game has started.</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>User accepts invitation to play a game</li></ol></li><li>Subflows<ol><li>System checks if User can join the game.<ol><li>If so, Play Game is initiated</li></ol></li></ol></li><li>Alternate Flows<ol><li>User cannot join the game since the game has started.</li></ol></li></ul> |
 | Postconditions | <ul><li>User will join the game</li><li>The game will start</li><li>User's invitation will be deleted</li></ul>|
-| Cross References | N/A |
+| Cross References | [Play Game](#play-game) |
 
   ### <a name="invitation-interaction">Invitation Interaction</a>
 | Section | Description |
