@@ -7,6 +7,10 @@
 4. [Lock Game](#lock-game)
 5. [Create Game](#create-game)
 6. [Make Move](#make-move)
+7. [View Profile](#View-Profile)
+8. [End game](#end-game)
+9. [Quit game](#Quit-game)
+
 
 
 ## Use Cases
@@ -14,20 +18,6 @@
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-xxx |
-| Use Case Name | Name of Use Case |
-| Overview | Overview of use case |
-| Type | Primary, Secondary, Optional |
-| Actors | List all actors |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
-| Preconditions | List all preconditions |
-| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
-| Postconditions | Enter any postconditions |
-| Cross References | Link to any other reference here |
-
-### <a name="view-profile">View Profile</a>
-| Section | Description |
-| ------- | ----------- |
-| Use Case Id | EU-027 |
 | Use Case Name | Name of Use Case |
 | Overview | Overview of use case |
 | Type | Primary, Secondary, Optional |
@@ -169,12 +159,54 @@
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-015 |
-| Use Case Name | Player Turn |
+| Use Case Name | Make Move |
 | Overview | On a player’s turn they make a move. The player can only make a move when it is their turn. |
 | Type | Primary|
 | Actors | Player [primary, initiator] |
 | Properties | <ul><li>Performance – N/A</li><li>Security – N/A</li><li>Other – N/A</li></ul> |
-| Preconditions | <ul><li>The player must be logged in</li><li>The game must be started </li><li>It must be the player’s turn</li> |
-| Flow | <ul><li>Main Flow<ol><li>Player is notified that it’s their turn</li><li>player makes a move </li><li>Player’s turn ends</li></ol></li><li>Subflows<ol><li>System checks for valid move</li><li>System checks for check or checkmate</li></ol></li> <li>Alternate Flows<ol><li>Player makes invalid move</li><li>Checkmate occurred, game is over</li></ol></li></ul> |
-| Postconditions | It is the other player’s turn |
+| Preconditions | <ul><li>Player must be logged in</li><li>The game must be started </li><li>It must be the Player’s turn</li> |
+| Flow | <ul><li>Main Flow<ol><li>Player is notified that it’s their turn</li><li>Player makes a move </li><li>Player’s turn ends</li></ol></li><li>Subflows<ol><li>System checks for valid move</li><li>System checks for check or checkmate</li></ol></li> <li>Alternate Flows<ol><li>Player makes invalid move</li><li>Checkmate occurred, game is over. Extend: End Game</li></ol></li></ul> |
+| Postconditions | It is the other Player’s turn |
+| Cross References | [End game](#end-game) |
+
+### <a name="View-Profile">View Profile</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-027 |
+| Use Case Name | View Profile |
+| Overview | A Player can view profiles, either their own or another player’s |
+| Type | Primary |
+| Actors | <ul><li>Player [Primary, initiator]</li></ol> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player is logged in</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player views a profile </li></ol></li><li> Subflows - <ul><li>System displays the public profile information like nickname, wins, losses, etc.</li></ul></li><li>Alternate Flows - <ul><li>Profile that player desires to view does not exist</li></ul></li></ul> |
+| Postconditions | N/A |
 | Cross References | N/A |
+
+### <a name="end-game">End game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-016 |
+| Use Case Name | End Game |
+| Overview | Checkmate, stalemate, or player quit occurred, triggering the end of the game. The win-loss record for both players will be updated and the players will be notified that the game is over |
+| Type | Primary |
+| Actors | <ul><li>Player 1 [Primary, initiator]</li><li>Player 2 [Primary]</li></ol> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Game is being played</li><li>Checkmate, stalemate or player quit occurred</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Notify players that the game has completed</li><li>Update player stats on player profile</li></ol></li><li>Subflows</li><ul><li>System ensures that neither player can access the game any longer</li></ul></ul> |
+| Postconditions | Game is over |
+| Cross References | N/A |
+
+### <a name="Quit-game">Quit game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-023 |
+| Use Case Name | Quit game |
+| Overview | A player can quit the game at any time |
+| Type | Primary |
+| Actors | <ul><li>Player 1 [Primary, initiator]</li><li>Player 2 [Primary]</li></ol> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player is logged in</li><li>Game is being played</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player leaves the game</li><li>Include: End Game</li></ol></li></ul> |
+| Postconditions | Game is over |
+| Cross References | [End game](#end-game) |
