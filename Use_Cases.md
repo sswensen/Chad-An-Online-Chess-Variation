@@ -1,6 +1,8 @@
 # Fully Dressed Use Cases
 ## Table of Contents
 1. [Use case name](#use-case-name)
+2. [Switch Game](#switch-game)
+2. [Resume Game](#resume-game)
 2. [Register User](#register-user)
 2. [Unregister User](#unregister-user)
 3. [Reject Invitation](#invitation-rejection)
@@ -34,15 +36,29 @@
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-026 |
-| Use Case Name | Name of Use Case |
-| Overview | Overview of use case |
-| Type | Primary, Secondary, Optional |
-| Actors | List all actors |
+| Use Case Name | Switch Game |
+| Overview | Allows player to switch from one game to another |
+| Type | Primary |
+| Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
-| Preconditions | List all preconditions |
-| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
-| Postconditions | Enter any postconditions |
-| Cross References | Link to any other reference here |
+| Preconditions | Player is already playing one game and has another game he/she can play |
+| Flow | <ul><li>Main Flow<ol><li>Suspend playing of current game</li><li>Resumes another game</li></ol></li><li>Alternate Flows<ol><li>Suspend playing of current game</li><li>Create a new game</li></ol></li></ul> |
+| Postconditions | Player is now playing another game |
+| Cross References | <ul><li>[Play Game](#play-game)</li><li>[Resume Game](#resume-game)</li><ul> |
+
+### <a name="resume-game">Resume Game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-044 |
+| Use Case Name | Resume Game |
+| Overview | Allows player to continue playing a game |
+| Type | Primary |
+| Actors | Primary Actor: Player |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Preconditions | Player is in the main menu, and has a game they can continue playing that has not ended yet |
+| Flow | <ul><li>Main Flow<ol><li>Resumes playing selected game</li></ol></li><li>Subflows - <ol><li>System loads selected game</li></ol></li></ul> |
+| Postconditions | Player is now playing selected game |
+| Cross References | N/A |
 
 ### <a name="register-user">Register User</a>
 | Section | Description |
