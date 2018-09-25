@@ -164,10 +164,10 @@
 | Type | Primary|
 | Actors | Player [primary, initiator] |
 | Properties | <ul><li>Performance – N/A</li><li>Security – N/A</li><li>Other – N/A</li></ul> |
-| Preconditions | <ul><li>The player must be logged in</li><li>The game must be started </li><li>It must be the player’s turn</li> |
-| Flow | <ul><li>Main Flow<ol><li>Player is notified that it’s their turn</li><li>player makes a move </li><li>Player’s turn ends</li></ol></li><li>Subflows<ol><li>System checks for valid move</li><li>System checks for check or checkmate</li></ol></li> <li>Alternate Flows<ol><li>Player makes invalid move</li><li>Checkmate occurred, game is over</li></ol></li></ul> |
-| Postconditions | It is the other player’s turn |
-| Cross References | N/A |
+| Preconditions | <ul><li>Player must be logged in</li><li>The game must be started </li><li>It must be the Player’s turn</li> |
+| Flow | <ul><li>Main Flow<ol><li>Player is notified that it’s their turn</li><li>Player makes a move </li><li>Player’s turn ends</li></ol></li><li>Subflows<ol><li>System checks for valid move</li><li>System checks for check or checkmate</li></ol></li> <li>Alternate Flows<ol><li>Player makes invalid move</li><li>Checkmate occurred, game is over. Extend: End Game</li></ol></li></ul> |
+| Postconditions | It is the other Player’s turn |
+| Cross References | [End game](#end-game) |
 
 ### <a name="View-Profile">View Profile</a>
 | Section | Description |
@@ -179,7 +179,7 @@
 | Actors | <ul><li>Player [Primary, initiator]</li></ol> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Player is logged in</li></ul> |
-| Flow | <ul><li>Main Flow<ol><li>Player views a profile </li></ol></li><li> Subflows - <ul><li>System displays the profile information like nickname, wins, losses, etc.</li></ul></li> <li> Alternate Flows</li><ul><li>Profile that player desires to view does not exist </li></ul></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player views a profile </li></ol></li><li> Subflows - <ul><li>System displays the public profile information like nickname, wins, losses, etc.</li></ul></li><li>Alternate Flows - <ul><li>Profile that player desires to view does not exist</li></ul></li></ul> |
 | Postconditions | N/A |
 | Cross References | N/A |
 
@@ -207,6 +207,6 @@
 | Actors | <ul><li>Player 1 [Primary, initiator]</li><li>Player 2 [Primary]</li></ol> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Player is logged in</li><li>Game is being played</li></ul> |
-| Flow | <ul><li>Main Flow<ol><li>Player leaves the game</li><li>Include: End of game</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player leaves the game</li><li>Include: End Game</li></ol></li></ul> |
 | Postconditions | Game is over |
 | Cross References | [End game](#end-game) |
