@@ -177,7 +177,7 @@
 | Overview | A Player can view profiles, either their own or another player’s |
 | Type | Primary |
 | Actors | <ul><li>Player [Primary, initiator]</li></ol> |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Player is logged in</li></ul> |
 | Flow | <ul><li>Main Flow<ol><li>Player views a profile </li></ol></li><li> Subflows - <ul><li>System displays the profile information like nickname, wins, losses, etc.</li></ul></li> <li> Alternate Flows</li><ul><li>Profile that player desires to view does not exist </li></ul></ul> |
 | Postconditions | N/A |
@@ -191,7 +191,7 @@
 | Overview | Checkmate, stalemate, or player quit occurred, triggering the end of the game. The win-loss record for both players will be updated and the players will be notified that the game is over |
 | Type | Primary |
 | Actors | <ul><li>Player 1 [Primary, initiator]</li><li>Player 2 [Primary]</li></ol> |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Game is being played</li><li>Checkmate, stalemate or player quit occurred</li></ul> |
 | Flow | <ul><li>Main Flow<ol><li>Notify players that the game has completed</li><li>Update player stats on player profile</li></ol></li><li>Subflows</li><ul><li>System ensures that neither player can access the game any longer</li></ul></ul> |
 | Postconditions | Game is over |
@@ -205,7 +205,7 @@
 | Overview | A player can quit the game at any time |
 | Type | Primary |
 | Actors | <ul><li>Player 1 [Primary, initiator]</li><li>Player 2 [Primary]</li></ol> |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Player is logged in</li><li>Game is being played</li></ul> |
 | Flow | <ul><li>Main Flow<ol><li>Player leaves the game</li><li>Include: End of game</li></ol></li></ul> |
 | Postconditions | Game is over |
