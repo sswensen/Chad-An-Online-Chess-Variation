@@ -10,7 +10,9 @@
 7. [View Profile](#View-Profile)
 8. [End game](#end-game)
 9. [Quit game](#Quit-game)
-
+10. [Join Game](#join-game)
+11. [Play Game](#play-game)
+12. [Log in](#log-in)
 
 
 ## Use Cases
@@ -210,3 +212,45 @@
 | Flow | <ul><li>Main Flow<ol><li>Player leaves the game</li><li>Include: End Game</li></ol></li></ul> |
 | Postconditions | Game is over |
 | Cross References | [End game](#end-game) |
+
+### <a name="join-game">Join game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-011 |
+| Use Case Name | Join Game |
+| Overview | Player joins a game |
+| Type | Primary |
+| Actors | <ul><li>Player [Primary, initiator]</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player must be logged in</li><li>Game must exist. Include: Create Game</li><li>Player must have active invitation to enter game</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player joins game</li></ol></li><li>Subflows</li><ul><li>All other invitations associated with this game are void</li><li>Game locks so other players cannot enter</li></ul></ul> |
+| Postconditions | Game is ready to start |
+| Cross References | [Create Game](#create-game) |
+
+### <a name="play-game">Play game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-012 |
+| Use Case Name | Play Game |
+| Overview | Player plays the game |
+| Type | Primary |
+| Actors | <ul><li>Player [Primary, initiator]</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player must be logged in</li><li>Player must have joined an existing game</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player participates in the game</li></ol></li><li>Subflows</li><ul><li>Play cam make moves during his turn. Include: Make Move</li><li>Player can quit game. Include: Quit Game</li></ul></ul> |
+| Postconditions | N/A |
+| Cross References | <ul><li>[Quit game](#Quit-game)</li><li>[Make Move](#make-move)</li></ul> |
+
+### <a name="log-in">Log in</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-035 |
+| Use Case Name |Log in |
+| Overview | Player logs in |
+| Type | Primary |
+| Actors | <ul><li>Player [Primary, initiator]</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player must be registered. Include: Register User</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player enters their username</li><li>Player enters their password</li></ol></li><li>Subflows</li><ul><li>Systems checks is username field is empty</li><li>System checks is password field is empty</li></ul><li>Alternate Flows<ol><li>User enters invalid username/password combination</li></ol></li></ul> |
+| Postconditions | Player logs in |
+| Cross References | <ul><li>[Register User](#register-user)</li></ul> |
