@@ -170,7 +170,7 @@
 | Actors | <ul><li>Player [Primary, initiator]</li></ul> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Player must be logged in</li><li>Game must exist. Extend: Create Game</li><li>The game must not be started</li></ul> |
-| Flow | <ul><li>Main Flow<ol><li>Player joins game</li></ol></li><li>Subflows</li><ul><li>All other invitations associated with this game are void</li><li>Game locks so other players cannot enter</li></ul></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player joins game</li></ol></li></ul> |
 | Postconditions | Game starts if two players have joined. Extend: Play Game |
 | Cross References |<ul><li>[Play Game](#play-game)</li><li>[Create Game](#create-game)</li></ul> |
 
