@@ -3,19 +3,19 @@
 1. [Switch Game](#switch-game)
 2. [Register User](#register-user)
 3. [Unregister User](#unregister-user)
-4. [Reject Invitation](#invitation-rejection)
-5. [Lock Game](#lock-game)
-6. [Create Game](#create-game)
-7. [Make Move](#make-move)
-8. [View Profile](#View-Profile)
-9. [End Game](#end-game)
-10. [Quit Game](#Quit-game)
-11. [Join Game](#join-game)
-12. [Play Game](#play-game)
-13. [Log In](#log-in)
-14. [Cancel Invitation](#cancel-invitation)
-15. [Accept Invitation](#accept-invitation)
-16. [Invitation Interaction](#invitation-interaction)
+4. [Reject Invitation](#reject-invitation)
+5. [Create Game](#create-game)
+6. [Make Move](#make-move)
+7. [View Profile](#View-Profile)
+8. [End Game](#end-game)
+9. [Quit Game](#Quit-game)
+10. [Join Game](#join-game)
+11. [Play Game](#play-game)
+12. [Log In](#log-in)
+13. [Cancel Invitation](#cancel-invitation)
+14. [Accept Invitation](#accept-invitation)
+15. [Invitation Interaction](#invitation-interaction)
+16. [Invite Players](#invite-players)
 
 
 ## Use Cases
@@ -30,7 +30,7 @@
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
 | Preconditions | Player is already playing one game and has another game they can play |
-| Flow | <ul><li>Main Flow<ol><li>Suspend playing of current game</li><li>Starts playing another game</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Suspend playing of current game</li><li>Starts playing another game. Include: Play Game</li></ol></li></ul> |
 | Postconditions | Player is now playing another game |
 | Cross References | [Play Game](#play-game) |
 
@@ -85,9 +85,9 @@
 | Type | Primary |
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
-| Preconditions | <ul><li>A Player is logged-in</li><li>A Player is in the main menu</li></ul>  |
-| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting and starting a game (Once the other player is in the game lobby)</ol></li></ul> |
-| Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
+| Preconditions | <ul><li>A Player is logged-in</li></ul>  |
+| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting players. Include: Invite Players</ol></li></ul> |
+| Postconditions | <ul><li>The match is created</li><li>The Player is in the game waiting for another player to join</li></ul> |
 | Cross References | 
 
 ### <a name="play-game">Play Game</a>
@@ -99,10 +99,10 @@
 | Type | Primary |
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
-| Preconditions | <ul><li>A Player is logged-in</li><li>A Player is in the main menu</li></ul>  |
-| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting and starting a game (Once the other player is in the game lobby)</ol></li></ul> |
+| Preconditions | <ul><li>A Player is logged-in</li><li>Player is in a started game</li></ul>  |
+| Flow | <ul><li>Main Flow - <ol><li>Player can make a move if it is their turn. Include: Make Move</li><li>Player can quit game at any time. Include: Quit Game</li></ol></li></ul> |
 | Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
-| Cross References | 
+| Cross References | <ul><li>[Make Move](#make-move)</li><li>[Quit Game](#quit-game)</li></ul> | 
 
 ### <a name="make-move">Make Move</a>
 | Section | Description |
@@ -113,7 +113,7 @@
 | Type | Primary|
 | Actors | Player [primary, initiator] |
 | Properties | <ul><li>Performance – N/A</li><li>Security – N/A</li><li>Other – N/A</li></ul> |
-| Preconditions | <ul><li>Player must be logged in</li><li>The game must be started </li><li>It must be the Player’s turn</li> |
+| Preconditions | It is the Player’s turn |
 | Flow | <ul><li>Main Flow<ol><li>Player is notified that it’s their turn</li><li>Player makes a move </li><li>Player’s turn ends</li></ol></li><li>Subflows<ol><li>System checks for valid move</li><li>System checks for check or checkmate</li></ol></li> <li>Alternate Flows<ol><li>Player makes invalid move</li><li>Checkmate occurred, game is over. Extend: End Game</li></ol></li></ul> |
 | Postconditions | It is the other Player’s turn |
 | Cross References | [End Game](#end-game) |
@@ -155,7 +155,7 @@
 | Type | Primary |
 | Actors | <ul><li>Player 1 [Primary, initiator]</li><li>Player 2 [Primary]</li></ol> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | <ul><li>Player is logged in</li><li>Game is being played</li></ul> |
+| Preconditions | (Inherited from [Play Game](#play-game)) |
 | Flow | <ul><li>Main Flow<ol><li>Player leaves the game</li><li>Include: End Game</li></ol></li></ul> |
 | Postconditions | Game is over |
 | Cross References | [End game](#end-game) |
@@ -226,9 +226,9 @@
 | Actors | User [primary, initiator]|
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | User has received an invitation to join a game |
-| Flow | <ul><li>Main Flow<ol><li>User accepts invitation to play a game</li></ol></li><li>Subflows<ol><li>System checks if User can join the game.</li></ol></li><li>Alternate Flows<ol><li>User cannot join the game since the game has started.</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>User accepts invitation to play a game</li></ol></li><li>Subflows<ol><li>System checks if User can join the game.<ol><li>If so, User joins the game. Include: Join Game</li></ol></li></ol></li><li>Alternate Flows<ol><li>User cannot join the game since the game has started.</li></ol></li></ul> |
 | Postconditions | <ul><li>User will join the game</li><li>The game will start</li><li>User's invitation will be deleted</li></ul>|
-| Cross References | N/A |
+| Cross References | [Join Game](#join-game) |
 
   ### <a name="invitation-interaction">Invitation Interaction</a>
 | Section | Description |
@@ -243,3 +243,17 @@
 | Flow | <ul><li>Main Flow<ol><li>User chooses to interact with active invitations</li><li>Choices:<ol><li>Reject Invitation</li><li>Accept Invitation</li><li>Cancel Invitation</li></ol></li></ol></li><li>Subflows<ol><li>System checks if User has invitation notifications.<ol><li>If so, the notifications are cleared</li></ol></li></ol></li></ul> |
 | Postconditions | User's invitation notifications are cleared. |
 | Cross References | <ul><li>[Reject Invitation](#reject-invitation)</li><li>[Accept Invitation](#accept-invitation)</li><li>[Cancel Invitation](#cancel-invitation)</li></ul> |
+
+  ### <a name="invite-players">Invite Players</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-039 |
+| Use Case Name | Invite Players |
+| Overview | Player invites any other Users to join the newly created game. |
+| Type | Primary |
+| Actors | Player [primary, initiator]|
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | No other Player has joined the game |
+| Flow | <ul><li>Main Flow<ol><li>Player invites other players to the game</li><li>Subflows<ol><li>System sends out invitations to all Users chosen to invite.<li>System notifies Users of new invitation.</li></ol></li></li></ul> |
+| Postconditions | <ul><li>Users have new invitations to join game</li><li>Users have new notifications about invitation</li></ul> |
+| Cross References | N/A |
