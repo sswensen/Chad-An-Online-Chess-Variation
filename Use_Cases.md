@@ -2,21 +2,20 @@
 ## Table of Contents
 1. [Use case name](#use-case-name)
 2. [Switch Game](#switch-game)
-3. [Resume Game](#resume-game)
-4. [Register User](#register-user)
-5. [Unregister User](#unregister-user)
-6. [Reject Invitation](#invitation-rejection)
-7. [Lock Game](#lock-game)
-8. [Create Game](#create-game)
-9. [Make Move](#make-move)
-10. [View Profile](#View-Profile)
-11. [End game](#end-game)
-12. [Quit game](#Quit-game)
-13. [Join Game](#join-game)
-14. [Play Game](#play-game)
-15. [Log in](#log-in)
-16. [Cancel Invitation](#cancel-invitation)
-17. [Accept Invitation](#accept-invitation)
+3. [Register User](#register-user)
+4. [Unregister User](#unregister-user)
+5. [Reject Invitation](#invitation-rejection)
+6. [Lock Game](#lock-game)
+7. [Create Game](#create-game)
+8. [Make Move](#make-move)
+9. [View Profile](#View-Profile)
+10. [End game](#end-game)
+11. [Quit game](#Quit-game)
+12. [Join Game](#join-game)
+13. [Play Game](#play-game)
+14. [Log in](#log-in)
+15. [Cancel Invitation](#cancel-invitation)
+16. [Accept Invitation](#accept-invitation)
 
 
 ## Use Cases
@@ -43,24 +42,10 @@
 | Type | Primary |
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
-| Preconditions | Player is already playing one game and has another game he/she can play |
-| Flow | <ul><li>Main Flow<ol><li>Suspend playing of current game</li><li>Resumes another game</li></ol></li><li>Alternate Flows<ol><li>Suspend playing of current game</li><li>Create a new game</li></ol></li></ul> |
+| Preconditions | Player is already playing one game and has another game to play |
+| Flow | <ul><li>Main Flow<ol><li>Suspend playing of current game</li><li>Starts playing another game</li></ol></ul> |
 | Postconditions | Player is now playing another game |
-| Cross References | <ul><li>[Play Game](#play-game)</li><li>[Resume Game](#resume-game)</li><ul> |
-
-### <a name="resume-game">Resume Game</a>
-| Section | Description |
-| ------- | ----------- |
-| Use Case Id | EU-044 |
-| Use Case Name | Resume Game |
-| Overview | Allows player to continue playing a game |
-| Type | Primary |
-| Actors | Primary Actor: Player |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
-| Preconditions | Player is in the main menu, and has a game they can continue playing that has not ended yet |
-| Flow | <ul><li>Main Flow<ol><li>Resumes playing selected game</li></ol></li><li>Subflows - <ol><li>System loads selected game</li></ol></li></ul> |
-| Postconditions | Player is now playing selected game |
-| Cross References | N/A |
+| Cross References | [Play Game](#play-game) |
 
 ### <a name="register-user">Register User</a>
 | Section | Description |
