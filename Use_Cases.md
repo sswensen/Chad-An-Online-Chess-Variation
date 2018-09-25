@@ -44,20 +44,6 @@
 | Postconditions | Enter any postconditions |
 | Cross References | Link to any other reference here |
 
-### <a name="join-game">Join Game</a>
-| Section | Description |
-| ------- | ----------- |
-| Use Case Id | EU-011 |
-| Use Case Name | Name of Use Case |
-| Overview | Overview of use case |
-| Type | Primary, Secondary, Optional |
-| Actors | List all actors |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
-| Preconditions | List all preconditions |
-| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
-| Postconditions | Enter any postconditions |
-| Cross References | Link to any other reference here |
-
 ### <a name="register-user">Register User</a>
 | Section | Description |
 | ------- | ----------- |
