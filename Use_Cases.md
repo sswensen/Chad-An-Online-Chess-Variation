@@ -1,38 +1,25 @@
 # Fully Dressed Use Cases
 ## Table of Contents
-1. [Use case name](#use-case-name)
-2. [Switch Game](#switch-game)
-3. [Resume Game](#resume-game)
-4. [Register User](#register-user)
-5. [Unregister User](#unregister-user)
-6. [Reject Invitation](#invitation-rejection)
-7. [Lock Game](#lock-game)
-8. [Create Game](#create-game)
-9. [Make Move](#make-move)
-10. [View Profile](#View-Profile)
-11. [End game](#end-game)
-12. [Quit game](#Quit-game)
-13. [Join Game](#join-game)
-14. [Play Game](#play-game)
-15. [Log in](#log-in)
-16. [Cancel Invitation](#cancel-invitation)
-17. [Accept Invitation](#accept-invitation)
+1. [Switch Game](#switch-game)
+2. [Resume Game](#resume-game)
+3. [Register User](#register-user)
+4. [Unregister User](#unregister-user)
+5. [Reject Invitation](#invitation-rejection)
+6. [Lock Game](#lock-game)
+7. [Create Game](#create-game)
+8. [Make Move](#make-move)
+9. [View Profile](#View-Profile)
+10. [End Game](#end-game)
+11. [Quit Game](#Quit-game)
+12. [Join Game](#join-game)
+13. [Play Game](#play-game)
+14. [Log In](#log-in)
+15. [Cancel Invitation](#cancel-invitation)
+16. [Accept Invitation](#accept-invitation)
+17. [Invitation Interaction](#invitation-interaction)
 
 
 ## Use Cases
-### <a name="use-case-name">Use Case Name</a>
-| Section | Description |
-| ------- | ----------- |
-| Use Case Id | EU-xxx |
-| Use Case Name | Name of Use Case |
-| Overview | Overview of use case |
-| Type | Primary, Secondary, Optional |
-| Actors | List all actors |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | List all preconditions |
-| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
-| Postconditions | Enter any postconditions |
-| Cross References | Link to any other reference here |
 
 ### <a name="switch-game">Switch Game</a>
 | Section | Description |
@@ -109,20 +96,6 @@
 | ------- | ----------- |
 | Use Case Id | EU-004 |
 | Use Case Name | Create Game |
-| Overview | Allows a Player to make a new game |
-| Type | Primary |
-| Actors | Primary Actor: Player |
-| Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
-| Preconditions | <ul><li>A Player is logged-in</li><li>A Player is in the main menu</li></ul>  |
-| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting and starting a game (Once the other player is in the game lobby)</ol></li></ul> |
-| Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
-| Cross References | 
-
-### <a name="start-game">Start Game</a>
-| Section | Description |
-| ------- | ----------- |
-| Use Case Id | EU-xxx |
-| Use Case Name | Start Game |
 | Overview | Allows a Player to make a new game |
 | Type | Primary |
 | Actors | Primary Actor: Player |
@@ -230,11 +203,11 @@
 | Postconditions | N/A |
 | Cross References | <ul><li>[Quit game](#Quit-game)</li><li>[Make Move](#make-move)</li></ul> |
 
-### <a name="log-in">Log in</a>
+### <a name="log-in">Log In</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-035 |
-| Use Case Name |Log in |
+| Use Case Name |Log In |
 | Overview | Player logs in |
 | Type | Primary |
 | Actors | <ul><li>Player [Primary, initiator]</li></ul> |
@@ -271,3 +244,17 @@
 | Flow | <ul><li>Main Flow<ol><li>User accepts invitation to play a game</li></ol></li><li>Subflows<ol><li>System checks if User can join the game.</li></ol></li><li>Alternate Flows<ol><li>User cannot join the game since the game has started.</li></ol></li></ul> |
 | Postconditions | <ul><li>User will join the game</li><li>The game will start</li><li>User's invitation will be deleted</li></ul>|
 | Cross References | N/A |
+
+  ### <a name="invitation-interaction">Invitation Interaction</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-039 |
+| Use Case Name | Invitation Interaction |
+| Overview | User interacts with any available invitations. |
+| Type | Primary |
+| Actors | User [primary, initiator]|
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | User has active invitations |
+| Flow | <ul><li>Main Flow<ol><li>User chooses to interact with active invitations</li><li>Choices:<ol><li>Reject Invitation</li><li>Accept Invitation</li><li>Cancel Invitation</li></ol></li></ol></li><li>Subflows<ol><li>System checks if User has invitation notifications.<ol><li>If so, the notifications are cleared</li></ol></li></ol></li></ul> |
+| Postconditions | User's invitation notifications are cleared. |
+| Cross References | <ul><li>[Reject Invitation](#reject-invitation)</li><li>[Accept Invitation](#accept-invitation)</li><li>[Cancel Invitation](#cancel-invitation)</li></ul> |
