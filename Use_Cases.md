@@ -169,7 +169,7 @@
 | Type | Primary |
 | Actors | <ul><li>Player [Primary, initiator]</li></ul> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | <ul><li>Player must be logged in</li><li>Game must exist. Include: Create Game</li><li>Player must have active invitation to enter game</li></ul> |
+| Preconditions | <ul><li>Player must be logged in</li><li>Game must exist. Extend: Create Game</li><li>Player must have active invitation to enter game</li></ul> |
 | Flow | <ul><li>Main Flow<ol><li>Player joins game</li></ol></li><li>Subflows</li><ul><li>All other invitations associated with this game are void</li><li>Game locks so other players cannot enter</li></ul></ul> |
 | Postconditions | Game is ready to start |
 | Cross References | [Create Game](#create-game) |
@@ -254,6 +254,6 @@
 | Actors | Player [primary, initiator]|
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | No other Player has joined the game |
-| Flow | <ul><li>Main Flow<ol><li>Player invites other players to the game</li><li>Subflows<ol><li>System sends out invitations to all Users chosen to invite.<li>System notifies Users of new invitation.</li></ol></li></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player invites other players to the game</li></ol></li><li>Subflows<ol><li>System sends out invitations to all Users chosen to invite.<li>System notifies Users of new invitation.</li></ol></li></li></ul> |
 | Postconditions | <ul><li>Users have new invitations to join game</li><li>Users have new notifications about invitation</li></ul> |
 | Cross References | N/A |
