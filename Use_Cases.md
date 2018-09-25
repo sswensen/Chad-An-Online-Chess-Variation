@@ -86,9 +86,9 @@
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
 | Preconditions | <ul><li>A Player is logged-in</li></ul>  |
-| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into a game lobby</li><li>The system displays options of inviting players. Include: Invite Players</ol></li></ul> |
+| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into the game</li><li>The system displays options of inviting players. Include: Invite Players</ol></li></ul> |
 | Postconditions | <ul><li>The match is created</li><li>The Player is in the game waiting for another player to join</li></ul> |
-| Cross References | 
+| Cross References | [Invite Players](#invite-players) |
 
 ### <a name="play-game">Play Game</a>
 | Section | Description |
@@ -160,7 +160,7 @@
 | Postconditions | Game is over |
 | Cross References | [End game](#end-game) |
 
-### <a name="join-game">Join game</a>
+### <a name="join-game">Join Game</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-011 |
@@ -169,10 +169,10 @@
 | Type | Primary |
 | Actors | <ul><li>Player [Primary, initiator]</li></ul> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | <ul><li>Player must be logged in</li><li>Game must exist. Include: Create Game</li><li>Player must have active invitation to enter game</li></ul> |
+| Preconditions | <ul><li>Player must be logged in</li><li>Game must exist. Extend: Create Game</li><li>The game must not be started</li></ul> |
 | Flow | <ul><li>Main Flow<ol><li>Player joins game</li></ol></li><li>Subflows</li><ul><li>All other invitations associated with this game are void</li><li>Game locks so other players cannot enter</li></ul></ul> |
-| Postconditions | Game is ready to start |
-| Cross References | [Create Game](#create-game) |
+| Postconditions | Game starts if two players have joined. Extend: Play Game |
+| Cross References |<ul><li>[Play Game](#play-game)</li><li>[Create Game](#create-game)</li></ul> |
 
 ### <a name="play-game">Play game</a>
 | Section | Description |
@@ -254,6 +254,6 @@
 | Actors | Player [primary, initiator]|
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | No other Player has joined the game |
-| Flow | <ul><li>Main Flow<ol><li>Player invites other players to the game</li><li>Subflows<ol><li>System sends out invitations to all Users chosen to invite.<li>System notifies Users of new invitation.</li></ol></li></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player invites other players to the game</li></ol></li><li>Subflows<ol><li>System sends out invitations to all Users chosen to invite.<li>System notifies Users of new invitation.</li></ol></li></ul> |
 | Postconditions | <ul><li>Users have new invitations to join game</li><li>Users have new notifications about invitation</li></ul> |
 | Cross References | N/A |
