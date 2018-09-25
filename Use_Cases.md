@@ -1,16 +1,22 @@
 # Fully Dressed Use Cases
 ## Table of Contents
-1. [Register User](#register-user)
-2. [Unregister User](#unregister-user)
-3. [Reject Invitation](#reject-invitation)
-4. [Create Game](#create-game)
-5. [Make Move](#make-move)
-6. [View Profile](#View-Profile)
-7. [End Game](#end-game)
-8. [Quit Game](#Quit-game)
-9. [Cancel Invitation](#cancel-invitation)
-10. [Accept Invitation](#accept-invitation)
-
+1. [Use case name](#use-case-name)
+2. [Switch Game](#switch-game)
+3. [Resume Game](#resume-game)
+4. [Register User](#register-user)
+5. [Unregister User](#unregister-user)
+6. [Reject Invitation](#invitation-rejection)
+7. [Lock Game](#lock-game)
+8. [Create Game](#create-game)
+9. [Make Move](#make-move)
+10. [View Profile](#View-Profile)
+11. [End game](#end-game)
+12. [Quit game](#Quit-game)
+13. [Join Game](#join-game)
+14. [Play Game](#play-game)
+15. [Log in](#log-in)
+16. [Cancel Invitation](#cancel-invitation)
+17. [Accept Invitation](#accept-invitation)
 
 
 ## Use Cases
@@ -32,29 +38,29 @@
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-026 |
-| Use Case Name | Name of Use Case |
-| Overview | Overview of use case |
-| Type | Primary, Secondary, Optional |
-| Actors | List all actors |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | List all preconditions |
-| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
-| Postconditions | Enter any postconditions |
-| Cross References | Link to any other reference here |
+| Use Case Name | Switch Game |
+| Overview | Allows player to switch from one game to another |
+| Type | Primary |
+| Actors | Primary Actor: Player |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Preconditions | Player is already playing one game and has another game he/she can play |
+| Flow | <ul><li>Main Flow<ol><li>Suspend playing of current game</li><li>Resumes another game</li></ol></li><li>Alternate Flows<ol><li>Suspend playing of current game</li><li>Create a new game</li></ol></li></ul> |
+| Postconditions | Player is now playing another game |
+| Cross References | <ul><li>[Play Game](#play-game)</li><li>[Resume Game](#resume-game)</li><ul> |
 
-### <a name="join-game">Join Game</a>
+### <a name="resume-game">Resume Game</a>
 | Section | Description |
 | ------- | ----------- |
-| Use Case Id | EU-011 |
-| Use Case Name | Name of Use Case |
-| Overview | Overview of use case |
-| Type | Primary, Secondary, Optional |
-| Actors | List all actors |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | List all preconditions |
-| Flow | <ul><li>Main Flow<ol><li>Do some stuff</li><li>Do some more stuff</li></ol></li><li>Subflows</li><li>Alternate Flows</li></ul> |
-| Postconditions | Enter any postconditions |
-| Cross References | Link to any other reference here |
+| Use Case Id | EU-044 |
+| Use Case Name | Resume Game |
+| Overview | Allows player to continue playing a game |
+| Type | Primary |
+| Actors | Primary Actor: Player |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
+| Preconditions | Player is in the main menu, and has a game they can continue playing that has not ended yet |
+| Flow | <ul><li>Main Flow<ol><li>Resumes playing selected game</li></ol></li><li>Subflows - <ol><li>System loads selected game</li></ol></li></ul> |
+| Postconditions | Player is now playing selected game |
+| Cross References | N/A |
 
 ### <a name="register-user">Register User</a>
 | Section | Description |
@@ -195,6 +201,48 @@
 | Flow | <ul><li>Main Flow<ol><li>Player leaves the game</li><li>Include: End Game</li></ol></li></ul> |
 | Postconditions | Game is over |
 | Cross References | [End game](#end-game) |
+
+### <a name="join-game">Join game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-011 |
+| Use Case Name | Join Game |
+| Overview | Player joins a game |
+| Type | Primary |
+| Actors | <ul><li>Player [Primary, initiator]</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player must be logged in</li><li>Game must exist. Include: Create Game</li><li>Player must have active invitation to enter game</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player joins game</li></ol></li><li>Subflows</li><ul><li>All other invitations associated with this game are void</li><li>Game locks so other players cannot enter</li></ul></ul> |
+| Postconditions | Game is ready to start |
+| Cross References | [Create Game](#create-game) |
+
+### <a name="play-game">Play game</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-012 |
+| Use Case Name | Play Game |
+| Overview | Player plays the game |
+| Type | Primary |
+| Actors | <ul><li>Player [Primary, initiator]</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player must be logged in</li><li>Player must have joined an existing game</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player participates in the game</li></ol></li><li>Subflows</li><ul><li>Play cam make moves during his turn. Include: Make Move</li><li>Player can quit game. Include: Quit Game</li></ul></ul> |
+| Postconditions | N/A |
+| Cross References | <ul><li>[Quit game](#Quit-game)</li><li>[Make Move](#make-move)</li></ul> |
+
+### <a name="log-in">Log in</a>
+| Section | Description |
+| ------- | ----------- |
+| Use Case Id | EU-035 |
+| Use Case Name |Log in |
+| Overview | Player logs in |
+| Type | Primary |
+| Actors | <ul><li>Player [Primary, initiator]</li></ul> |
+| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
+| Preconditions | <ul><li>Player must be registered. Include: Register User</li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player enters their username</li><li>Player enters their password</li></ol></li><li>Subflows</li><ul><li>Systems checks is username field is empty</li><li>System checks is password field is empty</li></ul><li>Alternate Flows<ol><li>User enters invalid username/password combination</li></ol></li></ul> |
+| Postconditions | Player logs in |
+| Cross References | <ul><li>[Register User](#register-user)</li></ul> |
 
  ### <a name="cancel-invitation">Cancel Invitation</a>
 | Section | Description |
