@@ -99,7 +99,7 @@
 | Type | Primary |
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
-| Preconditions | <ul><li>A Player is logged-in</li><li>Player is in a started game</li></ul>  |
+| Preconditions | <ul><li>Player is in a started game</li></ul>  |
 | Flow | <ul><li>Main Flow - <ol><li>Player can make a move if it is their turn. Include: Make Move</li><li>Player can quit game at any time. Include: Quit Game</li><li>Player can switch to another game. Include: Switch Game</li></ol></li></ul> |
 | Postconditions | N/A |
 | Cross References | <ul><li>[Make Move](#make-move)</li><li>[Quit Game](#quit-game)</li><li>[Switch Game](#switch-game)</li></ul> | 
