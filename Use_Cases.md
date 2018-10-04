@@ -14,7 +14,7 @@
 12. [Log In](#log-in)
 13. [Cancel Invitation](#cancel-invitation)
 14. [Accept Invitation](#accept-invitation)
-15. [Invitation Interaction](#invitation-interaction)
+15. [Interact with Invitation](#interact-with-invitation)
 16. [Invite Players](#invite-players)
 
 
@@ -25,13 +25,13 @@
 | ------- | ----------- |
 | Use Case Id | EU-026 |
 | Use Case Name | Switch Game |
-| Overview | Allows player to switch from one game to another |
+| Overview | Allows user to switch from one game to another |
 | Type | Primary |
-| Actors | Primary Actor: Player |
+| Actors | Primary Actor: User |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Performance - N/A</li></ul> |
 | Preconditions | Player is already playing one game and has another game they can play |
-| Flow | <ul><li>Main Flow<ol><li>Suspend playing of current game</li><li>Starts playing another game. Include: Play Game</li></ol></li></ul> |
-| Postconditions | Player is now playing another game |
+| Flow | <ul><li>Main Flow<ol><li>User suspends playing current game</li><li>User then starts playing another game. Include: Play Game</li></ol></li></ul> |
+| Postconditions | User is now playing another game |
 | Cross References | [Play Game](#play-game) |
 
 ### <a name="register-user">Register User</a>
@@ -39,12 +39,12 @@
 | ------- | ----------- |
 | Use Case Id | EU-002 |
 | Use Case Name | Register User |
-| Overview | A user registers themselves with the application. This will consist of capturing an email, nickname, and password. Associating all users with unique accounts allows us to save which users are in an active game. This will make it possible for a user to enter the game, make a move, and exit (possibly into another game). |
+| Overview | A user registers with game. |
 | Type | Primary |
-| Actors | End User [primary, initiator] |
+| Actors | Primary Actor: User |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | User should not already exist. |
-| Flow | <ul><li>Main Flow<ol><li>User inputs email</li><li>User inputs nickname</li><li>User inputs password</li></ol></li><li>Subflows<ol><li>After email input, system checks if email is unique</li><li>After nickname input, system checks if nickname is unique</li><li>After password input, system checks if password is strong and hashes</li></ol></li><li>Alternate Flows<ol><li>Email is already in system</li><li>Nickname is already registered</li><li>User inputs weak password</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>User inputs email</li><li>User inputs nickname</li><li>User inputs password</li><li>System checks if email is unique</li><li>System checks if nickname is unique</li><li>System checks if password is strong and hashes</li><li>User is registered</li></ol></li><li>Alternate Flows<ol><li>Email is already in system</li><li>Nickname is already registered</li><li>User inputs weak password</li><li>System notifies User to correct input</li></ol></li></ul> |
 | Postconditions | Account is created (i.e. email, nickname, and password (hashed) are stored in the database) |
 | Cross References | N/A|
 
@@ -53,12 +53,12 @@
 | ------- | ----------- |
 | Use Case Id | EU-003 |
 | Use Case Name | Unregister User |
-| Overview | A user unregisters themselves with the application. This will consist of removing an email, nickname, and password. Removing a user unlinks them and deassociates them with all their games, as well as removing their account. |
+| Overview | A user unregisters themselves with the application. |
 | Type | Primary |
-| Actors | End User [primary, initiator] |
+| Actors | Primary Actor: User |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | User should already exist. |
-| Flow | <ul><li>Main Flow<ol><li>User deletes account</li></ol></li><li>Subflows<ol><li>System deletes email</li><li>System deletes nickname</li><li>System deletes password</li></ol></li><li>Alternate Flows<ol><li>User is not in system</li></ol></li></ul> |
+| Preconditions | User should already exist and needs to be logged in. |
+| Flow | <ul><li>Main Flow<ol><li>User deletes account</li><li>System deletes email</li><li>System deletes nickname</li><li>System deletes password</li></ol></li></ul> |
 | Postconditions | Account is deleted (i.e. email, nickname, and password (hashed) are removed in the database) |
 | Cross References | N/A|
 
@@ -73,7 +73,7 @@
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | User 2 has sent User 1 an invitation to a game |
 | Flow | Main Flow<ol><li>User 1 rejects invitation from User 2</li><li>User 1 receives a notification that User 2 has rejected the invitation</li></ol>|
-| Postconditions | <ul><li>User 1's invitation will be gone</li><li>User 2 will have a rejection notification</li></ul> |
+| Postconditions | <ul><li>User 1's invitation is rejected</li><li>User 2 will have a rejection notification</li></ul> |
 | Cross References | N/A |
  
 ### <a name="create-game">Create Game</a>
@@ -86,7 +86,7 @@
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
 | Preconditions | <ul><li>A Player is logged-in</li></ul>  |
-| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li></ol></li><li>Subflows - <ol><li>The system brings the Player into the game</li><li>The system displays options of inviting players. Include: Invite Players</ol></li></ul> |
+| Flow | <ul><li>Main Flow - <ol><li>A Player selects the option to create a new match</li><li>The system creates a new match</li><li>The system brings the Player into the game</li><li>The system displays options of inviting players. Include: Invite Players</ol></li></ul> |
 | Postconditions | <ul><li>The match is created</li><li>The Player is in the game waiting for another player to join</li></ul> |
 | Cross References | [Invite Players](#invite-players) |
 
@@ -114,7 +114,7 @@
 | Actors | Player [primary, initiator] |
 | Properties | <ul><li>Performance – N/A</li><li>Security – N/A</li><li>Other – N/A</li></ul> |
 | Preconditions | It is the Player’s turn |
-| Flow | <ul><li>Main Flow<ol><li>Player is notified that it’s their turn</li><li>Player makes a move </li><li>Player’s turn ends</li></ol></li><li>Subflows<ol><li>System checks for valid move</li><li>System checks for check or checkmate</li></ol></li> <li>Alternate Flows<ol><li>Player makes invalid move</li><li>Checkmate occurred, game is over. Extend: End Game</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player is notified that it’s their turn</li><li>Player makes a move</li><li>System checks for valid move</li><li>Player’s turn ends</li><li>System checks for check or checkmate</li></ol></li> <li>Alternate Flows<ol><li>Player makes invalid move</li><li>Checkmate occurred, game is over. Extend: End Game</li></ol></li></ul> |
 | Postconditions | It is the other Player’s turn |
 | Cross References | [End Game](#end-game) |
 
@@ -128,7 +128,7 @@
 | Actors | <ul><li>Player [Primary, initiator]</li></ol> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Player is logged in</li></ul> |
-| Flow | <ul><li>Main Flow<ol><li>Player views a profile </li></ol></li><li> Subflows - <ul><li>System displays the public profile information like nickname, wins, losses, etc.</li></ul></li><li>Alternate Flows - <ul><li>Profile that player desires to view does not exist</li></ul></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player selects another player's profile</li><li>System displays profile</li></ol></li><li> Subflows - <ul><li>System displays the public profile information like nickname, wins, losses, etc.</li></ul></li><li>Alternate Flows - <ul><li>Profile that player desires to view does not exist</li></ul></li></ul> |
 | Postconditions | N/A |
 | Cross References | N/A |
 
@@ -184,7 +184,7 @@
 | Actors | <ul><li>Player [Primary, initiator]</li></ul> |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | <ul><li>Player must be registered. Include: Register User</li></ul> |
-| Flow | <ul><li>Main Flow<ol><li>Player enters their username</li><li>Player enters their password</li></ol></li><li>Subflows</li><ul><li>Systems checks is username field is empty</li><li>System checks is password field is empty</li></ul><li>Alternate Flows<ol><li>User enters invalid username/password combination</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player enters their username</li><li>Player enters their password</li><li>System checks if username field is empty</li><li>System checks if password field is empty</li><li>System logs the Player in</li></ol><li>Alternate Flows<ol><li>User enters invalid username/password combination</li></ol></li></ul> |
 | Postconditions | Player logs in |
 | Cross References | <ul><li>[Register User](#register-user)</li></ul> |
 
@@ -216,11 +216,11 @@
 | Postconditions | <ul><li>User will join the game</li><li>The game will start</li><li>User's invitation will be deleted</li></ul>|
 | Cross References | [Join Game](#join-game) |
 
-  ### <a name="invitation-interaction">Invitation Interaction</a>
+  ### <a name="interact-with-invitation">Interact with Invitation</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-039 |
-| Use Case Name | Invitation Interaction |
+| Use Case Name | Interact with Invitation |
 | Overview | User interacts with any available invitations. |
 | Type | Primary |
 | Actors | User [primary, initiator]|
@@ -233,13 +233,13 @@
   ### <a name="invite-players">Invite Players</a>
 | Section | Description |
 | ------- | ----------- |
-| Use Case Id | EU-039 |
+| Use Case Id | EU-005 |
 | Use Case Name | Invite Players |
 | Overview | Player invites any other Users to join the newly created game. |
 | Type | Primary |
 | Actors | Player [primary, initiator]|
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
 | Preconditions | No other Player has joined the game |
-| Flow | <ul><li>Main Flow<ol><li>Player invites other players to the game</li></ol></li><li>Subflows<ol><li>System sends out invitations to all Users chosen to invite.<li>System notifies Users of new invitation.</li></ol></li></ul> |
+| Flow | <ul><li>Main Flow<ol><li>Player invites other players to the game</li><li>System sends out invitations to all Users chosen to invite.<li>System notifies Users of new invitation.</li></ol></li></ul> |
 | Postconditions | <ul><li>Users have new invitations to join game</li><li>Users have new notifications about invitation</li></ul> |
 | Cross References | N/A |
