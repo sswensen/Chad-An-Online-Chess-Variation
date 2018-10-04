@@ -14,7 +14,7 @@
 12. [Log In](#log-in)
 13. [Cancel Invitation](#cancel-invitation)
 14. [Accept Invitation](#accept-invitation)
-15. [Respond to Invitation](#respond-to-invitation)
+15. [Interact with Invitation](#interact-with-invitation)
 16. [Invite Players](#invite-players)
 
 
@@ -216,11 +216,11 @@
 | Postconditions | <ul><li>User will join the game</li><li>The game will start</li><li>User's invitation will be deleted</li></ul>|
 | Cross References | [Join Game](#join-game) |
 
-  ### <a name="respond-to-invitation">Respond to Invitation</a>
+  ### <a name="interact-with-invitation">Interact with Invitation</a>
 | Section | Description |
 | ------- | ----------- |
 | Use Case Id | EU-039 |
-| Use Case Name | Respond to Invitation |
+| Use Case Name | Interact with Invitation |
 | Overview | User interacts with any available invitations. |
 | Type | Primary |
 | Actors | User [primary, initiator]|
