@@ -15,7 +15,7 @@
 * inviteStatus - Can be [open, accepted, rejected]
 
 ### Game
-* gameDuration: Time - Elaped time of game from start of game
+* gameDuration: Time - Elapsed time of game from start of game
 * rules - Text player can read to understand how game is played
 
 ### Profile
