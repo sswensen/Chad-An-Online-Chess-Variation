@@ -95,14 +95,14 @@
 | ------- | ----------- |
 | Use Case Id | EU-012 |
 | Use Case Name | Play Game |
-| Overview | Allows a Player to play a game |
+| Overview | Player can interact with the game |
 | Type | Primary |
 | Actors | Primary Actor: Player |
 | Properties | <ul><li>Performance - </li><li>Security - </li><li>Other - </li></ul> |
-| Preconditions | <ul><li>A Player is logged-in</li><li>Player is in a started game</li></ul>  |
-| Flow | <ul><li>Main Flow - <ol><li>Player can make a move if it is their turn. Include: Make Move</li><li>Player can quit game at any time. Include: Quit Game</li></ol></li></ul> |
-| Postconditions | <ul><li>The match is created</li><li>The Player is in a game lobby</li><li>The Player has the options of inviting and starting the match (Once the other player is in the game lobby)</li></ul> |
-| Cross References | <ul><li>[Make Move](#make-move)</li><li>[Quit Game](#quit-game)</li></ul> | 
+| Preconditions | <ul><li>Player is in a started game</li></ul>  |
+| Flow | <ul><li>Main Flow - <ol><li>Player can make a move if it is their turn. Include: Make Move</li><li>Player can quit game at any time. Include: Quit Game</li><li>Player can switch to another game. Include: Switch Game</li></ol></li></ul> |
+| Postconditions | N/A |
+| Cross References | <ul><li>[Make Move](#make-move)</li><li>[Quit Game](#quit-game)</li><li>[Switch Game](#switch-game)</li></ul> | 
 
 ### <a name="make-move">Make Move</a>
 | Section | Description |
@@ -173,20 +173,6 @@
 | Flow | <ul><li>Main Flow<ol><li>Player joins game</li></ol></li></ul> |
 | Postconditions | Game starts if two players have joined. Extend: Play Game |
 | Cross References |<ul><li>[Play Game](#play-game)</li><li>[Create Game](#create-game)</li></ul> |
-
-### <a name="play-game">Play game</a>
-| Section | Description |
-| ------- | ----------- |
-| Use Case Id | EU-012 |
-| Use Case Name | Play Game |
-| Overview | Player plays the game |
-| Type | Primary |
-| Actors | <ul><li>Player [Primary, initiator]</li></ul> |
-| Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
-| Preconditions | <ul><li>Player must be logged in</li><li>Player must have joined an existing game</li></ul> |
-| Flow | <ul><li>Main Flow<ol><li>Player participates in the game</li></ol></li><li>Subflows</li><ul><li>Play cam make moves during his turn. Include: Make Move</li><li>Player can quit game. Include: Quit Game</li></ul></ul> |
-| Postconditions | N/A |
-| Cross References | <ul><li>[Quit game](#Quit-game)</li><li>[Make Move](#make-move)</li></ul> |
 
 ### <a name="log-in">Log In</a>
 | Section | Description |
