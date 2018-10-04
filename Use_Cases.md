@@ -39,7 +39,7 @@
 | ------- | ----------- |
 | Use Case Id | EU-002 |
 | Use Case Name | Register User |
-| Overview | A user registers themselves with the application. This will consist of capturing an email, nickname, and password. Associating all users with unique accounts allows us to save which users are in an active game. This will make it possible for a user to enter the game, make a move, and exit (possibly into another game). |
+| Overview | A user registers with game. |
 | Type | Primary |
 | Actors | Primary Actor: User |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
@@ -53,7 +53,7 @@
 | ------- | ----------- |
 | Use Case Id | EU-003 |
 | Use Case Name | Unregister User |
-| Overview | A user unregisters themselves with the application. This will consist of removing an email, nickname, and password. Removing a user unlinks them and deassociates them with all their games, as well as removing their account. |
+| Overview | A user unregisters themselves with the application. |
 | Type | Primary |
 | Actors | Primary Actor: User |
 | Properties | <ul><li>Performance - N/A</li><li>Security - N/A</li><li>Other - N/A</li></ul> |
