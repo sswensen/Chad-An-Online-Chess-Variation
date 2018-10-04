@@ -6,13 +6,13 @@
 
 ### Player
 * isTurn - Is it the player's turn?
+* color - Color of the player [black, white]
 
 ### Board
 * spaces - a 2d array which a Piece can occupy
 
 ### Invite
 * inviteStatus - Can be [open, accepted, rejected]
-* inviteType - Can be [sent, recieved]
 
 ### Game
 * gameDuration: Time - Elaped time of game from start of game
@@ -27,3 +27,12 @@
 * position - Where the piece is on the board
 * isTaken - If the piece is on the board or not
 * color - What color the piece belongs to
+
+### King
+* King is specialization of Piece
+
+### Rook
+* Rook is specialization of Piece
+
+### Queen
+* Queen is specialization of Piece
