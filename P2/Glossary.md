@@ -23,6 +23,9 @@
 * losses - Count of a profile's game losses
 * draws - Count of a profile's game draws
 
+### Match History
+* games - A collection of previously completed games
+
 ### Piece
 * position - Where the piece is on the board
 * isTaken - If the piece is on the board or not
