@@ -24,7 +24,7 @@
 * draws - Count of a profile's game draws
 
 ### Match History
-* games - An array of previously completed games
+* games - A collection of previously completed games
 
 ### Piece
 * position - Where the piece is on the board
