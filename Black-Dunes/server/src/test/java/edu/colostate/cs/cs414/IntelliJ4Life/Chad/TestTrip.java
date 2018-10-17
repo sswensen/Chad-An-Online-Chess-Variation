@@ -1,5 +1,6 @@
-package com.tripco.t00.planner;
+package edu.colostate.cs.cs414.IntelliJ4Life.Chad;
 
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Trip;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

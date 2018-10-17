@@ -9,7 +9,7 @@
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.tripco.t00</groupId>
+    <groupId>edu.colostate.cs.cs414.IntelliJ4Life.Chad</groupId>
     <artifactId>server</artifactId>
     <packaging>jar</packaging>
     <version>0.1</version>
@@ -33,7 +33,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.tripco.t00.server.MyServer</mainClass>
+                            <mainClass>edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.MyServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
