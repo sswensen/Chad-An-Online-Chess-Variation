@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class King extends Piece {
-    public King(Piece.Color color) {
+    public King(Color color) {
         initializePiece(color);
     }
 

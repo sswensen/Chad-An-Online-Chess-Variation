@@ -51,7 +51,7 @@ public class Rook extends Piece {
         }
 
         // loop over columns greater than the current column
-        for (int i = col + 1; i < 12; i--) {
+        for (int i = col + 1; i < 12; i++) {
             int[] move = {row, i};
 
             if (!(addMoveToList(move, board, returnList))) {

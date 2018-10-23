@@ -3,7 +3,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import java.util.ArrayList;
 
 public class Queen extends Piece{
-    public Queen(Piece.Color color) {
+    public Queen(Color color) {
         initializePiece(color);
     }
 
@@ -50,7 +50,7 @@ public class Queen extends Piece{
         }
 
         // loop over columns greater than the current column
-        for (int i = col + 1; i < 12; i--) {
+        for (int i = col + 1; i < 12; i++) {
             int[] move = {row, i};
 
             if (!(addMoveToList(move, board, returnList))) {
