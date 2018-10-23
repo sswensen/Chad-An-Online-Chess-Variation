@@ -1,13 +1,8 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Plan;
-
 import spark.Request;
 import spark.Response;
 import spark.Spark;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import static spark.Spark.*;
 
