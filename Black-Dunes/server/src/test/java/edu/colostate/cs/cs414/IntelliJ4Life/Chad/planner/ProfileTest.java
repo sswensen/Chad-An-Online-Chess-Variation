@@ -1,10 +1,9 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfileTest {
     private Profile testProfile;
@@ -38,5 +37,4 @@ class ProfileTest {
         testProfile.addDraw();
         assertEquals(1, testProfile.getDraws());
     }
-
 }
