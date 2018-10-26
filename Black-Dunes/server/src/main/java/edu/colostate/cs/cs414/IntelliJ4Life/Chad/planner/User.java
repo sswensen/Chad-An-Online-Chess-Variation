@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class User {
     private String nickName, email;
-    private ArrayList<Invite> recievedInvites = new ArrayList<>();
+    private ArrayList<Invite> receivedInvites = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
 
-    public User(String name, String email) {
-        this.nickName = name;
+    public User(String nickName, String email) {
+        this.nickName = nickName;
         this.email = email;
     }
 
@@ -29,14 +29,46 @@ public class User {
         this.email = email;
     }
 
+    public ArrayList<Invite> getReceivedInvites() {
+        return receivedInvites;
+    }
+
+    public ArrayList<Invite> getSentInvites() {
+        return sentInvites;
+    }
+
     /*************
      * Public Methods
      *************/
-    public void sendInvite(Invite invite) {
-        this.sentInvites.add(invite);
+    public boolean sendInvite(Invite invite, ArrayList<User> users) {
+        if (invite.inviteUsers(users)) {
+            if (!sentInvites.contains(invite)) {
+                this.sentInvites.add(invite);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void recieveInvite(Invite invite) {
-        this.recievedInvites.add(invite);
+    public void receiveInvite(Invite invite) {
+        if (!receivedInvites.contains(invite)) {
+            this.receivedInvites.add(invite);
+        }
+    }
+
+    public boolean acceptInvitation(Invite invite) {
+        if (receivedInvites.contains(invite)) {
+            boolean accepted = invite.accept();
+            // This is where the user will be added to the game
+            return accepted;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean cancelInvitation(Invite invite) {
+        return sentInvites.contains(invite) && invite.cancel();
     }
 }
