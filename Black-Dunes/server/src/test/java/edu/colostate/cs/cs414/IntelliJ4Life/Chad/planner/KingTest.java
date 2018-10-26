@@ -439,6 +439,18 @@ public class KingTest {
     }
 
     @Test
+    public void testNotStalemate2() {
+        board[4][7] = K1;
+        board[2][8] = Q2;
+        int[] position1 = {4, 7};
+        int[] position2 = {6, 8};
+        K1.setPosition(position1);
+        Q2.setPosition(position2);
+
+        assertFalse(K1.stalemate(board));
+    }
+
+    @Test
     public void testToString1() {
         assertTrue(K1.toString().equals("BK"));
     }

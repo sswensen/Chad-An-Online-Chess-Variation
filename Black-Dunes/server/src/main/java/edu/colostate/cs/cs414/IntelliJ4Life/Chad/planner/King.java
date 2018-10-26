@@ -287,22 +287,6 @@ public class King extends Piece {
 
     // Check if the king is checkmated
     public boolean checkmate(Piece[][] board) {
-//        if (this.inCheck(board)) {
-//            ArrayList<int[]> validMoves = this.validMoves(board);
-//
-//            // for each valid move, check if it causes check
-//            for (int[] move : validMoves) {
-//                if (!(causesCheck(move, this.getColor(), board))) {
-//                    return false;
-//                }
-//            }
-//        }
-//        else {
-//            return false;
-//        }
-//
-//        return true;
-
         ArrayList<int[]> validMoves = this.validMoves(board);
 
         return this.inCheck(board) && validMoves.size() == 0;
@@ -327,20 +311,9 @@ public class King extends Piece {
             }
         }
 
-        if (!inCheck(board)) {
-            ArrayList<int[]> validMoves = this.validMoves(board);
+        // Check if the king can move anywhere if it's not in check
+        ArrayList<int[]> validMoves = this.validMoves(board);
 
-            // for each valid move, check if it causes check
-            for (int[] move : validMoves) {
-                if (!(causesCheck(move, this.getColor(), board))) {
-                    return false;
-                }
-            }
-        }
-        else {
-            return false;
-        }
-
-        return true;
+        return !(this.inCheck(board)) && validMoves.size() == 0;
     }
 }
