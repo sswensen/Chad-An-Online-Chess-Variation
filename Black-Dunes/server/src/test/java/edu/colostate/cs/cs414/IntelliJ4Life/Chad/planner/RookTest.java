@@ -1,8 +1,10 @@
-package edu.colostate.cs.cs414.IntelliJ4Life.Chad;
+package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Color;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Rook;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Piece;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.King;
+
 import java.util.Arrays;
 
 import org.junit.Before;
@@ -16,7 +18,9 @@ public class RookTest {
     Rook R1;
     Rook R2;
     Rook R3;
-    Rook R4;
+    King K1;
+    Queen Q1;
+    Queen Q2;
 
     Piece[][] board;
 
@@ -25,7 +29,9 @@ public class RookTest {
         R1 = new Rook(Color.BLACK);
         R2 = new Rook(Color.BLACK);
         R3 = new Rook(Color.WHITE);
-        R4 = new Rook(Color.WHITE);
+        K1 = new King(Color.BLACK);
+        Q1 = new Queen(Color.WHITE);
+        Q2 = new Queen(Color.BLACK);
 
         board = new Piece[12][12];
 
@@ -173,10 +179,6 @@ public class RookTest {
         int[][] validMovesArray = new int[validMoves.size()][2];
         validMovesArray = validMoves.toArray(validMovesArray);
 
-        for (int i = 0; i < validMovesArray.length; i++) {
-            System.out.println(Arrays.toString(validMovesArray[i]));
-        }
-
         assertArrayEquals(correctMoves, validMovesArray);
     }
 
@@ -199,5 +201,102 @@ public class RookTest {
         validMovesArray = validMoves.toArray(validMovesArray);
 
         assertArrayEquals(correctMoves, validMovesArray);
+    }
+
+    @Test
+    public void testInvalidMoveCausesCheck1() {
+        board[3][8] = K1;
+        board[3][6] = R1;
+        board[3][3] = R3;
+        int[] position1 = {3, 8};
+        int[] position2 = {3, 6};
+        int[] position3 = {3, 3};
+        K1.setPosition(position1);
+        R1.setPosition(position2);
+        R3.setPosition(position3);
+
+        ArrayList<int[]> validMoves = R1.validMoves(board);
+        int[][] correctMoves = {{3, 5}, {3, 4}, {3, 7}};
+
+        int[][] validMovesArray = new int[validMoves.size()][2];
+        validMovesArray = validMoves.toArray(validMovesArray);
+
+        assertArrayEquals(correctMoves, validMovesArray);
+    }
+
+    @Test
+    public void testInvalidMoveCausesCheck2() {
+        board[3][8] = K1;
+        board[1][6] = R1;
+        board[0][5] = Q1;
+        int[] position1 = {3, 8};
+        int[] position2 = {1, 6};
+        int[] position3 = {0, 5};
+        K1.setPosition(position1);
+        R1.setPosition(position2);
+        Q1.setPosition(position3);
+
+        ArrayList<int[]> validMoves = R1.validMoves(board);
+        int[][] correctMoves = {};
+
+        int[][] validMovesArray = new int[validMoves.size()][2];
+        validMovesArray = validMoves.toArray(validMovesArray);
+
+        assertArrayEquals(correctMoves, validMovesArray);
+    }
+
+    @Test
+    public void testInvalidMoveCausesCheck3() {
+        board[3][8] = K1;
+        board[1][6] = Q2;
+        board[0][5] = Q1;
+        int[] position1 = {3, 8};
+        int[] position2 = {1, 6};
+        int[] position3 = {0, 5};
+        K1.setPosition(position1);
+        Q2.setPosition(position2);
+        Q1.setPosition(position3);
+
+        ArrayList<int[]> validMoves = Q2.validMoves(board);
+        int[][] correctMoves = {{2, 7}};
+
+        int[][] validMovesArray = new int[validMoves.size()][2];
+        validMovesArray = validMoves.toArray(validMovesArray);
+
+        assertArrayEquals(correctMoves, validMovesArray);
+    }
+
+    @Test
+    public void testMoveDoesntCauseCheck() {
+        board[3][8] = K1;
+        board[1][6] = R1;
+        board[0][5] = R3;
+        int[] position1 = {3, 8};
+        int[] position2 = {1, 6};
+        int[] position3 = {0, 5};
+        K1.setPosition(position1);
+        R1.setPosition(position2);
+        R3.setPosition(position3);
+
+        ArrayList<int[]> validMoves = R1.validMoves(board);
+        int[][] correctMoves = {{0, 6}, {2, 6}, {3, 6}, {4, 6}, {5, 6}, {6, 6},
+                                {7, 6}, {8, 6}, {9, 6}, {10, 6}, {11, 6},
+                                {1, 5}, {1, 4}, {1, 3}, {1, 2}, {1, 1}, {1, 0},
+                                {1, 7}, {1, 8}, {1, 9}, {1, 10}, {1, 11}};
+
+        int[][] validMovesArray = new int[validMoves.size()][2];
+        validMovesArray = validMoves.toArray(validMovesArray);
+
+        assertArrayEquals(correctMoves, validMovesArray);
+    }
+
+    @Test
+    public void testToString1() {
+        assertTrue(R1.toString().equals("BR"));
+    }
+
+    @Test
+    public void testToString2() {
+        assertTrue(R3.toString().equals("WR"));
     }
 }
