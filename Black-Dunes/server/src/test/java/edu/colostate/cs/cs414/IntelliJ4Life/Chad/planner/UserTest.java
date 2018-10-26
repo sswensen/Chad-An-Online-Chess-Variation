@@ -52,27 +52,27 @@ class UserTest {
     }
 
     @Test
-    void testReceiveInviteFirstTime() {
-        testUser.receiveInvite(testInvite);
-        assertTrue(testUser.getReceivedInvites().contains(testInvite));
+    void testReceiveNotificationFirstTime() {
+        testUser.receiveNotification(testInvite);
+        assertTrue(testUser.getReceivedNotifications().contains(testInvite));
     }
 
     @Test
-    void testReceiveInviteSecondTime() {
+    void testReceiveNotificationSecondTime() {
         // Precondition: invite is received already
-        testUser.receiveInvite(testInvite);
-        assertTrue(testUser.getReceivedInvites().contains(testInvite));
+        testUser.receiveNotification(testInvite);
+        assertTrue(testUser.getReceivedNotifications().contains(testInvite));
 
         // Second time won't not change anything
-        testUser.receiveInvite(testInvite);
-        assertTrue(testUser.getReceivedInvites().contains(testInvite));
+        testUser.receiveNotification(testInvite);
+        assertTrue(testUser.getReceivedNotifications().contains(testInvite));
     }
 
     @Test
     void testAcceptInvitationReturnsTrueWhenInvitationIsAccepted() {
         // Precondition: invite is received already
-        testUser.receiveInvite(testInvite);
-        assertTrue(testUser.getReceivedInvites().contains(testInvite));
+        testUser.receiveNotification(testInvite);
+        assertTrue(testUser.getReceivedNotifications().contains(testInvite));
 
         // User can accept the invitation
         when(testInvite.accept()).thenReturn(true);
@@ -82,8 +82,8 @@ class UserTest {
     @Test
     void testAcceptInvitationReturnsFalseWhenInvitationCannotBeAccepted() {
         // Precondition: invite is received already
-        testUser.receiveInvite(testInvite);
-        assertTrue(testUser.getReceivedInvites().contains(testInvite));
+        testUser.receiveNotification(testInvite);
+        assertTrue(testUser.getReceivedNotifications().contains(testInvite));
 
         // User can accept the invitation
         when(testInvite.accept()).thenReturn(false);
@@ -94,6 +94,21 @@ class UserTest {
     void testAcceptInvitationReturnsFalseForNonReceivedInvite() {
         // User hasn't received invitation, thus can't accept
         assertFalse(testUser.acceptInvitation(testInvite));
+    }
+
+    @Test
+    void testRejectInvitationRemovesInvitationAndNotifiesSender() {
+        // testInvitedUser received an invite from testUser
+        testInvite = new Invite("Invite message", testUser);
+        testInvitedUser.getReceivedNotifications().add(testInvite);
+
+        // testInvitedUser rejects the invitation
+        testInvitedUser.rejectInvitation(testInvite);
+
+        // testInvitedUser will not have the invitation anymore and testUser will receive a notification
+        assertFalse(testInvitedUser.getReceivedNotifications().contains(testInvite));
+        assertEquals(testUser.getReceivedNotifications().get(0).getMessage(),
+                "TestSubject2 rejected your invite, loser.");
     }
 
     @Test
