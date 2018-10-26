@@ -67,4 +67,8 @@ public class User {
             return false;
         }
     }
+
+    public boolean cancelInvitation(Invite invite) {
+        return sentInvites.contains(invite) && invite.cancel();
+    }
 }

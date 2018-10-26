@@ -18,14 +18,37 @@ class InviteTest {
     }
 
     @Test
-    void testAcceptWithPendingInvitation() {
+    void testAcceptReturnsTrueWithPendingInvitation() {
         assertTrue(testInvite.accept());
     }
 
     @Test
-    void testAcceptWithAcceptedInvitation() {
+    void testAcceptReturnsFalseWithCancelledInvitation() {
+        testInvite.cancel();
+        assertFalse(testInvite.accept());
+    }
+
+    @Test
+    void testAcceptReturnsFalseWithAcceptedInvitation() {
         testInvite.accept();
         assertFalse(testInvite.accept());
+    }
+
+    @Test
+    void testCancelReturnsTrueWithPendingInvitation() {
+        assertTrue(testInvite.cancel());
+    }
+
+    @Test
+    void testCancelReturnsFalseWithAcceptedInvitation() {
+        testInvite.accept();
+        assertFalse(testInvite.cancel());
+    }
+
+    @Test
+    void testCancelReturnsFalseWithCancelledInvitation() {
+        testInvite.cancel();
+        assertFalse(testInvite.cancel());
     }
 
     @Test

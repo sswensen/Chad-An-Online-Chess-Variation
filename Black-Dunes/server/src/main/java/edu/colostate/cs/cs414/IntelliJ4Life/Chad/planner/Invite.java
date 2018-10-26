@@ -7,13 +7,14 @@ public class Invite extends Notification {
 
     public Invite(String message) {
         super(message);
+        inviteStatus = InviteStatus.PENDING;
     }
 
     /*************
      * Public Methods
      *************/
     public boolean accept() {
-       if (this.inviteStatus != InviteStatus.ACCEPTED) {
+       if (this.inviteStatus == InviteStatus.PENDING) {
            this.inviteStatus = InviteStatus.ACCEPTED;
            return true;
        }
@@ -22,8 +23,18 @@ public class Invite extends Notification {
        }
     }
 
+    public boolean cancel() {
+        if (this.inviteStatus == InviteStatus.PENDING) {
+            this.inviteStatus = InviteStatus.CANCELLED;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public boolean inviteUsers(ArrayList<User> users) {
-        if (this.inviteStatus != InviteStatus.ACCEPTED) {
+        if (this.inviteStatus != InviteStatus.ACCEPTED && this.inviteStatus != InviteStatus.CANCELLED) {
             for (User user: users) {
                 user.receiveInvite(this);
             }
