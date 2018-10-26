@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 public class Invite extends Notification {
     private InviteStatus inviteStatus;
+    private User sender;
 
-    public Invite(String message) {
+    public Invite(String message, User sender) {
         super(message);
-        inviteStatus = InviteStatus.PENDING;
+        this.inviteStatus = InviteStatus.PENDING;
+        this.sender = sender;
+    }
+
+    /************
+     * Accessors
+     ***********/
+    public User getSender() {
+        return sender;
     }
 
     /*************
@@ -34,9 +43,9 @@ public class Invite extends Notification {
     }
 
     public boolean inviteUsers(ArrayList<User> users) {
-        if (this.inviteStatus != InviteStatus.ACCEPTED && this.inviteStatus != InviteStatus.CANCELLED) {
+        if (this.inviteStatus ==  InviteStatus.PENDING) {
             for (User user: users) {
-                user.receiveInvite(this);
+                user.receiveNotification(this);
             }
             return true;
         } else {

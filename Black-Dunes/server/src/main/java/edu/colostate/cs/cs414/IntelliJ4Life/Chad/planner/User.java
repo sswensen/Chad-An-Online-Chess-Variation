@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
     private String nickName, email;
-    private ArrayList<Invite> receivedInvites = new ArrayList<>();
+    private ArrayList<Notification> receivedNotifications = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
 
     public User(String nickName, String email) {
@@ -29,8 +29,8 @@ public class User {
         this.email = email;
     }
 
-    public ArrayList<Invite> getReceivedInvites() {
-        return receivedInvites;
+    public ArrayList<Notification> getReceivedNotifications() {
+        return receivedNotifications;
     }
 
     public ArrayList<Invite> getSentInvites() {
@@ -51,20 +51,28 @@ public class User {
         }
     }
 
-    public void receiveInvite(Invite invite) {
-        if (!receivedInvites.contains(invite)) {
-            this.receivedInvites.add(invite);
+    public void receiveNotification(Notification notification) {
+        if (!receivedNotifications.contains(notification)) {
+            this.receivedNotifications.add(notification);
         }
     }
 
     public boolean acceptInvitation(Invite invite) {
-        if (receivedInvites.contains(invite)) {
+        if (receivedNotifications.contains(invite)) {
             boolean accepted = invite.accept();
             // This is where the user will be added to the game
             return accepted;
         }
         else {
             return false;
+        }
+    }
+
+    public void rejectInvitation(Invite invite) {
+        if (this.receivedNotifications.contains(invite)) {
+            this.receivedNotifications.remove(invite);
+            Notification reject = new Notification(this.nickName + " rejected your invite, loser.");
+            invite.getSender().receiveNotification(reject);
         }
     }
 
