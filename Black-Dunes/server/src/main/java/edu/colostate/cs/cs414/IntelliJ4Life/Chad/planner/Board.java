@@ -1,5 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
+import java.util.ArrayList;
+
 public class Board {
 
     private Piece[][] spaces;
@@ -42,6 +44,18 @@ public class Board {
 
     public Piece[][] getBoard() {
         return this.spaces;
+    }
+
+    public ArrayList<int[]> getAllPieces() {
+        ArrayList<int[]> returnList = new ArrayList<>();
+        for (int i = 0; i < this.spaces.length; i++) {
+            for(int j = 0; j < this.spaces[0].length; j++) {
+                if (this.spaces[i][j] instanceof Piece) {
+                    returnList.add(this.spaces[i][j].getPosition());
+                }
+            }
+        }
+        return returnList;
     }
 
     public Piece getPiece(int x, int y) {
