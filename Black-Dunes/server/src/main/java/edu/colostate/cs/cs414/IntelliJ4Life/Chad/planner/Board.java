@@ -40,7 +40,7 @@ public class Board {
         }
     }
 
-    public Object[][] getBoard() {
+    public Piece[][] getBoard() {
         return this.spaces;
     }
 
@@ -80,13 +80,15 @@ public class Board {
         for(int row = 0; row < blackCastle.length; row++) {
             int x = blackCastle[row][0];
             int y = blackCastle[row][1];
-            tempBoard[x][y] = "##";
+            if(tempBoard[x][y] == "-")
+                tempBoard[x][y] = "##";
          }
 
         for(int row = 0; row < whiteCastle.length; row++) {
             int x = whiteCastle[row][0];
             int y = whiteCastle[row][1];
-            tempBoard[x][y] = "##";
+            if(tempBoard[x][y] == "-")
+                tempBoard[x][y] = "##";
         }
 
         for(String[] row : tempBoard) {
@@ -100,6 +102,11 @@ public class Board {
 
     public static void main(String[] args) {
         Board board = new Board();
+        Piece p = board.getPiece(2, 7);
+        int[] move = {2, 6};
+        p.move(move, board.getBoard());
+        int[] move2 = {2, 5};
+        p.move(move2, board.getBoard());
         board.printBoard();
     }
 }
