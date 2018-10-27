@@ -3,10 +3,21 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import java.util.ArrayList;
 
 public class Queen extends Piece{
+
+    /*******************
+     * Constructor
+     ******************/
     public Queen(Color color) {
         initializePiece(color);
     }
 
+    public Queen(Color color, int[] position) {
+        initializePiece(color, position);
+    }
+
+    /*******************
+     * Overrides
+     ******************/
     @Override
     public ArrayList<int[]> validMoves(Piece[][] board) {
         int[] position = this.getPosition();
@@ -123,5 +134,15 @@ public class Queen extends Piece{
         }
 
         return returnList;
+    }
+
+    @Override
+    public String toString() {
+        if (this.getColor() == Color.BLACK) {
+            return "BQ";
+        }
+        else {
+            return "WQ";
+        }
     }
 }

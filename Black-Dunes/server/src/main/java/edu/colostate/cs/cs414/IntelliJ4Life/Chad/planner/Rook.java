@@ -4,10 +4,21 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Rook extends Piece {
+
+    /*******************
+     * Constructors
+     ******************/
     public Rook(Color color) {
         initializePiece(color);
     }
 
+    public Rook(Color color, int[] position) {
+        initializePiece(color, position);
+    }
+
+    /*******************
+     * Overrides
+     ******************/
     @Override
     public ArrayList<int[]> validMoves(Piece[][] board) {
         int[] position = this.getPosition();
@@ -60,5 +71,15 @@ public class Rook extends Piece {
         }
 
         return returnList;
+    }
+
+    @Override
+    public String toString() {
+        if (this.getColor() == Color.BLACK) {
+            return "BR";
+        }
+        else {
+            return "WR";
+        }
     }
 }
