@@ -2,28 +2,10 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 public class Board {
 
-    private Object[][] spaces;
+    private Piece[][] spaces;
 
     public Board() {
-        this.spaces = new Object[12][12];
-
-        for (int row = 0; row < 12; row ++)
-            for (int col = 0; col < 12; col++)
-                this.spaces[row][col] = "-";
-
-        int [][] blackCastle = {
-                {1, 7}, {1, 8}, {1, 9},
-                {2, 6}, {3, 6}, {4, 6},
-                {2, 10}, {3, 10}, {4, 10},
-                {5, 7}, {5, 8}, {5, 9},
-        };
-
-        int [][] whiteCastle = {
-                {6, 2}, {6, 3}, {6, 4},
-                {7, 1}, {8, 1}, {9, 1},
-                {10, 2}, {10, 3}, {10, 4},
-                {7, 5}, {8, 5}, {9, 5}
-        };
+        this.spaces = new Piece[12][12];
 
         int [][] blackStartingPositions = {
                 {2, 7}, {2, 8}, {2, 9},
@@ -56,34 +38,59 @@ public class Board {
                 spaces[x][y] = new King(Color.WHITE, whiteStartingPositions[row]);
             }
         }
-
-        for(int row = 0; row < blackCastle.length; row++) {
-            int x = blackCastle[row][0];
-            int y = blackCastle[row][1];
-            spaces[x][y] = "##";
-         }
-
-        for(int row = 0; row < whiteCastle.length; row++) {
-            int x = whiteCastle[row][0];
-            int y = whiteCastle[row][1];
-            spaces[x][y] = "##";
-        }
     }
 
     public Object[][] getBoard() {
         return this.spaces;
     }
 
-    public Object getPiece(int x, int y) {
-        if(spaces[x][y] instanceof Piece)
+    public Piece getPiece(int x, int y) {
+        if(spaces[x][y] instanceof Piece && spaces[x][y] != null)
             return this.spaces[x][y];
         else
             return null;
     }
 
     public void printBoard() {
-        for(Object[] row : this.spaces) {
-            for (Object i : row) {
+        String[][] tempBoard = new String[12][12];
+        for (int i = 0; i < tempBoard.length; i++) {
+            for(int j = 0; j < tempBoard[0].length; j++) {
+                if(this.spaces[i][j] == null)
+                    tempBoard[i][j] = "-";
+                else
+                    tempBoard[i][j] = this.spaces[i][j].toString();
+            }
+        }
+
+        int [][] blackCastle = {
+                {1, 7}, {1, 8}, {1, 9},
+                {2, 6}, {3, 6}, {4, 6},
+                {2, 10}, {3, 10}, {4, 10},
+                {5, 7}, {5, 8}, {5, 9},
+        };
+
+        int [][] whiteCastle = {
+                {6, 2}, {6, 3}, {6, 4},
+                {7, 1}, {8, 1}, {9, 1},
+                {10, 2}, {10, 3}, {10, 4},
+                {7, 5}, {8, 5}, {9, 5}
+        };
+
+
+        for(int row = 0; row < blackCastle.length; row++) {
+            int x = blackCastle[row][0];
+            int y = blackCastle[row][1];
+            tempBoard[x][y] = "##";
+         }
+
+        for(int row = 0; row < whiteCastle.length; row++) {
+            int x = whiteCastle[row][0];
+            int y = whiteCastle[row][1];
+            tempBoard[x][y] = "##";
+        }
+
+        for(String[] row : tempBoard) {
+            for (String i : row) {
                 System.out.print(i);
                 System.out.print("\t");
             }
@@ -94,7 +101,5 @@ public class Board {
     public static void main(String[] args) {
         Board board = new Board();
         board.printBoard();
-        Piece piece = (Piece) board.getPiece(2, 7);
-        System.out.println(piece);
     }
 }
