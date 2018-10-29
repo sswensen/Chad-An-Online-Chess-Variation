@@ -1,0 +1,157 @@
+body {
+  background-color:#fff;
+}
+
+/* WIDTH OF APPLICATION COMPONENTS */
+
+.application-width{
+  margin: auto !important;
+  max-width: 1200px !important;
+  padding: 0 15px 0 15px;
+}
+
+/* FONTS */
+
+body {
+  font-family: sans-serif;
+  color: #212529;
+}
+
+.csu-text-small{
+  font-size: 13px !important;
+  color: #212529;
+}
+
+.csu-text-small:hover{
+  color: #4d4d4d;
+}
+
+.csu-text-body{
+  font-family: sans-serif !important;
+  font-size: 1rem !important;
+  color: #212529;
+}
+
+.csu-text-body:hover{
+  color: #4d4d4d;
+}
+
+.csu-text-header{
+  font-weight: 700;
+  letter-spacing: .11em;
+  line-height: 1.1em;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.csu-text-header-thin{
+  font-weight: 400;
+  letter-spacing: .11em;
+  line-height: 1.1em;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+
+/* markdown improvements */
+
+a:link {
+  font-weight: 600;
+  color: #105456;
+}
+
+a:visited {
+  font-weight: 600;
+  color: #105456;
+}
+
+a:active {
+  font-weight: 600;
+  color: #105456;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+table, th, td {
+  border: 1px solid #e0e0e0;
+  padding: 4px;
+}
+
+th {
+  background-color: #f7f7f7;
+  color: black;
+}
+
+img {
+  max-width: 100%;
+}
+
+blockquote {
+  background: #f7f7f7;
+  border-left: 10px solid #e0e0e0;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+
+pre {
+  margin: 1.5em 10px;
+  padding: 5px 10px;
+  background: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  white-space: pre-wrap;
+  border-radius: 5px;
+}
+
+code {
+  background: #f0f0f0;
+  color: #000000;
+  font-weight: 600;
+  padding: 0px 2px;
+}
+
+.csu-markdown-text a{
+  font-family: 'prox-light', sans-serif !important;
+  line-height: 1em;
+  font-size: 16px;
+  color: #4d4d4d;
+}
+
+.csu-markdown-text a:hover{
+  color: #666666;
+}
+
+.csu-modal-header{
+  margin-top: .3em;
+  font-weight: 700;
+  letter-spacing: .10em;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.pagefade-enter, .pagefade-appear {
+    opacity:0;
+}
+.pagefade-enter.pagefade-enter-active,
+.pagefade-appear.pagefade-appear-active {
+    opacity:1;
+    transition:opacity 350ms ease-in;
+    -webkit-transition: opacity 350ms ease-in;
+    -moz-transition: opacity 350ms ease-in;
+    -o-transition: opacity 350ms ease-in;
+}
+.pagefade-enter.pagefade-enter-active {
+    transition-delay: 200ms;
+    -webkit-transition-delay: 200ms;
+    -moz-transition-delay: 200ms;
+    -o-transition-delay: 200ms;
+}
+.pagefade-exit {
+    opacity:0;
+}
+.pagefade-exit.pagefade-exit-active {
+    opacity:0;
+}

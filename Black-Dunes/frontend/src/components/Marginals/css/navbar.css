@@ -1,0 +1,105 @@
+@media screen and (max-width: 768px) {
+    .nav_bar{
+        display:none;
+    }
+}
+
+@media screen and (min-width: 769px){
+    .nav_side_bar{
+        display: none;
+    }
+}
+
+/** Proxima Nova Semibold
+ * Weight: 600
+ * Style: normal
+ */
+.nav_item{
+    color: #444444;
+    float: right;
+    font-weight: 600;
+    letter-spacing: .11em;
+    line-height: 1.1em;
+    font-size: 13px;
+    text-transform:uppercase;
+    padding-bottom:0;
+    padding-right:0;
+    padding-left:0;
+    margin-right:1em;
+    margin-left:1em;
+}
+
+.nav_item:hover{
+    color:#716F71;
+    border-bottom: 1px solid #716F71 !important;
+}
+
+/** Proxima Nova Semibold
+ * Weight: 600
+ * Style: normal
+ */
+.nav_title{
+    color: #444444;
+    font-weight: 700;
+    letter-spacing: .11em;
+    line-height: 1.1em;
+    font-size: 16px;
+    text-transform:uppercase;
+}
+
+.nav_title:hover{
+    color: #716F71;
+}
+
+
+.nav_bar{
+    align-items:stretch;
+    margin: 1em 0;
+    padding: 0;
+
+}
+
+.nav_side_bar{
+    color:white;
+}
+
+.dropdown_icon{
+    margin: 0 auto;
+    color: #444444;
+    background-color: white;
+    border: none;
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+.dropdown_icon:hover{
+    color: #444444;
+    background-color: white;
+}
+
+.dropdown_icon:focus{
+    box-shadow: none !important;
+}
+
+.dropdown_icon:active{
+    color: #444444 !important;
+    background-color: white !important;
+}
+
+.dropdown_item{
+    float:left;
+    font-weight: 600;
+    letter-spacing: .11em;
+    line-height: 1.5em;
+    font-size: 13px;
+    border-bottom: 1px solid white;
+    text-transform:uppercase;
+    color:#444444 !important;
+    padding-bottom: .2em;
+}
+
+.dropdown_item:hover{
+    color:#716F71 !important;
+    border-bottom: 1px solid #716F71 !important;
+}
