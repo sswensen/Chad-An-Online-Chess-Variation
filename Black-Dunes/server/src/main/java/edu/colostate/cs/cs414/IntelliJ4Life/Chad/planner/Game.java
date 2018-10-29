@@ -51,4 +51,5 @@ public class Game {
             playerOne = new Player(true, Color.WHITE, this);
         }
     }
+
 }
