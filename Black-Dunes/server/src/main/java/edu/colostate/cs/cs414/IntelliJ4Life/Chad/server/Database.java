@@ -62,15 +62,14 @@ public class Database {
     private ArrayList<Game> getGames(ResultSet query) throws SQLException {
         ArrayList<Game> out = new ArrayList<Game>();
         while(query.next()) {
-            String gameID = query.getString("GameID");
+            Integer gameID = Integer.parseInt(query.getString("GameID"));
             String time = query.getString("StartTime");
             String board = query.getString("Board");
             Integer player1 = Integer.parseInt(query.getString("User1ID"));
             Integer player2 = Integer.parseInt(query.getString("User2ID"));
             Integer turn = Integer.parseInt(query.getString("Turn"));
-            // TODO Do conversion of strings into game
 
-            out.add(new Game()); // TODO fill here
+            out.add(new Game(gameID, time, board, player1, player2, turn)); // TODO fill here
         }
         return out;
     }

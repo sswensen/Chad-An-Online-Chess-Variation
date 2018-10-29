@@ -18,9 +18,19 @@ public class Game {
         setColors();
     }
 
-    public Game(String GameID, String startTimeString, String board, String player1ID, String player2ID, String turn) {
-        // TODO convert all strings to respective data types
-
+    public Game(int GameID, String startTimeString, String board, int player1ID, int player2ID, int turn) {
+        this.GameID = GameID;
+        this.startTime = LocalDateTime.parse(startTimeString);
+        this.board = new Board(board);
+        if(turn == 1) {
+            this. playerOne = new Player(true, Color.WHITE, this);
+            this. playerOne = new Player(false, Color.WHITE, this);
+            this.turn = 1;
+        } else {
+            this. playerOne = new Player(false, Color.WHITE, this);
+            this. playerOne = new Player(true, Color.WHITE, this);
+            this.turn = 2;
+        }
     }
 
     /*******************
