@@ -17,6 +17,11 @@ public class Game {
         setColors();
     }
 
+    public Game(String startTimeString, String board, String player1ID, String player2ID, String turn) {
+        // TODO convert all strings to respective data types
+
+    }
+
     /*******************
      * Accessors
      ******************/
