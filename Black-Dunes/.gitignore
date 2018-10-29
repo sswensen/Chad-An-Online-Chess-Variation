@@ -28,6 +28,7 @@
 **/node_modules
 npm-debug.log
 /*.env
+**/bundle.js
 
 client/node_modules/
 client/public/

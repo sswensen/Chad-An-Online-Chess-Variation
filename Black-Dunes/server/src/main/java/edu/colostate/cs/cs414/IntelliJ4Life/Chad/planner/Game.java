@@ -10,6 +10,7 @@ public class Game {
     private Player playerOne;
     private Player playerTwo;
     private int turn; // 0 if white, 1 if black
+    private int GameID;
 
     public Game() {
         startTime = LocalDateTime.now();
@@ -17,7 +18,7 @@ public class Game {
         setColors();
     }
 
-    public Game(String startTimeString, String board, String player1ID, String player2ID, String turn) {
+    public Game(String GameID, String startTimeString, String board, String player1ID, String player2ID, String turn) {
         // TODO convert all strings to respective data types
 
     }

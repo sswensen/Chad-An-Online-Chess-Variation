@@ -29,6 +29,9 @@ public class Database {
     private final static String count = "";
     private final static String search = "";
 
+    public Database() {
+    }
+
     public Database(String match, int limit) {
         this.match = match;
         this.limit = limit;
@@ -36,11 +39,13 @@ public class Database {
 
     //Both findResults and printJSON came from the slides as a template to start
 
-    private void findResults() {
-        String query = "";
+    private void makeQuery() {
+        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
+                "FROM Games g, Users u\n" +
+                "WHERE g.User1ID = u.ID;";
         String dbUrl;
 
-        dbUrl = "cs414.db.10202520.4f5.hostedresource.net";
+        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
         try {
             Class.forName(myDriver);
             try(Connection conn = DriverManager.getConnection(dbUrl, user, pass);
@@ -57,20 +62,26 @@ public class Database {
     private ArrayList<Game> getGames(ResultSet query) throws SQLException {
         ArrayList<Game> out = new ArrayList<Game>();
         while(query.next()) {
-            Game g = new Game();
             String gameID = query.getString("GameID");
             String time = query.getString("StartTime");
             String board = query.getString("Board");
             Integer player1 = Integer.parseInt(query.getString("User1ID"));
             Integer player2 = Integer.parseInt(query.getString("User2ID"));
             Integer turn = Integer.parseInt(query.getString("Turn"));
-            out.add(g);
+            // TODO Do conversion of strings into game
+
+            out.add(new Game()); // TODO fill here
         }
         return out;
     }
 
     private void saveGames() throws SQLException {
-        ArrayList<Game>
+    }
+
+    public static void main(String[] args) {
+        Database db = new Database();
+        db.makeQuery();
+        System.out.println("PAUSE");
     }
 
 }
