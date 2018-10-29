@@ -1,6 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
 
@@ -40,6 +41,10 @@ public class Board {
                 spaces[x][y] = new King(Color.WHITE, whiteStartingPositions[row]);
             }
         }
+    }
+
+    public Board(String board) {
+
     }
 
     public Piece[][] getBoard() {
@@ -116,11 +121,7 @@ public class Board {
 
     public static void main(String[] args) {
         Board board = new Board();
-        Piece p = board.getPiece(2, 7);
-        int[] move = {2, 6};
-        p.move(move, board.getBoard());
-        int[] move2 = {2, 5};
-        p.move(move2, board.getBoard());
         board.printBoard();
+        System.out.println(Arrays.deepToString(board.getBoard()));
     }
 }
