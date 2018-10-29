@@ -29,10 +29,13 @@
 npm-debug.log
 /*.env
 **/bundle.js
+../**/bundle.js
 
 client/node_modules/
 client/public/
 client/*.log
+client/dist/public/bundle.js
+client/package-lock.json
 
 client_bundle/
 target/
