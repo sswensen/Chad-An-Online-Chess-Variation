@@ -2,18 +2,19 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 
 public class Player {
-    private int userID;
+    private User user;
+    private int UserID;
     private Game game;
     private Color color;
 
     public Player(Color color) {
-        this.userID = -1;
+        this.user = null;
         this.game = null;
         this.color = color;
     }
 
-    public Player(int userID, Game game, Color color) {
-        this.userID = userID;
+    public Player(User user, Game game, Color color) {
+        this.user = user;
         this.game = game;
         this.color = color;
     }
@@ -21,7 +22,7 @@ public class Player {
     /*******************
      * Accessors
      ******************/
-    public int getUserID() { return userID; }
+    public User getUser() { return user; }
 
     public Color getColor() { return color; }
 
