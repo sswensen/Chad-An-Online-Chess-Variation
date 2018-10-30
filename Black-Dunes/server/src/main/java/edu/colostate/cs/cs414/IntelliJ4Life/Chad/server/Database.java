@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
 import spark.Request;
 
 public class Database {
@@ -19,19 +20,19 @@ public class Database {
     private int version;
     private String type;
     private String match;
-    private int ID;
+    private User user;
     private int limit;
     private ArrayList<Game> games;
 
     private final static String myDriver = "com.mysql.jdbc.Driver";
-    private final static String user = "cs414";
+    private final static String username = "cs414";
     private final static String pass = "Intellij4life!";
 
     private final static String count = "";
     private final static String search = "";
 
-    public Database(int userID) {
-        this.ID = userID;
+    public Database(User user) {
+        this.user = user;
     }
 
     public Database(String match, int limit) {
@@ -41,16 +42,16 @@ public class Database {
 
     //Both findResults and printJSON came from the slides as a template to start
 
-    private void getCurrentGamesFromDatabase() {
+    public void getCurrentGamesFromDatabase() {
         String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
                 "FROM Games g, Users u\n" +
-                "WHERE g.User1ID = " + ID + " AND u.ID = " + ID + ";";
+                "WHERE (g.User1ID = " + user.getUserID() + " OR g.User2ID = " + user.getUserID() + ") AND u.ID = " + user.getUserID() + ";";
         String dbUrl;
 
         dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
         try {
             Class.forName(myDriver);
-            try(Connection conn = DriverManager.getConnection(dbUrl, user, pass);
+            try(Connection conn = DriverManager.getConnection(dbUrl, username, pass);
                 Statement stQuery = conn.createStatement();
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
@@ -62,39 +63,96 @@ public class Database {
         }
     }
 
-    private void updateGameInDatabase(int gameID, String board, int turn) {
+    public void updateGameInDatabase(int gameID, String board, int turn) {
         String query = "UPDATE Games g SET Board = \'" + board + "\', Turn\n = " + turn +
                 " WHERE g.GameID = " + gameID + ";";
-        String dbUrl;
+        sendUpdateQueryToDatabase(query); // TODO do something with the return value (t/f)
+    }
 
-        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
-        try {
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(dbUrl, user, pass);
-            Statement stQuery = conn.createStatement();
-            System.out.println("Query: " + query);
-
-            stQuery.executeUpdate(query);
-
-            // this.games = updateGames(rsQuery);
-        } catch(Exception e) {
-            System.err.println("Encountered exception: " + e.getMessage());
+    public boolean registerUserInDatabase(String username, String nickname, String email, String password) {
+        // TODO verify that user does not already exist
+        if(checkIfUserExistsInDatabase(username, email)) {
+            // TODO needs to prompt again for new email/username
+            return false;
         }
+        String query = "INSERT INTO Users (" +
+                "Username, " +
+                "Nickname, " +
+                "Email, " +
+                "Pass" +
+                ") VALUES (" +
+                "'" + username + "', " +
+                "'" + nickname + "', " +
+                "'" + email + "', " +
+                "'" + password + "'" +
+                ");\n";
+        return sendUpdateQueryToDatabase(query);
+    }
+
+    private boolean checkIfUserExistsInDatabase(String username, String email) {
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username + "\';";
+        String emailQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Email = \'" + email + "\';";
+        if(getCountAllFromDatabase(usernameQuery) > 0 || getCountAllFromDatabase(emailQuery) > 0) {
+            System.err.println("User already exists");
+            return true;
+        }
+        return false;
     }
 
     private ArrayList<Game> parseGamesFromResultSet(ResultSet query) throws SQLException {
         ArrayList<Game> out = new ArrayList<Game>();
         while(query.next()) {
-            Integer gameID = Integer.parseInt(query.getString("GameID"));
+            int gameID = Integer.parseInt(query.getString("GameID"));
             String time = query.getString("StartTime");
             String board = query.getString("Board");
-            Integer player1 = Integer.parseInt(query.getString("User1ID"));
-            Integer player2 = Integer.parseInt(query.getString("User2ID"));
-            Integer turn = Integer.parseInt(query.getString("Turn"));
+            int player1 = Integer.parseInt(query.getString("User1ID"));
+            int player2 = Integer.parseInt(query.getString("User2ID"));
+            int turn = Integer.parseInt(query.getString("Turn"));
 
             out.add(new Game(gameID, time, board, player1, player2, turn)); // TODO fill here
         }
         return out;
+    }
+
+    private boolean sendUpdateQueryToDatabase(String query) {
+        String dbUrl;
+
+        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            Connection conn = DriverManager.getConnection(dbUrl, username, pass);
+            Statement stQuery = conn.createStatement();
+            System.out.println("Query: " + query);
+            int ret = stQuery.executeUpdate(query);
+            if(ret > -1) {
+                return true;
+            }
+        } catch(Exception e) {
+            System.err.println("Encountered exception: " + e.getMessage());
+            return false;
+        }
+        return false;
+    }
+
+    private int getCountAllFromDatabase(String query) {
+        String dbUrl;
+
+        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, username, pass);
+                Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
+                ResultSet rsQuery = stQuery.executeQuery(query)
+            ) {
+                System.out.println("Query: " + query);
+                rsQuery.next(); // This is needed to do a get string on the rsQuery because the iterator index is at -1 to start
+                return Integer.parseInt(rsQuery.getString("Count"));
+            }
+        } catch(Exception e) {
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+
+        return -1;
     }
 
     public ArrayList<Game> getGames() {
@@ -102,12 +160,17 @@ public class Database {
     }
 
     public static void main(String[] args) {
-        Database db = new Database(1);
-        db.getCurrentGamesFromDatabase();
-        Game g = db.getGames().get(0);
-        // g.setBoard(new Board(""));
-        db.updateGameInDatabase(g.getGameID(), "0,0,1,0 2,8,1,0 2,9,1,0 3,7,1,0 3,8,3,0 3,9,1,0 4,7,1,0 4,8,1,0 4,9,1,0 7,2,1,1 7,3,1,1 7,4,1,1 8,2,1,1 8,3,3,1 8,4,1,1 9,2,1,1 9,3,1,1 9,4,1,1", 2);
-        System.out.println("PAUSE");
+        User u = new User("NickName", "Email");
+        u.setUserID(3);
+        Database db = new Database(u);
+//        db.getCurrentGamesFromDatabase();
+//        Game g = db.getGames().get(0);
+//        // g.setBoard(new Board(""));
+//        db.updateGameInDatabase(g.getGameID(), "0,0,1,0 2,8,1,0 2,9,1,0 3,7,1,0 3,8,3,0 3,9,1,0 4,7,1,0 4,8,1,0 4,9,1,0 7,2,1,1 7,3,1,1 7,4,1,1 8,2,1,1 8,3,3,1 8,4,1,1 9,2,1,1 9,3,1,1 9,4,1,1", 1);
+//        System.out.println("PAUSE");
+
+        Boolean b = db.registerUserInDatabase("sswensen", "swenyjr", "sswensen@email.com", "mypassword");
+        System.out.println(b);
     }
 
 }
