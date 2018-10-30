@@ -23,14 +23,14 @@ public class Game {
         this.GameID = GameID;
         //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
         this.board = new Board(board);
-        if(turn == 1) {
+        if(turn == 0) {
             this.playerOne = new Player(player1ID, this, Color.WHITE);
             this.playerOne = new Player(player2ID, this, Color.BLACK);
-            this.turn = 1;
+            this.turn = 0;
         } else {
             this.playerOne = new Player(player1ID, this, Color.WHITE);
             this.playerOne = new Player(player2ID, this, Color.BLACK);
-            this.turn = 2;
+            this.turn = 1;
         }
     }
 
