@@ -284,36 +284,4 @@ public class King extends Piece {
 
         return false;
     }
-
-    // Check if the king is checkmated
-    public boolean checkmate(Piece[][] board) {
-        ArrayList<int[]> validMoves = this.validMoves(board);
-
-        return this.inCheck(board) && validMoves.size() == 0;
-    }
-
-    public boolean stalemate(Piece[][] board) {
-        /*
-         *  Stalemate occurs when both of the following circumstances are satisfied
-         *
-         *  1. King is last piece on the board.
-         *
-         *  2. King is not in check, but every other move it can make puts it into check
-         */
-
-        // Check if king is the last piece on the board
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] != this && board[i][j] != null &&
-                    board[i][j].getColor() == this.getColor()) {
-                    return false;
-                }
-            }
-        }
-
-        // Check if the king can move anywhere if it's not in check
-        ArrayList<int[]> validMoves = this.validMoves(board);
-
-        return !(this.inCheck(board)) && validMoves.size() == 0;
-    }
 }
