@@ -1,8 +1,9 @@
 /* eslint-disable no-restricted-globals */
 function get_port() {
-  return (!process.env.dev) ?
-    location.port :
-    process.env.dev
+    return 8088;
+//  return (!process.env.dev) ?
+//    location.port :
+//    process.env.dev
 }
 
 export async function request(body, type, port=get_port()){

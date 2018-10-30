@@ -13,7 +13,7 @@
     <artifactId>server</artifactId>
     <packaging>jar</packaging>
     <version>0.1</version>
-    <name>t00</name>
+    <name>Chad_Server</name>
     <url>https://github.com/csu314sp18/repo-base</url>
 
     <build>
