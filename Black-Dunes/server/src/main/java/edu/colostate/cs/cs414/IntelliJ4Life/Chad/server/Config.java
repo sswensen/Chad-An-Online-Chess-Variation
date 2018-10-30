@@ -10,6 +10,7 @@ public class Config {
   private short version = 1;
   private String type = "config";
 
+  // We can convert this to grab a list of users when sending names for invites
   private List<String> units = Arrays.asList("miles");
 
   static String getConfig() {

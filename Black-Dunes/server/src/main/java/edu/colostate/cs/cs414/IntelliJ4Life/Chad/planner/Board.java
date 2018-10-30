@@ -46,10 +46,13 @@ public class Board {
         }
     }
 
-    public Piece[][] getBoard() {
-        return this.spaces;
+    public Board(String board) {
+        this.spaces = buildBoardFromString(board);
     }
 
+    /*******************
+     * Public Methods
+     ******************/
     public King getBlackKing() {
         return blackKing;
     }
@@ -58,23 +61,98 @@ public class Board {
         return whiteKing;
     }
 
-    public ArrayList<int[]> getAllPieces() {
-        ArrayList<int[]> returnList = new ArrayList<>();
-        for (int i = 0; i < this.spaces.length; i++) {
-            for(int j = 0; j < this.spaces[0].length; j++) {
-                if (this.spaces[i][j] instanceof Piece) {
-                    returnList.add(this.spaces[i][j].getPosition());
+    public String convertBoardToString() {
+        ArrayList<int[]> locations = new ArrayList<>();
+        for(int i = 0; i < this.spaces.length; i++) {
+            for(int j = 0; j < this.spaces[0].length;j++) {
+                if(this.spaces[i][j] instanceof Piece){
+                    if(this.spaces[i][j] instanceof Rook) {
+                        if (this.spaces[i][j].getColor() == Color.BLACK) {
+                            // index 2 = Piece type. 1 == Rook, 2 == Queen, 3 == King
+                            // index 3 = Color. 0 == Black, 1 == White
+                            locations.add(new int[]{i, j, 1, 0});
+                        } else {
+                            locations.add(new int[]{i, j, 1, 1});
+                        }
+                    }
+                    if(this.spaces[i][j] instanceof Queen) {
+                        if (this.spaces[i][j].getColor() == Color.BLACK) {
+                            // index 2 = Piece type. 1 == Rook, 2 == Queen, 3 == King
+                            // index 3 = Color. 0 == Black, 1 == White
+                            locations.add(new int[]{i, j, 2, 0});
+                        } else {
+                            locations.add(new int[]{i, j, 2, 1});
+                        }
+                    }
+                    if(this.spaces[i][j] instanceof King) {
+                        if (this.spaces[i][j].getColor() == Color.BLACK) {
+                            // index 2 = Piece type. 1 == Rook, 2 == Queen, 3 == King
+                            // index 3 = Color. 0 == Black, 1 == White
+                            locations.add(new int[]{i, j, 3, 0});
+                        } else {
+                            locations.add(new int[]{i, j, 3, 1});
+                        }
+                    }
                 }
             }
         }
-        return returnList;
+        StringBuilder listString = new StringBuilder();
+
+        for (int[] loc : locations) {
+            int a = loc[0];
+            int b = loc[1];
+            int c = loc[2];
+            int d = loc[3];
+            listString.append(a + "," + b + "," + c + "," + d + " ");
+        }
+
+        String boardAsString = listString.toString();
+        return boardAsString.trim();
     }
 
-    public Piece getPiece(int x, int y) {
-        if(spaces[x][y] instanceof Piece && spaces[x][y] != null)
-            return this.spaces[x][y];
-        else
-            return null;
+    public Piece[][] buildBoardFromString(String newBoard) {
+        String[] splitArray = newBoard.split("\\s+");
+        ArrayList<int[]> allLocations = new ArrayList<>();
+        for(String x : splitArray) {
+            String[] strArray = x.split(",");
+            int[] intArray = new int[strArray.length];
+            for(int i = 0; i < strArray.length; i++) {
+                intArray[i] = Integer.parseInt(strArray[i]);
+            }
+            allLocations.add(intArray);
+        }
+
+        Piece[][] board = new Piece[12][12];
+
+        for(int location = 0; location < allLocations.size(); location++) {
+            int a = allLocations.get(location)[0];
+            int b = allLocations.get(location)[1];
+            int c = allLocations.get(location)[2];
+            int d = allLocations.get(location)[3];
+            if (c == 1) {
+                if (d == 0) {
+                    board[a][b] = new Rook(Color.BLACK, new int[]{a, b});
+                } else {
+                    board[a][b] = new Rook(Color.WHITE, new int[]{a, b});
+                }
+            }
+            if (c == 2) {
+                if (d == 0) {
+                    board[a][b] = new Queen(Color.BLACK, new int[]{a, b});
+                } else {
+                    board[a][b] = new Queen(Color.WHITE, new int[]{a, b});
+                }
+            }
+            if (c == 3) {
+                if (d == 0) {
+                    board[a][b] = new King(Color.BLACK, new int[]{a, b});
+                } else {
+                    board[a][b] = new King(Color.WHITE, new int[]{a, b});
+                }
+            }
+        }
+
+        return board;
     }
 
     public void printBoard() {
@@ -108,7 +186,7 @@ public class Board {
             int y = blackCastle[row][1];
             if(tempBoard[x][y] == "-")
                 tempBoard[x][y] = "##";
-         }
+        }
 
         for(int row = 0; row < whiteCastle.length; row++) {
             int x = whiteCastle[row][0];
@@ -126,13 +204,47 @@ public class Board {
         }
     }
 
+    /*******************
+     * Accessors
+     ******************/
+    public Piece[][] getBoard() {
+        return this.spaces;
+    }
+
+    public void setBoard(Piece[][] newBoard) { this.spaces = newBoard; }
+
+    public ArrayList<int[]> getAllPieces() {
+        ArrayList<int[]> returnList = new ArrayList<>();
+        for (int i = 0; i < this.spaces.length; i++) {
+            for(int j = 0; j < this.spaces[0].length; j++) {
+                if (this.spaces[i][j] instanceof Piece) {
+                    returnList.add(this.spaces[i][j].getPosition());
+                }
+            }
+        }
+        return returnList;
+    }
+
+    public Piece getPiece(int x, int y) {
+        if(spaces[x][y] instanceof Piece && spaces[x][y] != null)
+            return this.spaces[x][y];
+        else
+            return null;
+    }
+
     public static void main(String[] args) {
         Board board = new Board();
-        Piece p = board.getPiece(2, 7);
-        int[] move = {2, 6};
-        p.move(move, board.getBoard());
-        int[] move2 = {2, 5};
-        p.move(move2, board.getBoard());
+        System.out.println("Original board created from default constructor");
         board.printBoard();
+
+        System.out.println("Board after converting to a single string");
+        String boardAsString = board.convertBoardToString();
+        System.out.println("\t" + boardAsString);
+
+
+        System.out.println("New board created from string");
+        board.setBoard(board.buildBoardFromString(boardAsString));
+        board.printBoard();
+        System.out.println(board.getAllPieces().size());
     }
 }

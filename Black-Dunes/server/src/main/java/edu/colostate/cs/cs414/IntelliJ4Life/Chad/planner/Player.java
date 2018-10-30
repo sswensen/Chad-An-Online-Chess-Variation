@@ -3,6 +3,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 public class Player {
     private User user;
+    private int UserID;
     private Game game;
     private Color color;
 
