@@ -6,7 +6,6 @@ public class User {
     private String nickName, email;
     private ArrayList<Notification> receivedNotifications = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
-    private int userID;
 
     public User(String nickName, String email) {
         this.nickName = nickName;
@@ -36,14 +35,6 @@ public class User {
 
     public ArrayList<Invite> getSentInvites() {
         return sentInvites;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     /*************
