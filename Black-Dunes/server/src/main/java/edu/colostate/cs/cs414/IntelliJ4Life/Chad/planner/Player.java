@@ -2,34 +2,44 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 
 public class Player {
-    private boolean isTurn;
-    private Color color;
+    private User user;
     private Game game;
+    private Color color;
 
-
-    public Player() {
-        this.isTurn = false;
-        this.color = null;
+    public Player(Color color) {
+        this.user = null;
         this.game = null;
+        this.color = color;
     }
 
-    public Player(boolean isTurn, Color color, Game game) {
-        this.isTurn = isTurn;
-        this.color = color;
+    public Player(User user, Game game, Color color) {
+        this.user = user;
         this.game = game;
+        this.color = color;
     }
 
     /*******************
      * Accessors
      ******************/
-    public Boolean getTurn() { return isTurn; }
+    public User getUser() { return user; }
 
     public Color getColor() { return color; }
-
-    public Game getGame() { return game; }
 
     /*************
      * Public Methods
      *************/
+    public Piece getPiece(int x, int y) {
+        Piece ret = game.getBoard().getPiece(x, y);
+        //Only returns a piece if it can move it
+        if(ret.getColor().equals(this.color))
+            return ret;
+        else
+            return null;
+    }
+
+    public boolean makeMove(Piece piece, int[] move) {
+        return game.makeMove(this, piece, move);
+    }
+
 
 }

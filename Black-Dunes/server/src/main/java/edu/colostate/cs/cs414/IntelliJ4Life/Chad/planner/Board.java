@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Board {
 
     private Piece[][] spaces;
+    private King whiteKing;
+    private King blackKing;
 
     public Board() {
         this.spaces = new Piece[12][12];
@@ -27,7 +29,8 @@ public class Board {
             if (blackStartingPositions[row] != blackStartingPositions[4]) {
                 spaces[x][y] = new Rook(Color.BLACK, blackStartingPositions[row]);
             } else {
-                spaces[x][y] = new King(Color.BLACK, blackStartingPositions[row]);
+                blackKing = new King(Color.BLACK, blackStartingPositions[row]);
+                spaces[x][y] = blackKing;
             }
         }
 
@@ -37,13 +40,22 @@ public class Board {
             if (whiteStartingPositions[row] != whiteStartingPositions[4]) {
                 spaces[x][y] = new Rook(Color.WHITE, whiteStartingPositions[row]);
             } else {
-                spaces[x][y] = new King(Color.WHITE, whiteStartingPositions[row]);
+                whiteKing = new King(Color.WHITE, whiteStartingPositions[row]);
+                spaces[x][y] = whiteKing;
             }
         }
     }
 
     public Piece[][] getBoard() {
         return this.spaces;
+    }
+
+    public King getBlackKing() {
+        return blackKing;
+    }
+
+    public King getWhiteKing() {
+        return whiteKing;
     }
 
     public ArrayList<int[]> getAllPieces() {
