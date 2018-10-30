@@ -11,10 +11,10 @@ public class Game {
     private int turn; // 0 if white, 1 if black
     private int GameID;
 
-    public Game(User user) {
+    public Game(int userID) {
         startTime = null;
         board = null;
-        playerOne = new Player(user, this, Color.WHITE);
+        playerOne = new Player(userID, this, Color.WHITE);
         playerTwo = new Player(Color.BLACK);
     }
 
@@ -24,12 +24,12 @@ public class Game {
         //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
         this.board = new Board(board);
         if(turn == 1) {
-            this. playerOne = new Player(true, Color.WHITE, this);
-            this. playerOne = new Player(false, Color.BLACK, this);
+            this.playerOne = new Player(player1ID, this, Color.WHITE);
+            this.playerOne = new Player(player2ID, this, Color.BLACK);
             this.turn = 1;
         } else {
-            this. playerOne = new Player(false, Color.WHITE, this);
-            this. playerOne = new Player(true, Color.BLACK, this);
+            this.playerOne = new Player(player1ID, this, Color.WHITE);
+            this.playerOne = new Player(player2ID, this, Color.BLACK);
             this.turn = 2;
         }
     }
@@ -59,8 +59,10 @@ public class Game {
         return board;
     }
 
-    public int getTurn() { return turn; }
-    
+    public int getTurn() {
+        return turn;
+    }
+
     public void setBoard(Board board) {
         this.board = board;
     }
@@ -72,52 +74,49 @@ public class Game {
     public void setGameID(int gameID) {
         GameID = gameID;
     }
-  
+
     /*******************
      * Public Methods
      ******************/
-    public Player getPlayer(User user){
-        if(playerOne.getUser().equals(user))
+    public Player getPlayer(User user) {
+        if(playerOne.getUserID() == (user.getUserID()))
             return playerOne;
-        else if(playerTwo.getUser().equals(user))
+        else if(playerTwo.getUserID() == (user.getUserID()))
             return playerTwo;
         else
             return null;
     }
 
     public boolean startGame(User userTwo) {
-        if (userTwo != playerOne.getUser() || !isStarted()) {
-            this.playerTwo = new Player(userTwo, this, Color.BLACK);
+        if(userTwo.getUserID() != playerOne.getUserID() || !isStarted()) {
+            this.playerTwo = new Player(userTwo.getUserID(), this, Color.BLACK);
             this.board = new Board();
             this.startTime = LocalDateTime.now();
             this.turn = 0;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    public boolean isStarted(){
+    public boolean isStarted() {
         return startTime != null;
     }
 
     public boolean isTurn(Player player) {
-        if(player.equals(playerOne)){
+        if(player.equals(playerOne)) {
             return turn == 0;
-        }
-        else if(player.equals(playerTwo)){
+        } else if(player.equals(playerTwo)) {
             return turn == 1;
-        }
-        else
+        } else
             return false;
     }
 
     public boolean makeMove(Player player, Piece piece, int[] move) {
-        if(isTurn(player) && piece.isValid(move, board.getBoard())){
+        if(isTurn(player) && piece.isValid(move, board.getBoard())) {
             //Check if move causes check, and then notify the other player
             if(piece.causesCheck(move, player.getColor(), board.getBoard()))
-                sendCheckNotification(player);
+                // sendCheckNotification(player); // TODO update this
             //Make the move
             piece.move(move, board.getBoard());
             //Update game after move
@@ -125,8 +124,7 @@ public class Game {
             if(isCheckMate())
                 endGame(player);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -134,14 +132,15 @@ public class Game {
     /*******************
      * Helper Methods
      ******************/
-    private void sendCheckNotification(Player player) {
+    // TODO fix this with new storing of user id
+    /*private void sendCheckNotification(Player player) {
         if(player.equals(playerOne))
             playerTwo.getUser().receiveNotification(
                     new Notification(playerOne.getUser().getNickName() + " moved. Now your King is in check!"));
         else
             playerOne.getUser().receiveNotification(
                     new Notification(playerTwo.getUser().getNickName() + " moved. Now your Kind is in check!"));
-    }
+    }*/
 
     private boolean isCheckMate() {
         return (board.getBlackKing().checkmate(board.getBoard()) ||
@@ -149,31 +148,31 @@ public class Game {
     }
 
     private void endGame(Player player) {
-        sendCheckMateNotification(player);
+        //sendCheckMateNotification(player);
         // TODO: save game record and terminate
 
     }
 
-    private void sendCheckMateNotification(Player player) {
+    // TODO fix this with new storing of user id
+    /*private void sendCheckMateNotification(Player player) {
         if(player.equals(playerOne)) {
             playerOne.getUser().receiveNotification(
                     new Notification("Congrats, you won against " + playerTwo.getUser().getNickName() + "!"));
             playerTwo.getUser().receiveNotification(
                     new Notification(playerOne.getUser().getNickName() + " defeated you! Better luck next time!"));
-        }
-        else {
+        } else {
             playerOne.getUser().receiveNotification(
                     new Notification("Congrats, you won against " + playerOne.getUser().getNickName() + "!"));
             playerTwo.getUser().receiveNotification(
                     new Notification(playerOne.getUser().getNickName() + " defeated you! Better luck next time!"));
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         //Setup
         User userOne = new User("Tommy", "Tommy@gmail.com");
         User userTwo = new User("Lindsey", "Lindsey@gmail.com");
-        Game game = new Game(userOne);
+        Game game = new Game(userOne.getUserID());
         game.startGame(userTwo);
         Player playerOne = game.getPlayer(userOne);
         Player playerTwo = game.getPlayer(userTwo);
@@ -182,7 +181,7 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         boolean turn = true;
         //Game Loop
-        while(true){
+        while(true) {
             //Print board
             game.getBoard().printBoard();
             System.out.println();
@@ -195,21 +194,20 @@ public class Game {
 
             //Get piece and move it
             turn = true;
-            while(turn){
+            while(turn) {
                 System.out.print("Enter the position of the piece you want to move(x,y): ");
                 String[] location = sc.nextLine().toString().split(",");
-                if(counter % 2 == 0){
+                if(counter % 2 == 0) {
                     Piece piece = playerOne.getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
-                    if (piece == null)
+                    if(piece == null)
                         continue;
                     System.out.print("Enter the position to move the piece(x,y): ");
                     String[] destination = sc.nextLine().toString().split(",");
                     if(playerOne.makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
                         turn = false;
-                }
-                else{
+                } else {
                     Piece piece = playerTwo.getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
-                    if (piece == null)
+                    if(piece == null)
                         continue;
                     System.out.print("Enter the position to move the piece(x,y): ");
                     String[] destination = sc.nextLine().toString().split(",");
@@ -219,5 +217,5 @@ public class Game {
             }
             counter++;
         }
-    }    
+    }
 }
