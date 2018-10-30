@@ -10,11 +10,28 @@ public class Game {
     private Player playerOne;
     private Player playerTwo;
     private int turn; // 0 if white, 1 if black
+    private int GameID;
 
     public Game() {
         startTime = LocalDateTime.now();
         board = new Board();
         setColors();
+    }
+
+    public Game(int GameID, String startTimeString, String board, int player1ID, int player2ID, int turn) {
+        // Do we need to use the playerIDs?
+        this.GameID = GameID;
+        //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
+        this.board = new Board(board);
+        if(turn == 1) {
+            this. playerOne = new Player(true, Color.WHITE, this);
+            this. playerOne = new Player(false, Color.BLACK, this);
+            this.turn = 1;
+        } else {
+            this. playerOne = new Player(false, Color.WHITE, this);
+            this. playerOne = new Player(true, Color.BLACK, this);
+            this.turn = 2;
+        }
     }
 
     /*******************
@@ -56,4 +73,15 @@ public class Game {
         }
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public int getGameID() {
+        return GameID;
+    }
+
+    public void setGameID(int gameID) {
+        GameID = gameID;
+    }
 }

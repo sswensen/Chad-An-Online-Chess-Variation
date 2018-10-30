@@ -2,6 +2,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 
 public class Player {
+    private int UserID;
     private boolean isTurn;
     private Color color;
     private Game game;
