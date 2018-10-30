@@ -19,6 +19,7 @@ public class Database {
     private int version;
     private String type;
     private String match;
+    private int ID;
     private int limit;
     private ArrayList<Game> games;
 
@@ -29,7 +30,8 @@ public class Database {
     private final static String count = "";
     private final static String search = "";
 
-    public Database() {
+    public Database(int userID) {
+        this.ID = userID;
     }
 
     public Database(String match, int limit) {
@@ -39,10 +41,10 @@ public class Database {
 
     //Both findResults and printJSON came from the slides as a template to start
 
-    private void makeQuery() {
+    private void getCurrentGames() {
         String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
                 "FROM Games g, Users u\n" +
-                "WHERE g.User1ID = u.ID;";
+                "WHERE g.User1ID = " + ID + " AND u.ID = " + ID + ";";
         String dbUrl;
 
         dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
@@ -52,7 +54,28 @@ public class Database {
                 Statement stQuery = conn.createStatement();
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
+                System.out.println("Query: " + query);
                 this.games = getGames(rsQuery);
+            }
+        } catch(Exception e) {
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+    }
+
+    private void updateGame(String gameID, String board) {
+        String query = "UPDATE Games g SET Board = '', Turn\n = ''" +
+                "WHERE g.GameID = " + gameID + ";";
+        String dbUrl;
+
+        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, user, pass);
+                Statement stQuery = conn.createStatement();
+                ResultSet rsQuery = stQuery.executeQuery(query)
+            ) {
+                System.out.println("Query: " + query);
+                // this.games = updateGames(rsQuery);
             }
         } catch(Exception e) {
             System.err.println("Encountered exception: " + e.getMessage());
@@ -74,12 +97,10 @@ public class Database {
         return out;
     }
 
-    private void saveGames() throws SQLException {
-    }
-
     public static void main(String[] args) {
-        Database db = new Database();
-        db.makeQuery();
+        Database db = new Database(1);
+        db.getCurrentGames();
+
         System.out.println("PAUSE");
     }
 

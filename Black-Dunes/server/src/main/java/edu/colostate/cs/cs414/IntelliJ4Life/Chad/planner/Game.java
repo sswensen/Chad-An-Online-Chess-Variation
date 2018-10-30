@@ -21,7 +21,7 @@ public class Game {
     public Game(int GameID, String startTimeString, String board, int player1ID, int player2ID, int turn) {
         // Do we need to use the playerIDs?
         this.GameID = GameID;
-        this.startTime = LocalDateTime.parse(startTimeString);
+        //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
         this.board = new Board(board);
         if(turn == 1) {
             this. playerOne = new Player(true, Color.WHITE, this);
