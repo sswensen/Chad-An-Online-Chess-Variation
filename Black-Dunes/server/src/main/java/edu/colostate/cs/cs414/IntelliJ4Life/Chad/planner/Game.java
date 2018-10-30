@@ -73,4 +73,15 @@ public class Game {
         }
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public int getGameID() {
+        return GameID;
+    }
+
+    public void setGameID(int gameID) {
+        GameID = gameID;
+    }
 }
