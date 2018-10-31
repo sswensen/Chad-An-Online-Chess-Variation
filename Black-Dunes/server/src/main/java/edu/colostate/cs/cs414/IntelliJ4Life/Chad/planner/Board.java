@@ -57,8 +57,16 @@ public class Board {
         return blackKing;
     }
 
+    public void setBlackKing(King blackKing) {
+        this.blackKing = blackKing;
+    }
+
     public King getWhiteKing() {
         return whiteKing;
+    }
+
+    public void setWhiteKing(King whiteKing) {
+        this.whiteKing = whiteKing;
     }
 
     public String convertBoardToString() {
@@ -217,12 +225,14 @@ public class Board {
 
     public void setBoard(Piece[][] newBoard) { this.spaces = newBoard; }
 
-    public ArrayList<int[]> getAllPieces() {
+    public ArrayList<int[]> getAllPieces(Color color) {
         ArrayList<int[]> returnList = new ArrayList<>();
         for (int i = 0; i < this.spaces.length; i++) {
             for(int j = 0; j < this.spaces[0].length; j++) {
                 if (this.spaces[i][j] instanceof Piece) {
-                    returnList.add(this.spaces[i][j].getPosition());
+                    if (this.spaces[i][j].getColor() == color) {
+                        returnList.add(this.spaces[i][j].getPosition());
+                    }
                 }
             }
         }
@@ -249,6 +259,7 @@ public class Board {
         System.out.println("New board created from string");
         board.setBoard(board.buildBoardFromString(boardAsString));
         board.printBoard();
-        System.out.println(board.getAllPieces().size());
+        System.out.println("BLACK pieces: " + board.getAllPieces(Color.BLACK).size());
+        System.out.println("WHITE pieces: " + board.getAllPieces(Color.WHITE).size());
     }
 }
