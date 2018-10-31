@@ -23,6 +23,7 @@ public class Board {
                 {9, 2}, {9, 3}, {9, 4}
         };
 
+        //Add all pieces to spaces using (X, Y) cords stored in blackStartingPositions and whiteStartingPositions
         for(int row = 0; row < blackStartingPositions.length; row++) {
             int x = blackStartingPositions[row][0];
             int y = blackStartingPositions[row][1];
@@ -71,14 +72,13 @@ public class Board {
 
     public String convertBoardToString() {
         ArrayList<int[]> locations = new ArrayList<>();
+        // int[] = {xcord, ycord, piece_type[1->Rook, 2->Queen, 3->King], piece_color[0->Black, 1->White]
+
         for(int i = 0; i < this.spaces.length; i++) {
             for(int j = 0; j < this.spaces[0].length;j++) {
                 if(this.spaces[i][j] instanceof Piece){
                     if(this.spaces[i][j] instanceof Rook) {
                         if (this.spaces[i][j].getColor() == Color.BLACK) {
-                            // int[] = {xcord, ycord, piece_type[1, 2, 3], piece_color[0, 1]
-                            // Piece type 1 == Rook, 2 == Queen, 3 == King
-                            // Color 0 == Black, 1 == White
                             locations.add(new int[]{i, j, 1, 0});
                         } else {
                             locations.add(new int[]{i, j, 1, 1});
@@ -86,8 +86,6 @@ public class Board {
                     }
                     if(this.spaces[i][j] instanceof Queen) {
                         if (this.spaces[i][j].getColor() == Color.BLACK) {
-                            // index 2 = Piece type. 1 == Rook, 2 == Queen, 3 == King
-                            // index 3 = Color. 0 == Black, 1 == White
                             locations.add(new int[]{i, j, 2, 0});
                         } else {
                             locations.add(new int[]{i, j, 2, 1});
@@ -95,8 +93,6 @@ public class Board {
                     }
                     if(this.spaces[i][j] instanceof King) {
                         if (this.spaces[i][j].getColor() == Color.BLACK) {
-                            // index 2 = Piece type. 1 == Rook, 2 == Queen, 3 == King
-                            // index 3 = Color. 0 == Black, 1 == White
                             locations.add(new int[]{i, j, 3, 0});
                         } else {
                             locations.add(new int[]{i, j, 3, 1});
@@ -105,8 +101,8 @@ public class Board {
                 }
             }
         }
-        StringBuilder listString = new StringBuilder();
 
+        StringBuilder listString = new StringBuilder();
         for (int[] loc : locations) {
             int xcord = loc[0];
             int ycord = loc[1];
