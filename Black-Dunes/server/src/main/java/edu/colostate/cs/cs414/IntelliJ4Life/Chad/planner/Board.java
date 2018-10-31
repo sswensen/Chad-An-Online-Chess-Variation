@@ -57,8 +57,16 @@ public class Board {
         return blackKing;
     }
 
+    public void setBlackKing(King blackKing) {
+        this.blackKing = blackKing;
+    }
+
     public King getWhiteKing() {
         return whiteKing;
+    }
+
+    public void setWhiteKing(King whiteKing) {
+        this.whiteKing = whiteKing;
     }
 
     public String convertBoardToString() {

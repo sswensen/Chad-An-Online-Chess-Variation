@@ -3,6 +3,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Game {
     private LocalDateTime startTime;
@@ -146,19 +147,7 @@ public class Game {
         }
     }
 
-    /*******************
-     * Helper Methods
-     ******************/
-    private void sendCheckNotification(Player player) {
-        if(player.equals(playerOne))
-            playerTwo.getUser().receiveNotification(
-                    new Notification(playerOne.getUser().getNickName() + " moved. Now your King is in check!"));
-        else
-            playerOne.getUser().receiveNotification(
-                    new Notification(playerTwo.getUser().getNickName() + " moved. Now your Kind is in check!"));
-    }
-
-    private boolean isCheckMate(Color oppoonentColor) {
+    public boolean isCheckMate(Color oppoonentColor) {
         // first determine if the opposing king is in check
         if (oppoonentColor == Color.BLACK){
             if (!board.getBlackKing().inCheck(board.getBoard())){
@@ -193,7 +182,7 @@ public class Game {
         return true;
     }
 
-    private boolean isStaleMate(Color opponentColor) {
+    public boolean isStaleMate(Color opponentColor) {
         /*
          *  Stalemate occurs when both of the following circumstances are satisfied
          *
@@ -210,18 +199,30 @@ public class Game {
         // Check if King is not in check and can't move anywhere
         if (opponentColor == Color.BLACK){
             if (board.getBlackKing().inCheck(board.getBoard()) ||
-                !(board.getBlackKing().validMoves(board.getBoard()).isEmpty())){
+                    !(board.getBlackKing().validMoves(board.getBoard()).isEmpty())){
                 return false;
             }
         }
         else {
             if (board.getWhiteKing().inCheck(board.getBoard()) ||
-                !(board.getWhiteKing().validMoves(board.getBoard()).isEmpty())){
+                    !(board.getWhiteKing().validMoves(board.getBoard()).isEmpty())){
                 return false;
             }
         }
 
         return true;
+    }
+
+    /*******************
+     * Helper Methods
+     ******************/
+    private void sendCheckNotification(Player player) {
+        if(player.equals(playerOne))
+            playerTwo.getUser().receiveNotification(
+                    new Notification(playerOne.getUser().getNickName() + " moved. Now your King is in check!"));
+        else
+            playerOne.getUser().receiveNotification(
+                    new Notification(playerTwo.getUser().getNickName() + " moved. Now your Kind is in check!"));
     }
 
     private void endGame(Player player, String endType) {
@@ -258,7 +259,7 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         boolean turn = true;
         //Game Loop
-        while(true){
+        while(!game.isCheckMate(Color.BLACK) || !game.isCheckMate(Color.WHITE)){
             //Print board
             game.getBoard().printBoard();
             System.out.println();
@@ -278,6 +279,12 @@ public class Game {
                     Piece piece = playerOne.getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
                     if (piece == null)
                         continue;
+                    ArrayList<int[]> validMoves = piece.validMoves(game.getBoard().getBoard());
+                    System.out.print("Valid moves for " + piece + ": ");
+                    for (int i = 0; i < validMoves.size(); i++){
+                        System.out.print(Arrays.toString(validMoves.get(i)) + " ");
+                    }
+                    System.out.println();
                     System.out.print("Enter the position to move the piece(x,y): ");
                     String[] destination = sc.nextLine().toString().split(",");
                     if(playerOne.makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
@@ -287,6 +294,12 @@ public class Game {
                     Piece piece = playerTwo.getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
                     if (piece == null)
                         continue;
+                    ArrayList<int[]> validMoves = piece.validMoves(game.getBoard().getBoard());
+                    System.out.print("Valid moves for " + piece + ": ");
+                    for (int i = 0; i < validMoves.size(); i++){
+                        System.out.print(Arrays.toString(validMoves.get(i)) + " ");
+                    }
+                    System.out.println();
                     System.out.print("Enter the position to move the piece(x,y): ");
                     String[] destination = sc.nextLine().toString().split(",");
                     if(playerTwo.makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))

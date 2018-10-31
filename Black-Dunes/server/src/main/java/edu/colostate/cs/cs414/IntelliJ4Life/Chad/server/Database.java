@@ -41,26 +41,26 @@ public class Database {
 
     //Both findResults and printJSON came from the slides as a template to start
 
-    private void getCurrentGamesFromDatabase() {
-        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
-                "FROM Games g, Users u\n" +
-                "WHERE g.User1ID = " + ID + " AND u.ID = " + ID + ";";
-        String dbUrl;
-
-        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
-        try {
-            Class.forName(myDriver);
-            try(Connection conn = DriverManager.getConnection(dbUrl, user, pass);
-                Statement stQuery = conn.createStatement();
-                ResultSet rsQuery = stQuery.executeQuery(query)
-            ) {
-                System.out.println("Query: " + query);
-                this.games = parseGamesFromResultSet(rsQuery);
-            }
-        } catch(Exception e) {
-            System.err.println("Encountered exception: " + e.getMessage());
-        }
-    }
+//    private void getCurrentGamesFromDatabase() {
+//        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
+//                "FROM Games g, Users u\n" +
+//                "WHERE g.User1ID = " + ID + " AND u.ID = " + ID + ";";
+//        String dbUrl;
+//
+//        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+//        try {
+//            Class.forName(myDriver);
+//            try(Connection conn = DriverManager.getConnection(dbUrl, user, pass);
+//                Statement stQuery = conn.createStatement();
+//                ResultSet rsQuery = stQuery.executeQuery(query)
+//            ) {
+//                System.out.println("Query: " + query);
+//                this.games = parseGamesFromResultSet(rsQuery);
+//            }
+//        } catch(Exception e) {
+//            System.err.println("Encountered exception: " + e.getMessage());
+//        }
+//    }
 
     private void updateGameInDatabase(int gameID, String board, int turn) {
         String query = "UPDATE Games g SET Board = \'" + board + "\', Turn\n = " + turn +
