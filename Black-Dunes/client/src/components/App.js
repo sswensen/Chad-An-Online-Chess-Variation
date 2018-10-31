@@ -12,7 +12,8 @@ class App extends Component {
     this.pages = [
       { title: 'T00 TripCo', page: 'home', link: '/'},
       { title: 'Calculator', page: 'calc', link: '/calculator'},
-      { title: 'Options', page: 'options', link: '/options' }
+        { title: 'Options', page: 'options', link: '/options' },
+        { title: 'Login', page: 'login', link: '/login' }
     ]
   }
 

@@ -3,9 +3,9 @@ import {Container} from 'reactstrap'
 import Info from './Info'
 import Options from './Options'
 import Calculator from './Calculator/Calculator'
+import Login from "./Login"
 
 import {get_config, request} from '../../api/api'
-import Login from "./Login";
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -15,7 +15,8 @@ class Application extends Component {
         super(props);
         this.state = {
             config: null,
-            user: {},
+            username: 'null',
+            password: 'null',
             trip: {
                 type: "trip",
                 title: "",
@@ -30,6 +31,9 @@ class Application extends Component {
         this.updateTrip = this.updateTrip.bind(this);
         this.updateBasedOnResponse = this.updateBasedOnResponse.bind(this);
         this.updateOptions = this.updateOptions.bind(this);
+        this.updateLogin = this.updateLogin.bind(this);
+        this.updateUsername = this.updateUsername.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
     }
 
     componentWillMount() {
@@ -58,24 +62,17 @@ class Application extends Component {
         this.setState(trip);
     }
 
-    async updateLogin(username, password) {
-        try {
-            console.log("Asking for trips...");
-            let stuff = await
-                fetch(`http://localhost:4567/getTrips?num=all`);
-            //console.log("Url:", `http://localhost:4567/getTrips?num=all`);
-            let json = await
-                stuff.json();
-            let obj = {};
-            json.forEach(elem => obj[elem.name] = elem);
-            this.setState({
-                user: obj,
-            });
-            console.log("Received trips", obj);
-        }
-        catch (e) {
-            console.error(e);
-        }
+    updateUsername(user) {
+        this.setState({username: user});
+    }
+
+    updatePassword(pass) {
+        this.setState({password: pass})
+    }
+
+    async updateLogin() {
+        console.log(this.state.username);
+        console.log(this.state.password);
     }
 
     render() {
@@ -89,7 +86,7 @@ class Application extends Component {
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
                 case 'login':
-                    return <Login updateLogin={this.updateLogin}/>;
+                    return <Login updateUsername={this.updateUsername} updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
                 default:
                     return <div/>;
             }

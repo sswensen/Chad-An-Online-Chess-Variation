@@ -77,9 +77,8 @@ public class Database {
     }
 
     public boolean registerUserInDatabase(String username, String nickname, String email, String password) {
-        // TODO verify that user does not already exist
         if(checkIfUserExistsInDatabase(username, email)) {
-            // TODO needs to prompt again for new email/username
+            // TODO caller needs to prompt again for new email/username
             return false;
         }
         String query = "INSERT INTO Users (" +

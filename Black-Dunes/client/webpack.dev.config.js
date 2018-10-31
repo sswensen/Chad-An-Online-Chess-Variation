@@ -1,8 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
 
-const dev_port = 31401;
-const server_port = 31400;
+const dev_port = 7777;
+const server_port = 7778;
 
 module.exports = {
   devtool: 'source-map',
