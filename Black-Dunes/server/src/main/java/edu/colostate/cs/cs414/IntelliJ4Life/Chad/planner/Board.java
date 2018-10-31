@@ -76,8 +76,9 @@ public class Board {
                 if(this.spaces[i][j] instanceof Piece){
                     if(this.spaces[i][j] instanceof Rook) {
                         if (this.spaces[i][j].getColor() == Color.BLACK) {
-                            // index 2 = Piece type. 1 == Rook, 2 == Queen, 3 == King
-                            // index 3 = Color. 0 == Black, 1 == White
+                            // int[] = {xcord, ycord, piece_type[1, 2, 3], piece_color[0, 1]
+                            // Piece type 1 == Rook, 2 == Queen, 3 == King
+                            // Color 0 == Black, 1 == White
                             locations.add(new int[]{i, j, 1, 0});
                         } else {
                             locations.add(new int[]{i, j, 1, 1});
@@ -107,11 +108,11 @@ public class Board {
         StringBuilder listString = new StringBuilder();
 
         for (int[] loc : locations) {
-            int a = loc[0];
-            int b = loc[1];
-            int c = loc[2];
-            int d = loc[3];
-            listString.append(a + "," + b + "," + c + "," + d + " ");
+            int xcord = loc[0];
+            int ycord = loc[1];
+            int pieceType = loc[2];
+            int pieceColor = loc[3];
+            listString.append(xcord + "," + ycord + "," + pieceType + "," + pieceColor + " ");
         }
 
         String boardAsString = listString.toString();
@@ -133,32 +134,32 @@ public class Board {
         Piece[][] board = new Piece[12][12];
 
         for(int location = 0; location < allLocations.size(); location++) {
-            int a = allLocations.get(location)[0]; // TODO fix variable names SANDEEP!!!
-            int b = allLocations.get(location)[1];
-            int c = allLocations.get(location)[2];
-            int d = allLocations.get(location)[3];
-            if (c == 1) {
-                if (d == 0) {
-                    board[a][b] = new Rook(Color.BLACK, new int[]{a, b});
+            int xCord = allLocations.get(location)[0];
+            int yCord = allLocations.get(location)[1];
+            int pieceType = allLocations.get(location)[2];
+            int pieceColor = allLocations.get(location)[3];
+            if (pieceType == 1) {
+                if (pieceColor == 0) {
+                    board[xCord][yCord] = new Rook(Color.BLACK, new int[]{xCord, yCord});
                 } else {
-                    board[a][b] = new Rook(Color.WHITE, new int[]{a, b});
+                    board[xCord][yCord] = new Rook(Color.WHITE, new int[]{xCord, yCord});
                 }
             }
-            if (c == 2) {
-                if (d == 0) {
-                    board[a][b] = new Queen(Color.BLACK, new int[]{a, b});
+            if (pieceType == 2) {
+                if (pieceColor == 0) {
+                    board[xCord][yCord] = new Queen(Color.BLACK, new int[]{xCord, yCord});
                 } else {
-                    board[a][b] = new Queen(Color.WHITE, new int[]{a, b});
+                    board[xCord][yCord] = new Queen(Color.WHITE, new int[]{xCord, yCord});
                 }
             }
-            if (c == 3) {
-                if (d == 0) {
-                    King k = new King(Color.BLACK, new int[]{a, b});
-                    board[a][b] = k;
+            if (pieceType == 3) {
+                if (pieceColor == 0) {
+                    King k = new King(Color.BLACK, new int[]{xCord, yCord});
+                    board[xCord][yCord] = k;
                     blackKing = k;
                 } else {
-                    King k = new King(Color.WHITE, new int[]{a, b});
-                    board[a][b] = k;
+                    King k = new King(Color.WHITE, new int[]{xCord, yCord});
+                    board[xCord][yCord] = k;
                     whiteKing = k;
                 }
             }
