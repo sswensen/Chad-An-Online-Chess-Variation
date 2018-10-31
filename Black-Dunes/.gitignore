@@ -1,6 +1,8 @@
 # Hidden Files (override with 'add -f') #
 .*
 !.gitignore
+!.travis.yml
+!.codeclimate.yml
 !/.css
 
 # IntelliJ generated files #

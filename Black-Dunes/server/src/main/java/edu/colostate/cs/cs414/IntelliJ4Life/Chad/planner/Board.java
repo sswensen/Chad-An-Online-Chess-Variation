@@ -133,7 +133,7 @@ public class Board {
         Piece[][] board = new Piece[12][12];
 
         for(int location = 0; location < allLocations.size(); location++) {
-            int a = allLocations.get(location)[0];
+            int a = allLocations.get(location)[0]; // TODO fix variable names SANDEEP!!!
             int b = allLocations.get(location)[1];
             int c = allLocations.get(location)[2];
             int d = allLocations.get(location)[3];
@@ -153,11 +153,13 @@ public class Board {
             }
             if (c == 3) {
                 if (d == 0) {
-                    blackKing = new King(Color.BLACK, new int[]{a, b});
-                    board[a][b] = blackKing;
+                    King k = new King(Color.BLACK, new int[]{a, b});
+                    board[a][b] = k;
+                    blackKing = k;
                 } else {
-                    whiteKing = new King(Color.WHITE, new int[]{a, b});
-                    board[a][b] = whiteKing;
+                    King k = new King(Color.WHITE, new int[]{a, b});
+                    board[a][b] = k;
+                    whiteKing = k;
                 }
             }
         }

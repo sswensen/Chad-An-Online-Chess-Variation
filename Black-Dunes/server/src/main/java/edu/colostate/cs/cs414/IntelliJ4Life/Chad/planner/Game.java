@@ -25,14 +25,14 @@ public class Game {
         this.GameID = GameID;
         //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
         this.board = new Board(board);
-        if(turn == 1) {
-            this. playerOne = new Player(true, Color.WHITE, this);
-            this. playerOne = new Player(false, Color.BLACK, this);
-            this.turn = 1;
+        if(turn == 0) {
+            //this. playerOne = new Player(true, Color.WHITE, this);
+            //this. playerOne = new Player(false, Color.BLACK, this);
+            this.turn = 0;
         } else {
-            this. playerOne = new Player(false, Color.WHITE, this);
-            this. playerOne = new Player(true, Color.BLACK, this);
-            this.turn = 2;
+            //this. playerOne = new Player(false, Color.WHITE, this);
+            //this. playerOne = new Player(true, Color.BLACK, this);
+            this.turn = 1;
         }
     }
 

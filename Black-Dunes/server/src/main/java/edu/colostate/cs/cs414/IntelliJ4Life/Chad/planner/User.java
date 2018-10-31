@@ -3,6 +3,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import java.util.ArrayList;
 
 public class User {
+    private int userID;
     private String nickName, email;
     private ArrayList<Notification> receivedNotifications = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
@@ -35,6 +36,14 @@ public class User {
 
     public ArrayList<Invite> getSentInvites() {
         return sentInvites;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     /*************
