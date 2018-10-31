@@ -9,6 +9,11 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 class App extends Component {
   constructor (props){
     super(props);
+    this.pages = [
+      { title: 'T00 TripCo', page: 'home', link: '/'},
+      { title: 'Calculator', page: 'calc', link: '/calculator'},
+      { title: 'Options', page: 'options', link: '/options' }
+    ]
   }
 
   reactiveRouter(routes) {
@@ -17,7 +22,7 @@ class App extends Component {
         <div id="App">
           <Route render={({ location }) => (
             <div>
-              <Header/>
+              <Header pages={this.pages}/>
               <TransitionGroup>
                 <CSSTransition
                   key={location.pathname}
@@ -39,9 +44,10 @@ class App extends Component {
   }
 
   render() {
-    const routes = [
-        <Route exact path={'/'} key="route_home" render={() => <Application page={'home'}/>} />
-    ]
+    const routes = this.pages.map( (element) =>
+        <Route exact path={element['link']} key={"route_".concat(element['page'])}
+          render={() => <Application page={element['page']}/>}/>
+      );
     return ( <div> { this.reactiveRouter(routes) } </div> )
   }
 }

@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import {Card, CardHeader, CardBody} from 'reactstrap'
+import {Container, Card, CardHeader, CardBody} from 'reactstrap'
 
 export default class Info extends Component {
   render() {
     return (
-      <div>
+      <Container>
         <Card>
           <CardBody>
             <p className="lead">"Want to travel far and wide?"</p>
@@ -22,7 +22,7 @@ export default class Info extends Component {
             </ol>
           </CardBody>
         </Card>
-      </div>
+      </Container>
     )
   }
 }

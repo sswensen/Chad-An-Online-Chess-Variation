@@ -44,7 +44,7 @@ class Header extends Component{
     return(
       <div>
         {this.topLevelHeader()}
-        <Navigation/>
+        <Navigation pages={this.props.pages}/>
         <div className="add-title"/> {/* Background box to header */}
       </div>
     );
