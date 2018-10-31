@@ -13,6 +13,12 @@ public class User {
         this.email = email;
     }
 
+    public User(int userID, String nickName, String email) {
+        this.userID = userID;
+        this.nickName = nickName;
+        this.email = email;
+    }
+
     /************
      * Accessors
      ***********/
@@ -87,5 +93,16 @@ public class User {
 
     public boolean cancelInvitation(Invite invite) {
         return sentInvites.contains(invite) && invite.cancel();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", nickName='" + nickName + '\'' +
+                ", email='" + email + '\'' +
+                ", receivedNotifications=" + receivedNotifications +
+                ", sentInvites=" + sentInvites +
+                '}';
     }
 }
