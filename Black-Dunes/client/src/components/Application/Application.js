@@ -6,6 +6,7 @@ import Calculator from './Calculator/Calculator'
 import Login from "./Login"
 
 import {get_config, request} from '../../api/api'
+import Logout from "./Logout";
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -15,7 +16,7 @@ class Application extends Component {
         super(props);
         this.state = {
             config: null,
-            userID: '',
+            userID: '-1',
             error: '',
             username: 'null',
             password: 'null',
@@ -34,6 +35,7 @@ class Application extends Component {
         this.updateBasedOnResponse = this.updateBasedOnResponse.bind(this);
         this.updateOptions = this.updateOptions.bind(this);
         this.updateLogin = this.updateLogin.bind(this);
+        this.clearLogin = this.clearLogin.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
     }
@@ -56,14 +58,17 @@ class Application extends Component {
 
     updateBasedOnResponse(value) {
         console.log("User ID Returned from database is " + value);
-        if(value > -1) {
+        if (value > -1) {
             this.setState({
-                    'userID': value,
+                'userID': value,
                 'error': 'Logged in successfully!'
             });
+            //window.location = './'; // This actually does a refresh which is what we don't want because it clears the userID
+            window.location = './#';
         } else {
             this.setState({'error': 'Invalid username or password!'})
         }
+        this.props.updateAuth(value);
     }
 
     updateOptions(option, value) {
@@ -81,8 +86,8 @@ class Application extends Component {
     }
 
     async updateLogin(username, password) {
-        console.log(username);
-        console.log(password);
+        //console.log(username);
+        //console.log(password);
         let user = {
             username: username,
             password: password
@@ -92,6 +97,15 @@ class Application extends Component {
         updated.then((values) => {
             this.updateBasedOnResponse(values)
         });
+    }
+
+    clearLogin() {
+        this.setState({
+            'userID': -1,
+            'error': 'Logged out successfully!'
+        });
+        this.props.updateAuth(-1);
+        window.location = './#/login';
     }
 
     render() {
@@ -105,7 +119,10 @@ class Application extends Component {
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
                 case 'login':
-                    return <Login error={this.state.error} updateUsername={this.updateUsername} updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
+                    return <Login error={this.state.error} updateUsername={this.updateUsername}
+                                  updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
+                case 'logout':
+                    return <Logout clearLogin={this.clearLogin}/>;
                 default:
                     return <div/>;
             }

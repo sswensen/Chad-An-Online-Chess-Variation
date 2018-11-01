@@ -8,17 +8,13 @@ import {request} from "../../api/api";
  * The options reside in the parent object so they may be shared with the Trip object.
  * Allows the user to set the options used by the application via a set of buttons.
  */
-class Login extends Component {
+class Logout extends Component {
     constructor() {
         super();
         this.state = {
-            username: '',
-            password: '',
             error: '',
         };
 
-        this.handlePassChange = this.handlePassChange.bind(this);
-        this.handleUserChange = this.handleUserChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.dismissError = this.dismissError.bind(this);
     }
@@ -36,28 +32,8 @@ class Login extends Component {
     handleSubmit(evt) {
         evt.preventDefault();
 
-        if (!this.state.username) {
-            return this.setState({error: 'Username is required'});
-        }
-
-        if (!this.state.password) {
-            return this.setState({error: 'Password is required'});
-        }
-
-        this.props.updateLogin(this.state.username, this.state.password);
-        return this.setState({error: ''});
-    }
-
-    handleUserChange(evt) {
-        this.setState({
-            username: evt.target.value,
-        });
-    };
-
-    handlePassChange(evt) {
-        this.setState({
-            password: evt.target.value,
-        });
+        this.props.clearLogin();
+        return this.setState({error: 'Successfully logged out'});
     }
 
     create_input_fields(title) {
@@ -75,22 +51,8 @@ class Login extends Component {
 
                 }
 
-                <Col md={2} lg={2}>
-                    <Label>{title}</Label>
-                </Col>
-                <Col sm={6} md={4} lg={4}>
-                    <Input style={{width: "100%"}} placeholder="Username" type="text"
-                           data-test="username" value={this.state.username}
-                           onChange={this.handleUserChange}/>
-                </Col>
-                <Col sm={6} md={4} lg={4}>
-                    <Input style={{width: "100%"}} placeholder="Password" type="password"
-                           data-test="password" value={this.state.password}
-                           onChange={this.handlePassChange}/>
-                </Col>
-
                 <Button sm={6} md={2} lg={2}
-                        type="submit" value="Log In" data-test="submit">Submit
+                        type="submit" value="Log Out" data-test="submit">Logout?
                 </Button>
             </Form>
         );
@@ -104,8 +66,8 @@ class Login extends Component {
             <Container>
                 <Card>
                     <CardBody>
-                        <div className="Login">
-                            {this.create_input_fields('Login')}
+                        <div className="Logout">
+                            {this.create_input_fields('Logout')}
 
                         </div>
                     </CardBody>
@@ -115,4 +77,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default Logout;
