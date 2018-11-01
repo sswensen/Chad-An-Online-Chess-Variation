@@ -1,5 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
+
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -130,7 +132,10 @@ public class Game {
             turn = Math.abs(turn - 1);
             if(isCheckMate())
                 endGame(player);
-
+            else{//Update game if the move is valid and the game is still going
+                Database db = new Database();
+                db.updateGameInDatabase(GameID, board.convertBoardToString(), turn);
+            }
             return true;
         }
         else {

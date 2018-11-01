@@ -62,7 +62,7 @@ public class Database {
                 Statement stQuery = conn.createStatement();
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
-                System.out.println("Query: " + query);
+                //System.out.println("Query: " + query);
                 this.games = parseGamesFromResultSet(rsQuery);
             }
         } catch(Exception e) {
@@ -110,7 +110,7 @@ public class Database {
                     Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
                     ResultSet rsQuery = stQuery.executeQuery(query)
                 ) {
-                    System.out.println("Query: " + query);
+                    //System.out.println("Query: " + query);
                     ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
                     if(userList.size() == 1) {
                         user = userList.get(0);
@@ -143,7 +143,7 @@ public class Database {
                     Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
                     ResultSet rsQuery = stQuery.executeQuery(query)
                 ) {
-                    System.out.println("Query: " + query);
+                    //System.out.println("Query: " + query);
                     ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
                     if(userList.size() == 1) {
                         user = userList.get(0);
@@ -227,7 +227,7 @@ public class Database {
             Class.forName(myDriver);
             Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
             Statement stQuery = conn.createStatement();
-            System.out.println("Query: " + query);
+            //System.out.println("Query: " + query);
             int ret = stQuery.executeUpdate(query);
             if(ret > -1) {
                 return true;
@@ -249,7 +249,7 @@ public class Database {
                 Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
-                System.out.println("Query: " + query);
+                //System.out.println("Query: " + query);
                 rsQuery.next(); // This is needed to do a get string on the rsQuery because the iterator index is at -1 to start
                 return Integer.parseInt(rsQuery.getString("Count"));
             }
