@@ -19,6 +19,13 @@ public class User {
         this.email = email;
     }
 
+    public User(int userID, String username, String nickName, String email) {
+        this.userID = userID;
+        this.username = username;
+        this.nickName = nickName;
+        this.email = email;
+    }
+
     /************
      * Accessors
      ***********/
