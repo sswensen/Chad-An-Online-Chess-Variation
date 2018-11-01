@@ -111,7 +111,7 @@ class Navigation extends Component {
 
     render() {
         //console.log("[Navigation] Auth is: " + this.state.auth);
-        (this.state.auth > -1 ? console.log(this.state.auth+";") : console.log(this.state.auth+":"));
+        //(this.state.auth > -1 ? console.log(this.state.auth+";") : console.log(this.state.auth+":"));
         let width = this.state.window_width;
         if (width < 768) {
             const c_links = this.collapsible_links();

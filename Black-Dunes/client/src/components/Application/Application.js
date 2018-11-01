@@ -57,7 +57,7 @@ class Application extends Component {
     }
 
     updateBasedOnResponse(value) {
-        console.log("User ID Returned from database is " + value);
+        //console.log("User ID Returned from database is " + value);
         if (value > -1) {
             this.setState({
                 'userID': value,

@@ -67,7 +67,7 @@ class App extends Component {
     }
 
     updateAuth(auth) {
-        console.log("Auth updated to " + auth);
+        //console.log("Auth updated to " + auth);
         this.setState({
             auth: auth,
         });
