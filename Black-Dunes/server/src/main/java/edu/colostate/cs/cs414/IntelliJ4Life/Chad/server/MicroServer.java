@@ -1,5 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Session;
+
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -40,6 +42,7 @@ public class MicroServer {
     // client is sending data, so a HTTP POST is used instead of a GET
     get("/config", this::config);
     post("/plan", this::plan);
+    post("/login", this::login);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -126,5 +129,20 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     return name;
+  }
+
+  /** A REST API that returns the team information associated with the server.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String login(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println();
+    return new Session(request).getUser();
   }
 }

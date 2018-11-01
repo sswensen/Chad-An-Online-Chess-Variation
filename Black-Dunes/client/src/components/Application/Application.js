@@ -70,9 +70,9 @@ class Application extends Component {
         this.setState({password: pass})
     }
 
-    async updateLogin() {
-        console.log(this.state.username);
-        console.log(this.state.password);
+    async updateLogin(username, password) {
+        console.log(username);
+        console.log(password);
     }
 
     render() {
