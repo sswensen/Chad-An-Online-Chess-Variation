@@ -72,7 +72,11 @@ public class Game {
     public void setGameID(int gameID) {
         GameID = gameID;
     }
-  
+
+    public Player getPlayerOne() { return playerOne; }
+
+    public Player getPlayerTwo() { return playerTwo; }
+
     /*******************
      * Public Methods
      ******************/

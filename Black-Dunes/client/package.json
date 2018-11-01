@@ -14,6 +14,7 @@
     "cross-env": "^5.1.1",
     "css-loader": "^1.0.0",
     "file-loader": "^1.1.11",
+    "maven": "^4.4.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.3.1",
