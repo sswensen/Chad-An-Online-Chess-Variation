@@ -87,17 +87,19 @@ public class Database {
                 "Email, " +
                 "Pass" +
                 ") VALUES (" +
-                "'" + username + "', " +
+                "'" + username.toLowerCase() + "', " +
                 "'" + nickname + "', " +
-                "'" + email + "', " +
+                "'" + email.toLowerCase() + "', " +
                 "'" + password + "'" +
                 ");\n";
         return sendUpdateQueryToDatabase(query);
     }
 
     public User getUserFromDatabase(String username, String password) {
+        username = username.toLowerCase();
+        password = password.toLowerCase();
         if(checkIfUserExistsInDatabase(username)) {
-            String query = "SELECT ID, Nickname, Email " +
+            String query = "SELECT ID, Username, Nickname, Email " +
                     "FROM Users " +
                     "WHERE Username = \'" + username + "\' " +
                     "AND Pass = \'" + password + "\';";
@@ -113,8 +115,7 @@ public class Database {
                     //System.out.println("Query: " + query);
                     ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
                     if(userList.size() == 1) {
-                        user = userList.get(0);
-                        auth = true;
+                        authenticateUser(userList.get(0));
                         return userList.get(0);
                     } else if(userList.size() == 0){
                         System.err.println("Username/password incorrect");
@@ -126,12 +127,13 @@ public class Database {
                 System.err.println("Encountered exception: " + e.getMessage());
             }
         }
+        // If no user found with supplied username and password, return a user with -1 as ID
         return new User(-1, "", "");
     }
 
     public User getUserFromDatabaseByID(int id) {
         if(checkIfUserExistsInDatabaseByID(id)) {
-            String query = "SELECT ID, Nickname, Email " +
+            String query = "SELECT ID, Username, Nickname, Email " +
                     "FROM Users " +
                     "WHERE ID = \'" + id + "\';";
             String dbUrl;
@@ -146,8 +148,8 @@ public class Database {
                     //System.out.println("Query: " + query);
                     ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
                     if(userList.size() == 1) {
-                        user = userList.get(0);
-                        auth = true;
+                        //user = userList.get(0);
+                        //auth = true;
                         return userList.get(0);
                     } else if(userList.size() == 0){
                         System.err.println("No users found");
@@ -172,7 +174,7 @@ public class Database {
     }
 
     private boolean checkIfUserExistsInDatabase(String username) {
-        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username + "\';";
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
         if(getCountAllFromDatabase(usernameQuery) > 0) {
             //System.err.println("User already exists");
             return true;
@@ -181,8 +183,8 @@ public class Database {
     }
 
     private boolean checkIfUserExistsInDatabase(String username, String email) {
-        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username + "\';";
-        String emailQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Email = \'" + email + "\';";
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
+        String emailQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Email = \'" + email.toLowerCase() + "\';";
         if(getCountAllFromDatabase(usernameQuery) > 0 || getCountAllFromDatabase(emailQuery) > 0) {
             //System.err.println("User already exists");
             return true;
@@ -211,10 +213,11 @@ public class Database {
         ArrayList<User> out = new ArrayList<User>();
         while(rs.next()) {
             int userID = Integer.parseInt(rs.getString("ID"));
+            String username = rs.getString("Username");
             String nickName = rs.getString("Nickname");
             String email = rs.getString("Email");
 
-            out.add(new User(userID, nickName, email));
+            out.add(new User(userID, username, nickName, email));
         }
         return out;
     }
@@ -260,6 +263,11 @@ public class Database {
         return -1;
     }
 
+    private void authenticateUser(User user) {
+        this.user = user;
+        this.auth = true;
+    }
+
     public ArrayList<Game> getGames() {
         return games;
     }
@@ -283,7 +291,6 @@ public class Database {
 
         Boolean b = db.registerUserInDatabase("sswensen", "swenyjr", "sswensen@email.com", "mypassword");
         System.out.println(b);
-
     }
 
 }

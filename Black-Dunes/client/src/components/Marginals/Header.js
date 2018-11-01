@@ -24,9 +24,9 @@ class Header extends Component{
                    width="113" height="45" alt="Colorado State University"/>
             </a>
             <div id="responsiveLogoSubsystem">
-              <a href={"https://compsci.colostate.edu/"} id="csHeaderLink" target="_blank">
+              <a href={"./"} id="csHeaderLink">
                 <h1 className="larger-CSUtext-upper">
-                  Computer Science
+                  Chad is Rad
                 </h1>
               </a>
             </div>
