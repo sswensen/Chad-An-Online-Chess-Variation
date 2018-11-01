@@ -20,7 +20,7 @@ public class Session {
 
         // Print games
         //System.out.println("\n\n\n");
-        System.out.println(u.getUsername() + " has " + games.size() + " games to play:");
+        System.out.println(u.getNickName() + " has " + games.size() + " games to play:");
         int choice = 0;
         for (Game game: games) {
             System.out.println(choice++ + " - " + game.getPlayerOne().getUser().getNickName() + " vs. "
