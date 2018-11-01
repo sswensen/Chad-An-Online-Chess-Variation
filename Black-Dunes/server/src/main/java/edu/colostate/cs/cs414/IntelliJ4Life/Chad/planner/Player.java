@@ -33,6 +33,8 @@ public class Player {
     public Piece getPiece(int x, int y) {
         Piece ret = game.getBoard().getPiece(x, y);
         //Only returns a piece if it can move it
+        if(ret == null)
+            return null;
         if(ret.getColor().equals(this.color))
             return ret;
         else
