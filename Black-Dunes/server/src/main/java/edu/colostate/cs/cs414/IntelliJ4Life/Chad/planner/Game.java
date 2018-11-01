@@ -60,6 +60,8 @@ public class Game {
     }
 
     public int getTurn() { return turn; }
+
+    public void setTurn(int turn) { this.turn = turn; }
     
     public void setBoard(Board board) {
         this.board = board;

@@ -1,6 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Piece;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Session {
 
         // Select game
         Scanner sc = new Scanner(System.in);
-        choice = sc.nextInt();
+        choice = sc.nextInt(); sc.nextLine();
         Game game = games.get(choice);
         System.out.println("Resuming - " + game.getPlayerOne().getUser().getNickName() + " vs. "
                 + game.getPlayerTwo().getUser().getNickName());
@@ -34,7 +35,30 @@ public class Session {
         boolean playing = true;
         while(playing){
             game.getBoard().printBoard();
-
+            if(game.getTurn() == 0){ //PlayerOne's turn
+                System.out.println("WHITE's turn");
+                System.out.print("Enter the position of the piece you want to move(x,y): ");
+                String[] location = sc.nextLine().toString().split(",");
+                Piece piece = game.getPlayerOne().getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
+                if (piece == null)
+                    continue;
+                System.out.print("Enter the position to move the piece(x,y): ");
+                String[] destination = sc.nextLine().toString().split(",");
+                if(!game.getPlayerOne().makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
+                    game.setTurn(Math.abs(game.getTurn() - 1));
+            }
+            else{ //PlayerTwo's turn
+                System.out.println("BLACK's turn");
+                System.out.print("Enter the position of the piece you want to move(x,y): ");
+                String[] location = sc.nextLine().toString().split(",");
+                Piece piece = game.getPlayerTwo().getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
+                if (piece == null)
+                    continue;
+                System.out.print("Enter the position to move the piece(x,y): ");
+                String[] destination = sc.nextLine().toString().split(",");
+                if(!game.getPlayerTwo().makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
+                    game.setTurn(Math.abs(game.getTurn() - 1));
+            }
         }
     }
 }
