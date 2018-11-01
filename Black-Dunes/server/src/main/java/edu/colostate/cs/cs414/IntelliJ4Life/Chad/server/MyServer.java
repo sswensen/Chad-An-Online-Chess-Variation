@@ -15,9 +15,8 @@ public class MyServer {
    ** @param args command line arguments optionally containing port and team name.
    */
   public static void main(String[] args) {
-
+    Session session = new Session();
     MicroServer server = new MicroServer(getPort(args), getName(args));
-
   }
 
   /** Obtain the port number from the command line arguments.  Defaults if none provided.

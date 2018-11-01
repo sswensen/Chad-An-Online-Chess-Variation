@@ -8,7 +8,7 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import org.json.JSONObject;
 import spark.Request;
 
-public class Session {
+public class LoginSession {
     private LoginUser user;
     private User authUser;
 
@@ -19,7 +19,7 @@ public class Session {
      * @param request
      */
 
-    public Session(Request request) {
+    public LoginSession(Request request) {
         // first print the request
         System.out.println(HTTP.echoRequest(request));
 

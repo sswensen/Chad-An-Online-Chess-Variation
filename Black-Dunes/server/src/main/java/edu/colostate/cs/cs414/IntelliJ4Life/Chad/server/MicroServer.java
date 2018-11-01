@@ -1,6 +1,6 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Session;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
 
 import spark.Request;
 import spark.Response;
@@ -143,6 +143,6 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     System.out.println();
-    return new Session(request).getUserID(); // Send back user id, THIS IS INSECURE
+    return new LoginSession(request).getUserID(); // Send back user id, THIS IS INSECURE
   }
 }

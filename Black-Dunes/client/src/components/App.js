@@ -10,7 +10,7 @@ class App extends Component {
   constructor (props){
     super(props);
     this.pages = [
-      { title: 'T00 TripCo', page: 'home', link: '/'},
+      { title: 'Home', page: 'home', link: '/'},
       { title: 'Calculator', page: 'calc', link: '/calculator'},
         { title: 'Options', page: 'options', link: '/options' },
         { title: 'Login', page: 'login', link: '/login' }
