@@ -126,7 +126,7 @@ public class Database {
                 System.err.println("Encountered exception: " + e.getMessage());
             }
         }
-        return null;
+        return new User(-1, "", "");
     }
 
     private boolean checkIfUserExistsInDatabase(String username) {

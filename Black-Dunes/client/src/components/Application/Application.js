@@ -16,6 +16,7 @@ class Application extends Component {
         this.state = {
             config: null,
             userID: '',
+            error: '',
             username: 'null',
             password: 'null',
             trip: {
@@ -55,7 +56,14 @@ class Application extends Component {
 
     updateBasedOnResponse(value) {
         console.log("User ID Returned from database is " + value);
-        this.setState({'userID': value});
+        if(value > -1) {
+            this.setState({
+                    'userID': value,
+                'error': 'Logged in successfully!'
+            });
+        } else {
+            this.setState({'error': 'Invalid username or password!'})
+        }
     }
 
     updateOptions(option, value) {
@@ -97,7 +105,7 @@ class Application extends Component {
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
                 case 'login':
-                    return <Login updateUsername={this.updateUsername} updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
+                    return <Login error={this.state.error} updateUsername={this.updateUsername} updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
                 default:
                     return <div/>;
             }

@@ -23,6 +23,12 @@ class Login extends Component {
         this.dismissError = this.dismissError.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            error: nextProps.error
+        });
+    }
+
     dismissError() {
         this.setState({error: ''});
     }
@@ -59,10 +65,14 @@ class Login extends Component {
             <Form inline onSubmit={this.handleSubmit}>
                 {
                     this.state.error &&
-                    <h3 data-test="error" onClick={this.dismissError}>
-                        <button onClick={this.dismissError}>✖</button>
-                        {this.state.error}
-                    </h3>
+                    <Col md={2} lg={2}>
+
+                        <Label data-test="error" onClick={this.dismissError}>
+                            <button onClick={this.dismissError}>✖</button>
+                            {this.state.error}
+                        </Label>
+                    </Col>
+
                 }
 
                 <Col md={2} lg={2}>
@@ -80,7 +90,7 @@ class Login extends Component {
                 </Col>
 
                 <Button sm={6} md={2} lg={2}
-                    type="submit" value="Log In" data-test="submit">Submit
+                        type="submit" value="Log In" data-test="submit">Submit
                 </Button>
             </Form>
         );
