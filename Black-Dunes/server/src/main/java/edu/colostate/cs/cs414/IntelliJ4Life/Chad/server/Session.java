@@ -11,8 +11,10 @@ import java.util.Arrays;
 public class Session {
     public static void main(String[] args) {
         User u = new User(1, "sswensen", "TestNickname1", "sswensen@email.com");
-        User u2 = new User(2, "cwlarson", "TestNickname2", "cwlarson@email.com");
+        //User u2 = new User(2, "cwlarson", "TestNickname2", "cwlarson@email.com");
         Database db = new Database(u);
+        System.out.println("Connecting session...");
+        System.out.println("Authenticating user...");
         db.getCurrentGamesFromDatabase();
         ArrayList<Game> games = db.getGames();
 
@@ -35,13 +37,17 @@ public class Session {
         // Resume game
         boolean playing = true;
         while(playing){
+            // Get current game
             db.getCurrentGamesFromDatabase();
             game = db.getGames().get(choice);
             game.getBoard().printBoard();
+
+            // Determine turn
             if(game.getTurn() == 0){ //PlayerOne's turn
                 System.out.println("WHITE's turn");
                 System.out.print("Enter the position of the piece you want to move(x,y): ");
                 String[] location = sc.nextLine().toString().split(",");
+                //Get piece to move
                 Piece piece = game.getPlayerOne().getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
                 ArrayList<int[]> validMoves = piece.validMoves(game.getBoard().getBoard());
                 System.out.print("Valid moves for " + piece + ": ");
@@ -53,6 +59,7 @@ public class Session {
                     continue;
                 System.out.print("Enter the position to move the piece(x,y): ");
                 String[] destination = sc.nextLine().toString().split(",");
+                //Make move
                 if(!game.getPlayerOne().makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
                     game.setTurn(Math.abs(game.getTurn() - 1));
             }
@@ -61,6 +68,7 @@ public class Session {
                 System.out.print("Enter the position of the piece you want to move(x,y): ");
                 String[] location = sc.nextLine().toString().split(",");
                 Piece piece = game.getPlayerTwo().getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
+                //Get piece to move
                 ArrayList<int[]> validMoves = piece.validMoves(game.getBoard().getBoard());
                 System.out.print("Valid moves for " + piece + ": ");
                 for (int i = 0; i < validMoves.size(); i++){
@@ -71,6 +79,7 @@ public class Session {
                     continue;
                 System.out.print("Enter the position to move the piece(x,y): ");
                 String[] destination = sc.nextLine().toString().split(",");
+                //Make move
                 if(!game.getPlayerTwo().makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
                     game.setTurn(Math.abs(game.getTurn() - 1));
             }
