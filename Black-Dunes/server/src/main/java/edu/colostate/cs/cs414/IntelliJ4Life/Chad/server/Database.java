@@ -129,6 +129,48 @@ public class Database {
         return new User(-1, "", "");
     }
 
+    public User getUserFromDatabaseByID(int id) {
+        if(checkIfUserExistsInDatabaseByID(id)) {
+            String query = "SELECT ID, Nickname, Email " +
+                    "FROM Users " +
+                    "WHERE ID = \'" + id + "\';";
+            String dbUrl;
+
+            dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+            try {
+                Class.forName(myDriver);
+                try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                    Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
+                    ResultSet rsQuery = stQuery.executeQuery(query)
+                ) {
+                    System.out.println("Query: " + query);
+                    ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
+                    if(userList.size() == 1) {
+                        user = userList.get(0);
+                        auth = true;
+                        return userList.get(0);
+                    } else if(userList.size() == 0){
+                        System.err.println("No users found");
+                    } else {
+                        System.err.println("More than one users with same ID");
+                    }
+                }
+            } catch(Exception e) {
+                System.err.println("Encountered exception: " + e.getMessage());
+            }
+        }
+        return new User(-1, "", "");
+    }
+
+    private boolean checkIfUserExistsInDatabaseByID(int id) {
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE ID = \'" + id + "\';";
+        if(getCountAllFromDatabase(usernameQuery) > 0) {
+            //System.err.println("User already exists");
+            return true;
+        }
+        return false;
+    }
+
     private boolean checkIfUserExistsInDatabase(String username) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username + "\';";
         if(getCountAllFromDatabase(usernameQuery) > 0) {
@@ -155,10 +197,12 @@ public class Database {
             String time = rs.getString("StartTime");
             String board = rs.getString("Board");
             int player1 = Integer.parseInt(rs.getString("User1ID"));
+            User p1 = getUserFromDatabaseByID(player1);
             int player2 = Integer.parseInt(rs.getString("User2ID"));
+            User p2 = getUserFromDatabaseByID(player2);
             int turn = Integer.parseInt(rs.getString("Turn"));
 
-            out.add(new Game(gameID, time, board, player1, player2, turn)); // TODO fill here
+            out.add(new Game(gameID, time, board, p1, p2, turn)); // TODO fill here
         }
         return out;
     }
@@ -229,19 +273,17 @@ public class Database {
     }
 
     public static void main(String[] args) {
-        Database db = new Database();
-//        db.getCurrentGamesFromDatabase();
-//        Game g = db.getGames().get(0);
-//        // g.setBoard(new Board(""));
-//        db.updateGameInDatabase(g.getGameID(), "0,0,1,0 2,8,1,0 2,9,1,0 3,7,1,0 3,8,3,0 3,9,1,0 4,7,1,0 4,8,1,0 4,9,1,0 7,2,1,1 7,3,1,1 7,4,1,1 8,2,1,1 8,3,3,1 8,4,1,1 9,2,1,1 9,3,1,1 9,4,1,1", 1);
-//        System.out.println("PAUSE");
+        User u = new User(1, "sswensen", "swenyjr", "sswensen@email.com");
+        Database db = new Database(u);
+        db.getCurrentGamesFromDatabase();
+        Game g = db.getGames().get(0);
+        // g.setBoard(new Board(""));
+        db.updateGameInDatabase(g.getGameID(), "0,0,1,0 2,8,1,0 2,9,1,0 3,7,1,0 3,8,3,0 3,9,1,0 4,7,1,0 4,8,1,0 4,9,1,0 7,2,1,1 7,3,1,1 7,4,1,1 8,2,1,1 8,3,3,1 8,4,1,1 9,2,1,1 9,3,1,1 9,4,1,1", 1);
+        System.out.println("PAUSE");
 
-        //Boolean b = db.registerUserInDatabase("sswensen", "swenyjr", "sswensen@email.com", "mypassword");
-        //System.out.println(b);
+        Boolean b = db.registerUserInDatabase("sswensen", "swenyjr", "sswensen@email.com", "mypassword");
+        System.out.println(b);
 
-        //User u = db.getUserFromDatabase("sswensen", "mypassword");
-        User u = db.getUserFromDatabase("sswensen", "test");
-        u.toString();
     }
 
 }

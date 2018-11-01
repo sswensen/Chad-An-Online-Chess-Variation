@@ -9,6 +9,9 @@ public class Session {
     public static void main(String[] args) {
         User u = new User(4, "sswensen", "swenyjr", "sswensen@email.com");
         Database db = new Database(u);
+        db.getCurrentGamesFromDatabase();
         ArrayList<Game> games = db.getGames();
+
+
     }
 }
