@@ -15,6 +15,7 @@ class Application extends Component {
         super(props);
         this.state = {
             config: null,
+            userID: '',
             username: 'null',
             password: 'null',
             trip: {
@@ -53,7 +54,8 @@ class Application extends Component {
     }
 
     updateBasedOnResponse(value) {
-        this.setState({'trip': value});
+        console.log("User ID Returned from database is " + value);
+        this.setState({'userID': value});
     }
 
     updateOptions(option, value) {
@@ -73,6 +75,15 @@ class Application extends Component {
     async updateLogin(username, password) {
         console.log(username);
         console.log(password);
+        let user = {
+            username: username,
+            password: password
+        };
+
+        let updated = request(user, 'login');
+        updated.then((values) => {
+            this.updateBasedOnResponse(values)
+        });
     }
 
     render() {

@@ -143,6 +143,6 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     System.out.println();
-    return new Session(request).getUser();
+    return new Session(request).getUserID(); // Send back user id, THIS IS INSECURE
   }
 }

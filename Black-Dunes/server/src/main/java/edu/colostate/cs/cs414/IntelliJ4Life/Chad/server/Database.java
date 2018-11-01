@@ -116,6 +116,8 @@ public class Database {
                         user = userList.get(0);
                         auth = true;
                         return userList.get(0);
+                    } else if(userList.size() == 0){
+                        System.err.println("Username/password incorrect");
                     } else {
                         System.err.println("More than one users with same username and password");
                     }
@@ -218,6 +220,14 @@ public class Database {
         return games;
     }
 
+    public boolean isAuth() {
+        return auth;
+    }
+
+    public void setAuth(boolean auth) {
+        this.auth = auth;
+    }
+
     public static void main(String[] args) {
         Database db = new Database();
 //        db.getCurrentGamesFromDatabase();
@@ -229,7 +239,8 @@ public class Database {
         //Boolean b = db.registerUserInDatabase("sswensen", "swenyjr", "sswensen@email.com", "mypassword");
         //System.out.println(b);
 
-        User u = db.getUserFromDatabase("sswensen", "mypassword");
+        //User u = db.getUserFromDatabase("sswensen", "mypassword");
+        User u = db.getUserFromDatabase("sswensen", "test");
         u.toString();
     }
 

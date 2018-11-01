@@ -124,6 +124,7 @@ public class Game {
             turn = Math.abs(turn - 1);
             if(isCheckMate())
                 endGame(player);
+
             return true;
         }
         else {

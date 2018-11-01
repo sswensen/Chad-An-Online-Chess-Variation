@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
     private int userID;
-    private String nickName, email;
+    private String username, nickName, email;
     private ArrayList<Notification> receivedNotifications = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
 
@@ -50,6 +50,14 @@ public class User {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /*************
