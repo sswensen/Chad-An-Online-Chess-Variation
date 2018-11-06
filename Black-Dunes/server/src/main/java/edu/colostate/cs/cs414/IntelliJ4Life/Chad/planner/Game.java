@@ -133,8 +133,18 @@ public class Game {
 
             //Update game after move
             turn = Math.abs(turn - 1);
-            if(isCheckMate())
-                endGame(player);
+            Color opponentColor;
+
+            if (player.getColor() == Color.BLACK) {
+                opponentColor = Color.WHITE;
+            }
+            else {
+                opponentColor = Color.BLACK;
+            }
+            if(isCheckMate(opponentColor))
+                endGame(player, "checkmate");
+            else if (isStaleMate(opponentColor))
+                endGame(player, "stalemate");
             else{//Update game if the move is valid and the game is still going
                 Database db = new Database();
                 db.updateGameInDatabase(GameID, board.convertBoardToString(), turn);
