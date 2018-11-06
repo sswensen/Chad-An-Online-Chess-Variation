@@ -9,7 +9,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
  * 31400 t00 Double Aughts
  * 31400 "t00 Double Aughts"
  */
-public class MyServer {
+public class Server {
 
   /** Main program starts a web microserver on the specified network port
    ** @param args command line arguments optionally containing port and team name.

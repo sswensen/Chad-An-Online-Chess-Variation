@@ -162,6 +162,7 @@ public class Game {
 
     private void endGame(Player player) {
         sendCheckMateNotification(player);
+        System.out.println("END GAME");
         // TODO: save game record and terminate
 
     }
