@@ -3,7 +3,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 public class Player {
     private User user;
-    private int UserID;
+    private int userID;
     private Game game;
     private Color color;
 
@@ -17,6 +17,7 @@ public class Player {
         this.user = user;
         this.game = game;
         this.color = color;
+        this.userID = user.getUserID();
     }
 
     /*******************
@@ -32,6 +33,8 @@ public class Player {
     public Piece getPiece(int x, int y) {
         Piece ret = game.getBoard().getPiece(x, y);
         //Only returns a piece if it can move it
+        if(ret == null)
+            return null;
         if(ret.getColor().equals(this.color))
             return ret;
         else

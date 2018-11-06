@@ -1,5 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,18 +22,18 @@ public class Game {
         playerTwo = new Player(Color.BLACK);
     }
 
-    public Game(int GameID, String startTimeString, String board, int player1ID, int player2ID, int turn) {
+    public Game(int GameID, String startTimeString, String board, User player1, User player2, int turn) {
         // Do we need to use the playerIDs?
         this.GameID = GameID;
         //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
         this.board = new Board(board);
         if(turn == 0) {
-            //this. playerOne = new Player(true, Color.WHITE, this);
-            //this. playerOne = new Player(false, Color.BLACK, this);
+            this. playerOne = new Player(player1, this, Color.WHITE);
+            this. playerTwo = new Player(player2, this, Color.BLACK);
             this.turn = 0;
         } else {
-            //this. playerOne = new Player(false, Color.WHITE, this);
-            //this. playerOne = new Player(true, Color.BLACK, this);
+            this. playerOne = new Player(player1, this, Color.WHITE);
+            this. playerTwo = new Player(player2, this, Color.BLACK);
             this.turn = 1;
         }
     }
@@ -62,6 +64,8 @@ public class Game {
     }
 
     public int getTurn() { return turn; }
+
+    public void setTurn(int turn) { this.turn = turn; }
     
     public void setBoard(Board board) {
         this.board = board;
@@ -74,7 +78,11 @@ public class Game {
     public void setGameID(int gameID) {
         GameID = gameID;
     }
-  
+
+    public Player getPlayerOne() { return playerOne; }
+
+    public Player getPlayerTwo() { return playerTwo; }
+
     /*******************
      * Public Methods
      ******************/
@@ -125,7 +133,6 @@ public class Game {
 
             //Update game after move
             turn = Math.abs(turn - 1);
-
             Color opponentColor;
 
             if (player.getColor() == Color.BLACK) {
@@ -134,12 +141,14 @@ public class Game {
             else {
                 opponentColor = Color.BLACK;
             }
-
-            // Check if opponent is in checkmate or stalemate
             if(isCheckMate(opponentColor))
                 endGame(player, "checkmate");
             else if (isStaleMate(opponentColor))
                 endGame(player, "stalemate");
+            else{//Update game if the move is valid and the game is still going
+                Database db = new Database();
+                db.updateGameInDatabase(GameID, board.convertBoardToString(), turn);
+            }
             return true;
         }
         else {
@@ -227,8 +236,7 @@ public class Game {
 
     private void endGame(Player player, String endType) {
         sendCheckMateNotification(player);
-        // TODO: save game record based on end type ("checkmate" or "stalemate") and terminate
-
+        System.out.println("END GAME");
     }
 
     private void sendCheckMateNotification(Player player) {

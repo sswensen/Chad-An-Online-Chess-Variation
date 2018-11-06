@@ -5,8 +5,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>edu.colostate.cs.cs414.IntelliJ4Life.Chad</groupId>
-    <artifactId>Chad</artifactId>
+    <groupId>com.tripco.t00</groupId>
+    <artifactId>TripCo</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
 

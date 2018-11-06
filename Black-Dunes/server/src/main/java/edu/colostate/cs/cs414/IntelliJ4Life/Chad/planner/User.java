@@ -4,11 +4,24 @@ import java.util.ArrayList;
 
 public class User {
     private int userID;
-    private String nickName, email;
+    private String username, nickName, email;
     private ArrayList<Notification> receivedNotifications = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
 
     public User(String nickName, String email) {
+        this.nickName = nickName;
+        this.email = email;
+    }
+
+    public User(int userID, String nickName, String email) {
+        this.userID = userID;
+        this.nickName = nickName;
+        this.email = email;
+    }
+
+    public User(int userID, String username, String nickName, String email) {
+        this.userID = userID;
+        this.username = username;
         this.nickName = nickName;
         this.email = email;
     }
@@ -44,6 +57,14 @@ public class User {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /*************
@@ -87,5 +108,16 @@ public class User {
 
     public boolean cancelInvitation(Invite invite) {
         return sentInvites.contains(invite) && invite.cancel();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", nickName='" + nickName + '\'' +
+                ", email='" + email + '\'' +
+                ", receivedNotifications=" + receivedNotifications +
+                ", sentInvites=" + sentInvites +
+                '}';
     }
 }
