@@ -23,16 +23,23 @@ public class Database {
     private User user;
     private int limit;
     private ArrayList<Game> games;
+    private boolean auth = false;
 
     private final static String myDriver = "com.mysql.jdbc.Driver";
-    private final static String username = "cs414";
-    private final static String pass = "Intellij4life!";
+    private final static String dbusername = "cs414";
+    private final static String dbpass = "Intellij4life!";
 
     private final static String count = "";
     private final static String search = "";
 
+    public Database() {
+        this.user = null;
+        this.auth = false;
+    }
+
     public Database(User user) {
         this.user = user;
+        this.auth = true;
     }
 
     public Database(String match, int limit) {
@@ -51,11 +58,11 @@ public class Database {
         dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
         try {
             Class.forName(myDriver);
-            try(Connection conn = DriverManager.getConnection(dbUrl, username, pass);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
                 Statement stQuery = conn.createStatement();
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
-                System.out.println("Query: " + query);
+                //System.out.println("Query: " + query);
                 this.games = parseGamesFromResultSet(rsQuery);
             }
         } catch(Exception e) {
@@ -70,9 +77,8 @@ public class Database {
     }
 
     public boolean registerUserInDatabase(String username, String nickname, String email, String password) {
-        // TODO verify that user does not already exist
         if(checkIfUserExistsInDatabase(username, email)) {
-            // TODO needs to prompt again for new email/username
+            // TODO caller needs to prompt again for new email/username
             return false;
         }
         String query = "INSERT INTO Users (" +
@@ -81,35 +87,137 @@ public class Database {
                 "Email, " +
                 "Pass" +
                 ") VALUES (" +
-                "'" + username + "', " +
+                "'" + username.toLowerCase() + "', " +
                 "'" + nickname + "', " +
-                "'" + email + "', " +
+                "'" + email.toLowerCase() + "', " +
                 "'" + password + "'" +
                 ");\n";
         return sendUpdateQueryToDatabase(query);
     }
 
-    private boolean checkIfUserExistsInDatabase(String username, String email) {
-        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username + "\';";
-        String emailQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Email = \'" + email + "\';";
-        if(getCountAllFromDatabase(usernameQuery) > 0 || getCountAllFromDatabase(emailQuery) > 0) {
-            System.err.println("User already exists");
+    public User getUserFromDatabase(String username, String password) {
+        username = username.toLowerCase();
+        password = password.toLowerCase();
+        if(checkIfUserExistsInDatabase(username)) {
+            String query = "SELECT ID, Username, Nickname, Email " +
+                    "FROM Users " +
+                    "WHERE Username = \'" + username + "\' " +
+                    "AND Pass = \'" + password + "\';";
+            String dbUrl;
+
+            dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+            try {
+                Class.forName(myDriver);
+                try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                    Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
+                    ResultSet rsQuery = stQuery.executeQuery(query)
+                ) {
+                    //System.out.println("Query: " + query);
+                    ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
+                    if(userList.size() == 1) {
+                        authenticateUser(userList.get(0));
+                        return userList.get(0);
+                    } else if(userList.size() == 0){
+                        System.err.println("Username/password incorrect");
+                    } else {
+                        System.err.println("More than one users with same username and password");
+                    }
+                }
+            } catch(Exception e) {
+                System.err.println("Encountered exception: " + e.getMessage());
+            }
+        }
+        // If no user found with supplied username and password, return a user with -1 as ID
+        return new User(-1, "", "");
+    }
+
+    public User getUserFromDatabaseByID(int id) {
+        if(checkIfUserExistsInDatabaseByID(id)) {
+            String query = "SELECT ID, Username, Nickname, Email " +
+                    "FROM Users " +
+                    "WHERE ID = \'" + id + "\';";
+            String dbUrl;
+
+            dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+            try {
+                Class.forName(myDriver);
+                try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                    Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
+                    ResultSet rsQuery = stQuery.executeQuery(query)
+                ) {
+                    //System.out.println("Query: " + query);
+                    ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
+                    if(userList.size() == 1) {
+                        //user = userList.get(0);
+                        //auth = true;
+                        return userList.get(0);
+                    } else if(userList.size() == 0){
+                        System.err.println("No users found");
+                    } else {
+                        System.err.println("More than one users with same ID");
+                    }
+                }
+            } catch(Exception e) {
+                System.err.println("Encountered exception: " + e.getMessage());
+            }
+        }
+        return new User(-1, "", "");
+    }
+
+    private boolean checkIfUserExistsInDatabaseByID(int id) {
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE ID = \'" + id + "\';";
+        if(getCountAllFromDatabase(usernameQuery) > 0) {
+            //System.err.println("User already exists");
             return true;
         }
         return false;
     }
 
-    private ArrayList<Game> parseGamesFromResultSet(ResultSet query) throws SQLException {
-        ArrayList<Game> out = new ArrayList<Game>();
-        while(query.next()) {
-            int gameID = Integer.parseInt(query.getString("GameID"));
-            String time = query.getString("StartTime");
-            String board = query.getString("Board");
-            int player1 = Integer.parseInt(query.getString("User1ID"));
-            int player2 = Integer.parseInt(query.getString("User2ID"));
-            int turn = Integer.parseInt(query.getString("Turn"));
+    private boolean checkIfUserExistsInDatabase(String username) {
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
+        if(getCountAllFromDatabase(usernameQuery) > 0) {
+            //System.err.println("User already exists");
+            return true;
+        }
+        return false;
+    }
 
-            out.add(new Game(gameID, time, board, player1, player2, turn)); // TODO fill here
+    private boolean checkIfUserExistsInDatabase(String username, String email) {
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
+        String emailQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Email = \'" + email.toLowerCase() + "\';";
+        if(getCountAllFromDatabase(usernameQuery) > 0 || getCountAllFromDatabase(emailQuery) > 0) {
+            //System.err.println("User already exists");
+            return true;
+        }
+        return false;
+    }
+
+    private ArrayList<Game> parseGamesFromResultSet(ResultSet rs) throws SQLException {
+        ArrayList<Game> out = new ArrayList<Game>();
+        while(rs.next()) {
+            int gameID = Integer.parseInt(rs.getString("GameID"));
+            String time = rs.getString("StartTime");
+            String board = rs.getString("Board");
+            int player1 = Integer.parseInt(rs.getString("User1ID"));
+            User p1 = getUserFromDatabaseByID(player1);
+            int player2 = Integer.parseInt(rs.getString("User2ID"));
+            User p2 = getUserFromDatabaseByID(player2);
+            int turn = Integer.parseInt(rs.getString("Turn"));
+
+            out.add(new Game(gameID, time, board, p1, p2, turn)); // TODO fill here
+        }
+        return out;
+    }
+
+    private ArrayList<User> parseUsersFromResultSet(ResultSet rs) throws SQLException {
+        ArrayList<User> out = new ArrayList<User>();
+        while(rs.next()) {
+            int userID = Integer.parseInt(rs.getString("ID"));
+            String username = rs.getString("Username");
+            String nickName = rs.getString("Nickname");
+            String email = rs.getString("Email");
+
+            out.add(new User(userID, username, nickName, email));
         }
         return out;
     }
@@ -120,9 +228,9 @@ public class Database {
         dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
         try {
             Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(dbUrl, username, pass);
+            Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
             Statement stQuery = conn.createStatement();
-            System.out.println("Query: " + query);
+            //System.out.println("Query: " + query);
             int ret = stQuery.executeUpdate(query);
             if(ret > -1) {
                 return true;
@@ -140,11 +248,11 @@ public class Database {
         dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
         try {
             Class.forName(myDriver);
-            try(Connection conn = DriverManager.getConnection(dbUrl, username, pass);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
                 Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
-                System.out.println("Query: " + query);
+                //System.out.println("Query: " + query);
                 rsQuery.next(); // This is needed to do a get string on the rsQuery because the iterator index is at -1 to start
                 return Integer.parseInt(rsQuery.getString("Count"));
             }
@@ -155,19 +263,31 @@ public class Database {
         return -1;
     }
 
+    private void authenticateUser(User user) {
+        this.user = user;
+        this.auth = true;
+    }
+
     public ArrayList<Game> getGames() {
         return games;
     }
 
+    public boolean isAuth() {
+        return auth;
+    }
+
+    public void setAuth(boolean auth) {
+        this.auth = auth;
+    }
+
     public static void main(String[] args) {
-        User u = new User("NickName", "Email");
-        u.setUserID(3);
+        User u = new User(1, "sswensen", "swenyjr", "sswensen@email.com");
         Database db = new Database(u);
-//        db.getCurrentGamesFromDatabase();
-//        Game g = db.getGames().get(0);
-//        // g.setBoard(new Board(""));
-//        db.updateGameInDatabase(g.getGameID(), "0,0,1,0 2,8,1,0 2,9,1,0 3,7,1,0 3,8,3,0 3,9,1,0 4,7,1,0 4,8,1,0 4,9,1,0 7,2,1,1 7,3,1,1 7,4,1,1 8,2,1,1 8,3,3,1 8,4,1,1 9,2,1,1 9,3,1,1 9,4,1,1", 1);
-//        System.out.println("PAUSE");
+        db.getCurrentGamesFromDatabase();
+        Game g = db.getGames().get(0);
+        // g.setBoard(new Board(""));
+        db.updateGameInDatabase(g.getGameID(), "0,0,1,0 2,8,1,0 2,9,1,0 3,7,1,0 3,8,3,0 3,9,1,0 4,7,1,0 4,8,1,0 4,9,1,0 7,2,1,1 7,3,1,1 7,4,1,1 8,2,1,1 8,3,3,1 8,4,1,1 9,2,1,1 9,3,1,1 9,4,1,1", 1);
+        System.out.println("PAUSE");
 
         Boolean b = db.registerUserInDatabase("sswensen", "swenyjr", "sswensen@email.com", "mypassword");
         System.out.println(b);

@@ -11,7 +11,7 @@ public class Config {
   private String type = "config";
 
   // We can convert this to grab a list of users when sending names for invites
-  private List<String> units = Arrays.asList("miles");
+  private List<String> units = Arrays.asList("miles", "kilos");
 
   static String getConfig() {
     Config conf = new Config();
