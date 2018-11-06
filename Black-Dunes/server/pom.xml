@@ -33,7 +33,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Server</mainClass>
+                            <mainClass>edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Session</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
