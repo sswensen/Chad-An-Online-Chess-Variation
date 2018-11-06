@@ -63,33 +63,31 @@ public abstract class Piece {
 
     // Conducts the passed in move
     public void move(int[] move, Piece[][] board) {
-        if (isValid(move, board)) {
-            // Update board
-            board[getPosition()[0]][getPosition()[1]] = null;
+        // Sanity check -- validity should be determined in game class
+        assert isValid(move, board) : "Invalid Move";
 
-            if (board[move[0]][move[1]] != null) {
-                // Opponent piece occupies this position
-                board[move[0]][move[1]].take();
-            }
+        // Update board
+        board[getPosition()[0]][getPosition()[1]] = null;
 
-            // Update position
-            this.position = move;
+        if (board[move[0]][move[1]] != null) {
+            // Opponent piece occupies this position
+            board[move[0]][move[1]].take();
+        }
 
-            // Check if BLACK piece needs to be upgraded to queen
-            if (this instanceof Rook && this.getColor() == Color.BLACK && this.inCastle(Color.WHITE)){
-                board[move[0]][move[1]] = new Queen(this.getColor(), move);
-            }
-            // Check if WHITE piece needs to be upgraded to queen
-            else if (this instanceof Rook && this.getColor() == Color.WHITE && this.inCastle(Color.BLACK)){
-                board[move[0]][move[1]] = new Queen(this.getColor(), move);
-            }
-            else {
-                // No upgrade needed
-                board[move[0]][move[1]] = this;
-            }
+        // Update position
+        this.position = move;
+
+        // Check if BLACK piece needs to be upgraded to queen
+        if (this instanceof Rook && this.getColor() == Color.BLACK && this.inCastle(Color.WHITE)){
+            board[move[0]][move[1]] = new Queen(this.getColor(), move);
+        }
+        // Check if WHITE piece needs to be upgraded to queen
+        else if (this instanceof Rook && this.getColor() == Color.WHITE && this.inCastle(Color.BLACK)){
+            board[move[0]][move[1]] = new Queen(this.getColor(), move);
         }
         else {
-            // @TODO: Handle invalid move
+            // No upgrade needed
+            board[move[0]][move[1]] = this;
         }
     }
 
