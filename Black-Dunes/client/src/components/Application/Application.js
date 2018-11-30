@@ -7,6 +7,7 @@ import Login from "./Login"
 
 import {get_config, request} from '../../api/api'
 import Logout from "./Logout";
+import Register from "./Register";
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -123,6 +124,9 @@ class Application extends Component {
                                   updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
                 case 'logout':
                     return <Logout clearLogin={this.clearLogin}/>;
+                case 'register':
+                    return <Register error={this.state.error} updateUsername={this.updateUsername}
+                                     updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
                 default:
                     return <div/>;
             }
