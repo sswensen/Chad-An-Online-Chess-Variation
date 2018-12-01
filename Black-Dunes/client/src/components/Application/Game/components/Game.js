@@ -110,14 +110,14 @@ export default class Game extends React.Component {
                 <Card>
                     <CardBody>
                         <div>
-                            <div className="game">
-                                <div className="game-board">
+                            <div className="game row">
+                                <div className="game-board col-lg-8 col-sm-12">
                                     <Board
                                         squares={this.state.squares}
                                         onClick={(i) => this.handleClick(i)}
                                     />
                                 </div>
-                                <div className="game-info">
+                                <div className="game-info col-lg-4 col-sm-12">
                                     <h3>Turn</h3>
                                     <div id="player-turn-box" style={{backgroundColor: this.state.turn}}>
 

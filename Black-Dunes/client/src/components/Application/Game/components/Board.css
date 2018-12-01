@@ -19,12 +19,13 @@ ol, ul {
     font-size: 24px;
     font-weight: bold;
     line-height: 34px;
-    height: 48px;
+    height: 36px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 48px;
+    width: 36px;
+    background-size: 36px 36px;
 }
 
 .square:focus {
@@ -35,13 +36,16 @@ ol, ul {
     background: #ddd;
 }
 
-.game {
-    display: flex;
-    flex-direction: row;
+@media only screen and (min-width: 768px) {
+    .square {
+        width: 48px;
+        height: 48px;
+        background-size: 48px 48px;
+    }
 }
 
-.game-info {
-    margin-left: 20px;
+.game-board {
+    text-align: center;
 }
 
 .icons-attribution, .game-status, .fallen-soldier-block {
@@ -49,13 +53,14 @@ ol, ul {
     min-height: 50px;
 }
 
-/*Board color scheme Wheat from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html*/
-.dark-square {
-    background-color: RGB(187, 190, 100);
+.square-color {
+    background-color: #ffce9e;
+    border: 1px solid #000;
 }
 
-.light-square {
-    background-color: RGB(234, 240, 206);
+.wall-square {
+    background-color: #d18b47;
+    border: 1px solid #000;
 }
 
 #player-turn-box {
