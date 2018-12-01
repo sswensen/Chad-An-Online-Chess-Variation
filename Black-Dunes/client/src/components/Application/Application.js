@@ -114,7 +114,7 @@ class Application extends Component {
             switch (this.props.page) {
                 case 'home':
                     return <Info/>;
-                case 'calc':
+                case 'game':
                     return <Game />;
                 case 'options':
                     return <Options options={this.state.trip.options} config={this.state.config}

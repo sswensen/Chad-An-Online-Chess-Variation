@@ -13,7 +13,7 @@ class App extends Component {
             auth: -1,
             pages: [
                 {title: 'Home', page: 'home', link: '/'},
-                {title: 'Calculator', page: 'calc', link: '/calculator'},
+                {title: 'Game', page: 'game', link: '/game'},
                 {title: 'Options', page: 'options', link: '/options'},
                 {title: 'Login', page: 'login', link: '/login'}
             ]
@@ -75,7 +75,7 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
-                    {title: 'Calculator', page: 'calc', link: '/calculator'},
+                    {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Options', page: 'options', link: '/options'},
                     {title: 'Logout', page: 'logout', link: '/logout'}
                 ]
@@ -85,7 +85,7 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
-                    {title: 'Calculator', page: 'calc', link: '/calculator'},
+                    {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Options', page: 'options', link: '/options'},
                     {title: 'Login', page: 'login', link: '/login'}
                 ]
