@@ -8,6 +8,8 @@ import Rook from '../pieces/rook.js';
 export default function initialiseChessBoard(){
   const squares = Array(64).fill(null);
 
+  // TODO SANDEEP Make initial board
+
   for(let i = 8; i < 16; i++){
     squares[i] = new Pawn(2);
     squares[i+40] = new Pawn(1);

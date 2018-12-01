@@ -15,11 +15,11 @@ export default class Board extends React.Component {
 
     render() {
         const board = [];
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 12; i++) {
             const squareRows = [];
-            for (let j = 0; j < 8; j++) {
-                const squareShade = (isEven(i) && isEven(j)) || (!isEven(i) && !isEven(j)) ? "light-square" : "dark-square";
-                squareRows.push(this.renderSquare((i * 8) + j, squareShade));
+            for (let j = 0; j < 12; j++) {
+                const squareShade = (isEven(i) && isEven(j)) || (!isEven(i) && !isEven(j)) ? "light-square" : "dark-square"; // TODO Colton add wall square (uses css classes, see Board.css)
+                squareRows.push(this.renderSquare((i * 12) + j, squareShade));
             }
             board.push(<div className="board-row">{squareRows}</div>)
         }
