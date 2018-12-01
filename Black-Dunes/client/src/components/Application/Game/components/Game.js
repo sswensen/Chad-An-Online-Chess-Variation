@@ -29,7 +29,7 @@ export default class Game extends React.Component {
                 squares[i] ? delete squares[i].style.backgroundColor : null;
             }
             else {
-                //squares[i].style = {...squares[i].style, backgroundColor: "RGB(111,143,114)"};
+                //squares[i].style = {...squares[i].style, backgroundColor: "RGB(111,143,114)"}; //TODO this needs to be fixed!!!
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
