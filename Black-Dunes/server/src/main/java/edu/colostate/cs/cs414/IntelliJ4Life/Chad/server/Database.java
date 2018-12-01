@@ -116,6 +116,7 @@ public class Database {
                     ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
                     if(userList.size() == 1) {
                         authenticateUser(userList.get(0));
+                        System.out.println("Got user with id " + userList.get(0).getUserID());
                         return userList.get(0);
                     } else if(userList.size() == 0){
                         System.err.println("Username/password incorrect");

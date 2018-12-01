@@ -17,7 +17,7 @@ class Application extends Component {
         this.state = {
             config: null,
             userID: '-1',
-            error: '',
+            message: '',
             username: 'null',
             password: 'null',
             trip: {
@@ -57,16 +57,18 @@ class Application extends Component {
     }
 
     updateBasedOnResponse(value) {
-        //console.log("User ID Returned from database is " + value);
-        if (value > -1) {
+        console.log("User ID Returned from database is " + value);
+        if (parseInt(value) > -1) {
             this.setState({
                 'userID': value,
-                'error': 'Logged in successfully!'
+                'message': 'Logged in successfully!',
             });
             //window.location = './'; // This actually does a refresh which is what we don't want because it clears the userID
-            window.location = './#';
+            //window.location = './#';
         } else {
-            this.setState({'error': 'Invalid username or password!'})
+            this.setState({
+                'message': 'Invalid username or password!'
+            })
         }
         this.props.updateAuth(value);
     }
@@ -102,7 +104,7 @@ class Application extends Component {
     clearLogin() {
         this.setState({
             'userID': -1,
-            'error': 'Logged out successfully!'
+            'message': 'Logged out successfully!'
         });
         this.props.updateAuth(-1);
         window.location = './#/login';
@@ -112,14 +114,14 @@ class Application extends Component {
         if (this.state.config)
             switch (this.props.page) {
                 case 'home':
-                    return <Info/>;
+                    return <Info message={this.state.message}/>;
                 case 'calc':
                     return <Calculator unit={this.state.trip.options.unit}/>;
                 case 'options':
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
                 case 'login':
-                    return <Login error={this.state.error} updateUsername={this.updateUsername}
+                    return <Login error={this.state.message} updateUsername={this.updateUsername}
                                   updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
                 case 'logout':
                     return <Logout clearLogin={this.clearLogin}/>;

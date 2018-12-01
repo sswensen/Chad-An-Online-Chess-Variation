@@ -7,6 +7,8 @@ export default class Info extends Component {
             <Container>
                 <Card>
                     <CardBody>
+                        <p>{this.props.message}</p>
+
                         <p className="lead">"Do you even lift, bro?"</p>
                         <ul>
                             <li>
