@@ -4,6 +4,7 @@ import Info from './Info'
 import Options from './Options'
 import Calculator from './Calculator/Calculator'
 import Login from "./Login"
+import GameContainer from "./GameContainer"
 
 import {get_config, request} from '../../api/api'
 import Logout from "./Logout";
@@ -120,6 +121,8 @@ class Application extends Component {
                 case 'options':
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
+                case 'game':
+                    return <GameContainer />;
                 case 'login':
                     return <Login error={this.state.message} updateUsername={this.updateUsername}
                                   updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;

@@ -15,6 +15,7 @@ class App extends Component {
                 {title: 'Home', page: 'home', link: '/'},
                 {title: 'Calculator', page: 'calc', link: '/calculator'},
                 {title: 'Options', page: 'options', link: '/options'},
+                {title: 'Game', page: 'game', link: '/game'},
                 {title: 'Login', page: 'login', link: '/login'}
             ]
         };
@@ -77,6 +78,7 @@ class App extends Component {
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Calculator', page: 'calc', link: '/calculator'},
                     {title: 'Options', page: 'options', link: '/options'},
+                    {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Logout', page: 'logout', link: '/logout'}
                 ]
             });
@@ -87,6 +89,7 @@ class App extends Component {
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Calculator', page: 'calc', link: '/calculator'},
                     {title: 'Options', page: 'options', link: '/options'},
+                    {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Login', page: 'login', link: '/login'}
                 ]
             })
