@@ -20,7 +20,12 @@ export default class Game extends React.Component {
         }
     }
 
-    handleClick(i) {
+    handleClick(rowCol, piece) {
+        console.log(rowCol);
+        console.log(piece);
+        //get i from rowCol somehow
+        let i = parseInt((new String(rowCol)).split("-")[0]);
+        console.log(new String(rowCol));
         const squares = this.state.squares.slice();
 
         if (this.state.sourceSelection === -1) {
@@ -29,7 +34,10 @@ export default class Game extends React.Component {
                 squares[i] ? delete squares[i].style.backgroundColor : null;
             }
             else {
-                //squares[i].style = {...squares[i].style, backgroundColor: "RGB(111,143,114)"}; //TODO this needs to be fixed!!!
+                squares[i].style = {
+                    backgroundImage: squares[i].style['backgroundImage'],
+                    'background-color': '#00c4ffc9'
+                };
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -55,6 +63,11 @@ export default class Game extends React.Component {
                 const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
                 const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
+                if(!isMovePossible)
+                    console.log('impossible move');
+                if(!isMoveLegal)
+                    console.log('illegal move');
+
                 if (isMovePossible && isMoveLegal) {
                     if (squares[i] !== null) {
                         if (squares[i].player === 1) {
@@ -65,6 +78,10 @@ export default class Game extends React.Component {
                         }
                     }
                     squares[i] = squares[this.state.sourceSelection];
+                    //reset selection color
+                    squares[i].style = {
+                        backgroundImage: squares[i].style['backgroundImage']
+                    };
                     squares[this.state.sourceSelection] = null;
                     let player = this.state.player === 1 ? 2 : 1;
                     let turn = this.state.turn === 'white' ? 'black' : 'white';
@@ -79,10 +96,16 @@ export default class Game extends React.Component {
                     });
                 }
                 else {
+                squares[i] = squares[this.state.sourceSelection];
+                                    //reset selection color
+                                    squares[i].style = {
+                                        backgroundImage: squares[i].style['backgroundImage']
+                                    };
                     this.setState({
                         status: "Wrong selection. Choose valid source and destination again.",
                         sourceSelection: -1,
                     });
+
                 }
             }
         }
@@ -95,6 +118,9 @@ export default class Game extends React.Component {
      * @return {Boolean}
      */
     isMoveLegal(srcToDestPath) {
+        //TODO: Add legal move checks here
+        console.log('srcToDestPath');
+        console.log(srcToDestPath);
         let isLegal = true;
         for (let i = 0; i < srcToDestPath.length; i++) {
             if (this.state.squares[srcToDestPath[i]] !== null) {
@@ -114,7 +140,7 @@ export default class Game extends React.Component {
                                 <div className="game-board col-lg-8 col-sm-12">
                                     <Board
                                         squares={this.state.squares}
-                                        onClick={(i) => this.handleClick(i)}
+                                        onClick={(i, j) => this.handleClick(i, j)}
                                     />
                                 </div>
                                 <div className="game-info col-lg-4 col-sm-12">
