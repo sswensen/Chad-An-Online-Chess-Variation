@@ -3,6 +3,9 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 import com.google.gson.Gson;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
+import org.json.*;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.RegisterSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
@@ -48,7 +51,6 @@ public class MicroServer {
     get("/hello/:name", this::hello);
     get("/team", this::team);
     get("/board", this::getBoard);
-    get("/isAuth", this::isAuth);
 
 
     // client is sending data, so a HTTP POST is used instead of a GET
@@ -167,20 +169,6 @@ public class MicroServer {
 
     System.out.println();
     return new RegisterSession(request).getUserID(); // Send back user id, THIS IS INSECURE
-  }
-
-  /** A REST API that returns the team information associated with the server.
-   *
-   * @param request
-   * @param response
-   * @return
-   */
-  private String isAuth(Request request, Response response) {
-
-    response.type("text/plain");
-    response.header("Access-Control-Allow-Origin", "*");
-
-    return "";
   }
 
   /** A REST API that returns the team information associated with the server.

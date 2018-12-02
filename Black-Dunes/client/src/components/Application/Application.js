@@ -3,11 +3,14 @@ import {Container} from 'reactstrap'
 import Info from './Info'
 import Options from './Options'
 import Calculator from './Calculator/Calculator'
+import Game from './Game/components/Game'
 import Login from "./Login"
+import Logout from "./Logout";
 
 import {get_config, request} from '../../api/api'
 import Logout from "./Logout";
 import Register from "./Register";
+
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -44,6 +47,8 @@ class Application extends Component {
         this.updatePassword = this.updatePassword.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updateNickname = this.updateNickname.bind(this);
+        this.updateUserId = this.updateUserId.bind(this);
+
     }
 
     componentWillMount() {
@@ -56,6 +61,12 @@ class Application extends Component {
         );
     }
 
+    updateUserId(id) {
+        this.setState({
+            userId: id
+        });
+    }
+
     updateTrip(field, value) {
         let trip = this.state.trip;
         trip[field] = value;
@@ -63,7 +74,7 @@ class Application extends Component {
     }
 
     updateBasedOnResponse(value) {
-        //console.log("User ID Returned from database is " + value);
+        // console.log("User ID Returned from database is " + value);
         if (value > -1) {
             this.setState({
                 'userID': value,
@@ -88,7 +99,7 @@ class Application extends Component {
     }
 
     updatePassword(pass) {
-        this.setState({password: pass})
+        this.setState({password: pass});
     }
 
     updateEmail(email) {
@@ -144,8 +155,8 @@ class Application extends Component {
             switch (this.props.page) {
                 case 'home':
                     return <Info/>;
-                case 'calc':
-                    return <Calculator unit={this.state.trip.options.unit}/>;
+                case 'game':
+                    return <Game userID={this.state.userID}/>;
                 case 'options':
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
