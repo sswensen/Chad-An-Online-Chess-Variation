@@ -2,6 +2,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
 
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.RegisterSession;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -43,6 +44,7 @@ public class MicroServer {
     get("/config", this::config);
     post("/plan", this::plan);
     post("/login", this::login);
+    post("/register", this::register);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -144,5 +146,20 @@ public class MicroServer {
 
     System.out.println();
     return new LoginSession(request).getUserID(); // Send back user id, THIS IS INSECURE
+  }
+
+  /** A REST API that returns the team information associated with the server.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String register(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println();
+    return new RegisterSession(request).getUserID(); // Send back user id, THIS IS INSECURE
   }
 }

@@ -13,12 +13,16 @@ class Register extends Component {
         super();
         this.state = {
             username: '',
+            nickname: '',
+            email: '',
             password: '',
             error: '',
         };
 
         this.handlePassChange = this.handlePassChange.bind(this);
         this.handleUserChange = this.handleUserChange.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleNicknameChange = this.handleNicknameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.dismissError = this.dismissError.bind(this);
     }
@@ -44,7 +48,15 @@ class Register extends Component {
             return this.setState({error: 'Password is required'});
         }
 
-        this.props.updateLogin(this.state.username, this.state.password);
+        if (!this.state.email) {
+            return this.setState({error: 'Email is required'});
+        }
+
+        if (!this.state.nickname) {
+            return this.setState({error: 'Nickname is required'});
+        }
+
+        this.props.registerUser(this.state.username, this.state.password, this.state.email, this.state.nickname);
         return this.setState({error: ''});
     }
 
@@ -60,39 +72,64 @@ class Register extends Component {
         });
     }
 
+    handleEmailChange(evt) {
+        this.setState({
+            email: evt.target.value,
+        })
+    }
+
+    handleNicknameChange(evt) {
+        this.setState({
+            nickname: evt.target.value,
+        });
+    }
+
     create_input_fields(title) {
         return (
             <Form inline onSubmit={this.handleSubmit}>
-            {
-                this.state.error &&
-                    <Col md={12} lg={12}>
+                {
+                    this.state.error &&
+                        <Col md={12} lg={12}>
+                            <Label data-test="error" onClick={this.dismissError}>
+                                <button onClick={this.dismissError}>✖</button>
+                                    {this.state.error}
+                            </Label>
+                        </Col>
 
-                <Label data-test="error" onClick={this.dismissError}>
-                <button onClick={this.dismissError}>✖</button>
-        {this.state.error}
-    </Label>
-        </Col>
+                }
+                <div>
+                    <div>
+                        <Label>{title}</Label>
+                    </div>
+                    <div>
+                        <Input placeholder="Username" type="text"
+                               data-test="username" value={this.state.username}
+                               onChange={this.handleUserChange}/>
+                    </div>
+                    <div>
+                        <Input placeholder="Password" type="password"
+                               data-test="password" value={this.state.password}
+                               onChange={this.handlePassChange}/>
+                    </div>
+                    <div>
+                        <Input placeholder="Email" type="text"
+                               data-test="Email" value={this.state.email}
+                               onChange={this.handleEmailChange}/>
+                    </div>
+                    <div>
+                        <Input placeholder="Nickname" type="text"
+                               data-test="Nickname" value={this.state.nickname}
+                               onChange={this.handleNicknameChange}/>
+                    </div>
+                    <div>
+                        <Button
+                                type="submit" value="register" data-test="submit">Submit
+                        </Button>
+                    </div>
+                </div>
 
-    }
-    <Col/>
-        <Col md={2} lg={2}>
-            <Label>{title}</Label>
-            </Col>
-            <Col sm={6} md={4} lg={4}>
-            <Input style={{width: "100%"}} placeholder="Username" type="text"
-        data-test="username" value={this.state.username}
-        onChange={this.handleUserChange}/>
-        </Col>
-        <Col sm={6} md={4} lg={4}>
-            <Input style={{width: "100%"}} placeholder="Password" type="password"
-        data-test="password" value={this.state.password}
-        onChange={this.handlePassChange}/>
-        </Col>
 
-        <Button sm={6} md={2} lg={2}
-        type="submit" value="Log In" data-test="submit">Submit
-            </Button>
-            </Form>
+        </Form>
     );
     }
 
@@ -102,14 +139,13 @@ class Register extends Component {
 
         return (
             <Container>
-            <Card>
-            <CardBody>
-            <div className="Register">
-            {this.create_input_fields('Register')}
-
-            </div>
-            </CardBody>
-            </Card>
+                <Card>
+                    <CardBody>
+                        <div className="Register">
+                            {this.create_input_fields('Register')}
+                        </div>
+                    </CardBody>
+                </Card>
             </Container>
     );
     }

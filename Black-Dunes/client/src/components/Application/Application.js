@@ -21,6 +21,8 @@ class Application extends Component {
             error: '',
             username: 'null',
             password: 'null',
+            email: 'null',
+            nickname: 'null',
             trip: {
                 type: "trip",
                 title: "",
@@ -36,9 +38,12 @@ class Application extends Component {
         this.updateBasedOnResponse = this.updateBasedOnResponse.bind(this);
         this.updateOptions = this.updateOptions.bind(this);
         this.updateLogin = this.updateLogin.bind(this);
+        this.registerUser = this.registerUser.bind(this);
         this.clearLogin = this.clearLogin.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.updateEmail = this.updateEmail.bind(this);
+        this.updateNickname = this.updateNickname.bind(this);
     }
 
     componentWillMount() {
@@ -86,6 +91,31 @@ class Application extends Component {
         this.setState({password: pass})
     }
 
+    updateEmail(email) {
+        this.setState({email: email});
+    }
+
+    updateNickname(nickname) {
+        this.setState({nickname: nickname})
+    }
+
+    async registerUser(username, password, email, nickname) {
+        //console.log(username);
+        //console.log(password);
+        let user = {
+            username: username,
+            password: password,
+            email: email,
+            nickname: nickname
+        };
+
+        let updated = request(user, 'register');
+        updated.then((values) => {
+            this.updateBasedOnResponse(values)
+            console.log(values);
+        });
+    }
+
     async updateLogin(username, password) {
         //console.log(username);
         //console.log(password);
@@ -125,8 +155,12 @@ class Application extends Component {
                 case 'logout':
                     return <Logout clearLogin={this.clearLogin}/>;
                 case 'register':
-                    return <Register error={this.state.error} updateUsername={this.updateUsername}
-                                     updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
+                    return <Register error={this.state.error}
+                                     updateUsername={this.updateUsername}
+                                     updatePassword={this.updatePassword}
+                                     updateEmail={this.updateEmail}
+                                     updateNickname={this.updateNickname}
+                                     registerUser={this.registerUser}/>;
                 default:
                     return <div/>;
             }
