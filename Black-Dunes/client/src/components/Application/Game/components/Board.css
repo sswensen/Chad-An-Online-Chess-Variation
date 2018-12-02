@@ -69,3 +69,7 @@ ol, ul {
 h3 {
     margin-bottom: 5px;
 }
+
+.selected {
+    border: 1px solid blue;
+}
