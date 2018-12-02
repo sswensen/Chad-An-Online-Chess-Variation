@@ -6,9 +6,7 @@ import Calculator from './Calculator/Calculator'
 import Game from './Game/components/Game'
 import Login from "./Login"
 import Logout from "./Logout";
-
 import {get_config, request} from '../../api/api'
-import Logout from "./Logout";
 import Register from "./Register";
 
 
