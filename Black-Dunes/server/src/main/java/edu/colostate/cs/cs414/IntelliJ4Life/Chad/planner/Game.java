@@ -141,8 +141,29 @@ public class Game {
             else {
                 opponentColor = Color.BLACK;
             }
-            if(isCheckMate(opponentColor))
+
+            if(isCheckMate(opponentColor)) {
+                // show final move after checkmate that dispays the king being captured
+                King king;
+
+                if (opponentColor == Color.BLACK) {
+                    king = board.getBlackKing();
+                }
+                else {
+                    king = board.getWhiteKing();
+                }
+
+                int[] kingPosition = king.getPosition();
+                int[] piecePosition = piece.getPosition();
+                Piece[][] finalBoard = board.getBoard();
+                finalBoard[piecePosition[0]][piecePosition[1]] = null;
+                finalBoard[kingPosition[0]][kingPosition[1]] = piece;
+
+                board.setBoard(finalBoard);
+
+                // Call endGame to finish the game
                 endGame(player, "checkmate");
+            }
             else if (isStaleMate(opponentColor))
                 endGame(player, "stalemate");
             else{//Update game if the move is valid and the game is still going

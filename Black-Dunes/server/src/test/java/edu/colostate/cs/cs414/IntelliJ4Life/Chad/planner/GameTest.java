@@ -12,12 +12,11 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class GameTest {
     User user;
+    User user2;
     Game game1;
     Board board;
 
@@ -33,7 +32,9 @@ public class GameTest {
     @Before
     public void setUp(){
         user = new User("bill", "bill@yolo.com");
+        user2 = new User("Jim", "jim@yolo.com");
         game1 = new Game(user);
+        game1.startGame(user2);
         board = new Board();
 
         K1 = new King(Color.BLACK);
@@ -379,5 +380,30 @@ public class GameTest {
         // board.printBoard();
 
         assertFalse(game1.isStaleMate(Color.BLACK));
+    }
+
+    @Test
+    public void testFinalMoveShown() {
+        board.getBoard()[4][7] = K1;
+        board.getBoard()[0][5] = Q2;
+        board.getBoard()[2][8] = Q3;
+        int[] position1 = {4, 7};
+        int[] position2 = {0, 5};
+        int[] position3 = {2, 8};
+        K1.setPosition(position1);
+        Q2.setPosition(position2);
+        Q3.setPosition(position3);
+        board.setBlackKing(K1);
+        game1.setTurn(0);
+
+        // Uncomment to view board
+        // board.printBoard();
+
+        game1.makeMove(game1.getPlayerOne(), Q2, new int[] {2, 7});
+
+        // Uncomment to view board
+        // board.printBoard();
+
+        assertEquals(board.getBoard()[4][7], Q2);
     }
 }
