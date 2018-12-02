@@ -1,5 +1,6 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
+import com.google.gson.Gson;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
@@ -48,11 +49,13 @@ public class MicroServer {
     get("/board", this::getBoard);
     get("/isAuth", this::isAuth);
 
+
     // client is sending data, so a HTTP POST is used instead of a GET
     get("/config", this::config);
     post("/plan", this::plan);
     post("/login", this::login);
     post("/updateBoard", this::updateBoard);
+    post("/getGames", this::getGames);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -218,5 +221,37 @@ public class MicroServer {
       return "";
     else
       return game.getBoard();
+  }
+
+  /** A REST API that returns the team information associated with the server.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getGames(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+
+    Gson gson = new Gson();
+    //get userID
+    System.out.println("body: " + request.body());
+    int userID = Integer.parseInt(request.body());
+    System.out.println("userID: " +userID);
+    //connect to db and update game
+    Database db = new Database();
+    //get user
+    User user = db.getUserFromDatabaseByID(userID);
+    if(user != null) {
+      System.out.println("user.userID: " + user.getUserID());
+      System.out.println();
+      db.getCurrentGamesFromDatabase();
+      ArrayList<Game> games = db.getGames();
+      System.out.println(gson.toJson(games));
+      return gson.toJson(games);
+    }
+    return "";
   }
 }

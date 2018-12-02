@@ -12,14 +12,27 @@ export default class Game extends React.Component {
     constructor() {
         super();
         this.state = {
+            userID: 0,
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
             player: 1,
             sourceSelection: -1,
             status: '',
-            turn: 'white'
-        }
+            turn: 'white',
+            games: [],
+            selectedGame: 0
+        };
+        this.updateUserID = this.updateUserID.bind(this);
+        this.getGames();
+    }
+
+    updateUserID(id) {
+
+        this.setState({
+           userID: id
+        });
+        console.log("userID: " + this.userID);
     }
 
     handleClick(piece, rowCol) {
@@ -104,7 +117,7 @@ export default class Game extends React.Component {
                         status: '',
                         turn: turn
                     });
-                    
+
                     //After move update board for db
 //                    let gameObj = {
 //                        gameID: "",
@@ -150,11 +163,29 @@ export default class Game extends React.Component {
         return isLegal;
     }
 
+    getGames() {
+        let update = request(this.state.userID, 'getGames');
+        update.then((value => {
+            this.updateGames(value);
+            console.log(value);
+        }));
+    }
+
+    updateGames(value) {
+        this.setState({
+            games: value
+        });
+    }
+
     render() {
         return (
             <Container>
                 <Card>
                     <CardBody>
+                        <div>
+                            <h3>Games</h3>
+                            {this.state.games}
+                        </div>
                         <div>
                             <div className="game row">
                                 <div className="game-board col-lg-8 col-sm-12">
