@@ -6,8 +6,6 @@ export default class Rook extends Piece {
   }
 
   isMovePossible(src, dest){
-    console.log('isMovePossible');
-    console.log(this);
     let mod = src % 8;
     let diff = 8 - mod;
     return (Math.abs(src - dest) % 8 === 0 || (dest >= (src - mod) && dest < (src + diff)));
@@ -20,9 +18,6 @@ export default class Rook extends Piece {
    * @return {[array]}      
    */
   getSrcToDestPath(src, dest){
-    console.log('getSrcToDestPath');
-    console.log(src);
-    console.log(dest);
     let path = [], pathStart, pathEnd, incrementBy;
     if(src > dest){
       pathStart = dest;
