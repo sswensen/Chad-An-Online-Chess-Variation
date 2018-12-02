@@ -145,10 +145,10 @@ public class Game {
                 endGame(player, "checkmate");
             else if (isStaleMate(opponentColor))
                 endGame(player, "stalemate");
-            else{//Update game if the move is valid and the game is still going
-                Database db = new Database();
-                db.updateGameInDatabase(GameID, board.convertBoardToString(), turn);
-            }
+
+            // Update game in database
+            Database db = new Database();
+            db.updateGameInDatabase(GameID, board.convertBoardToString(), turn);
             return true;
         }
         else {
