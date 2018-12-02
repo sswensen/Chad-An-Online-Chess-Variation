@@ -39,6 +39,7 @@ class Application extends Component {
         this.clearLogin = this.clearLogin.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.updateUserId = this.updateUserId.bind(this);
     }
 
     componentWillMount() {
@@ -51,6 +52,12 @@ class Application extends Component {
         );
     }
 
+    updateUserId(id) {
+        this.setState({
+            userId: id
+        });
+    }
+
     updateTrip(field, value) {
         let trip = this.state.trip;
         trip[field] = value;
@@ -58,7 +65,7 @@ class Application extends Component {
     }
 
     updateBasedOnResponse(value) {
-        //console.log("User ID Returned from database is " + value);
+        // console.log("User ID Returned from database is " + value);
         if (value > -1) {
             this.setState({
                 'userID': value,
@@ -83,7 +90,7 @@ class Application extends Component {
     }
 
     updatePassword(pass) {
-        this.setState({password: pass})
+        this.setState({password: pass});
     }
 
     async updateLogin(username, password) {
@@ -115,7 +122,7 @@ class Application extends Component {
                 case 'home':
                     return <Info/>;
                 case 'game':
-                    return <Game />;
+                    return <Game userID={this.state.userID}/>;
                 case 'options':
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
