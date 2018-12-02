@@ -4,7 +4,9 @@ import './Board.css';
 import Board from './Board.js';
 import TakenPiece from './TakenPiece.js';
 import initialiseChessBoard from '../helpers/board-initialiser.js';
-import {Container, Card, CardHeader, CardBody} from 'reactstrap'
+import {Container, Card, CardHeader, CardBody} from 'reactstrap';
+
+import {get_config, request} from '../../../../api/api';
 
 export default class Game extends React.Component {
     constructor() {
@@ -102,11 +104,16 @@ export default class Game extends React.Component {
                         status: '',
                         turn: turn
                     });
+                    //After move update board for db
+//                    let gameObj = {
+//                        gameID: "",
+//                        gameBoard: "",
+//                        turn: ""
+//                    };
+//                    request(obj, 'updateBoard');
                 }
                 else {
-                    console.log("here");
                     const squares = this.state.squares.slice();
-                    console.log(squares);
                     //reset selection color
                     for(let x = 0; x < 144; x++) {
                         try{
