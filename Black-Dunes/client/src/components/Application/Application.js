@@ -3,11 +3,14 @@ import {Container} from 'reactstrap'
 import Info from './Info'
 import Options from './Options'
 import Calculator from './Calculator/Calculator'
+import Game from './Game/components/Game'
 import Login from "./Login"
+import Logout from "./Logout";
 
 import {get_config, request} from '../../api/api'
 import Logout from "./Logout";
 import Register from "./Register";
+
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -144,8 +147,8 @@ class Application extends Component {
             switch (this.props.page) {
                 case 'home':
                     return <Info/>;
-                case 'calc':
-                    return <Calculator unit={this.state.trip.options.unit}/>;
+                case 'game':
+                    return <Game />;
                 case 'options':
                     return <Options options={this.state.trip.options} config={this.state.config}
                                     updateOptions={this.updateOptions}/>;
