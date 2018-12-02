@@ -104,6 +104,7 @@ export default class Game extends React.Component {
                         status: '',
                         turn: turn
                     });
+                    
                     //After move update board for db
 //                    let gameObj = {
 //                        gameID: "",
