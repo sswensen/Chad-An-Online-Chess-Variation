@@ -26,4 +26,24 @@ public class ActiveGames {
             games.add(g1);
         }
     }
+
+    public ArrayList<Game> getGamesFromUserID(String userID) {
+        ArrayList<Game> returnGames = new ArrayList<>();
+        int id = Integer.parseInt(userID);
+        for(Game g : games) {
+            if(g.getPlayerOne().getUser().getUserID() == id || g.getPlayerTwo().getUser().getUserID() == id) {
+                returnGames.add(g);
+            }
+        }
+        return returnGames;
+    }
+
+    public Game getGameFromGameID(String gameID) {
+        for(Game g : games) {
+            if(g.getGameID() == (Integer.parseInt(gameID))) {
+                return g;
+            }
+        }
+        return null;
+    }
 }
