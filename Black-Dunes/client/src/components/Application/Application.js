@@ -6,8 +6,9 @@ import Calculator from './Calculator/Calculator'
 import Game from './Game/components/Game'
 import Login from "./Login"
 import Logout from "./Logout";
-
 import {get_config, request} from '../../api/api'
+import Register from "./Register";
+
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -21,6 +22,8 @@ class Application extends Component {
             error: '',
             username: 'null',
             password: 'null',
+            email: 'null',
+            nickname: 'null',
             trip: {
                 type: "trip",
                 title: "",
@@ -36,10 +39,14 @@ class Application extends Component {
         this.updateBasedOnResponse = this.updateBasedOnResponse.bind(this);
         this.updateOptions = this.updateOptions.bind(this);
         this.updateLogin = this.updateLogin.bind(this);
+        this.registerUser = this.registerUser.bind(this);
         this.clearLogin = this.clearLogin.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.updateEmail = this.updateEmail.bind(this);
+        this.updateNickname = this.updateNickname.bind(this);
         this.updateUserId = this.updateUserId.bind(this);
+
     }
 
     componentWillMount() {
@@ -93,6 +100,31 @@ class Application extends Component {
         this.setState({password: pass});
     }
 
+    updateEmail(email) {
+        this.setState({email: email});
+    }
+
+    updateNickname(nickname) {
+        this.setState({nickname: nickname})
+    }
+
+    async registerUser(username, password, email, nickname) {
+        //console.log(username);
+        //console.log(password);
+        let user = {
+            username: username,
+            password: password,
+            email: email,
+            nickname: nickname
+        };
+
+        let updated = request(user, 'register');
+        updated.then((values) => {
+            this.updateBasedOnResponse(values)
+            console.log(values);
+        });
+    }
+
     async updateLogin(username, password) {
         //console.log(username);
         //console.log(password);
@@ -131,6 +163,13 @@ class Application extends Component {
                                   updatePassword={this.updatePassword} updateLogin={this.updateLogin}/>;
                 case 'logout':
                     return <Logout clearLogin={this.clearLogin}/>;
+                case 'register':
+                    return <Register error={this.state.error}
+                                     updateUsername={this.updateUsername}
+                                     updatePassword={this.updatePassword}
+                                     updateEmail={this.updateEmail}
+                                     updateNickname={this.updateNickname}
+                                     registerUser={this.registerUser}/>;
                 default:
                     return <div/>;
             }

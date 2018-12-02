@@ -15,7 +15,8 @@ class App extends Component {
                 {title: 'Home', page: 'home', link: '/'},
                 {title: 'Game', page: 'game', link: '/game'},
                 {title: 'Options', page: 'options', link: '/options'},
-                {title: 'Login', page: 'login', link: '/login'}
+                {title: 'Login', page: 'login', link: '/login'},
+                {title: 'Register', page: 'register', link: '/register'}
             ]
         };
         this.updateAuth = this.updateAuth.bind(this);
@@ -77,7 +78,8 @@ class App extends Component {
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Options', page: 'options', link: '/options'},
-                    {title: 'Logout', page: 'logout', link: '/logout'}
+                    {title: 'Logout', page: 'logout', link: '/logout'},
+                    {title: 'Register', page: 'register', link: '/register'}
                 ]
             });
             return <Redirect to='/login'  />
@@ -87,7 +89,8 @@ class App extends Component {
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Options', page: 'options', link: '/options'},
-                    {title: 'Login', page: 'login', link: '/login'}
+                    {title: 'Login', page: 'login', link: '/login'},
+                    {title: 'Register', page: 'register', link: '/register'}
                 ]
             })
         }
