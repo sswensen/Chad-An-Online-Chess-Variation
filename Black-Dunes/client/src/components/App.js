@@ -14,7 +14,6 @@ class App extends Component {
             auth: -1,
             pages: [
                 {title: 'Home', page: 'home', link: '/'},
-                {title: 'Game', page: 'game', link: '/game'},
                 {title: 'Login', page: 'login', link: '/login'},
                 {title: 'Register', page: 'register', link: '/register'}
             ],
@@ -155,7 +154,6 @@ class App extends Component {
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Logout', page: 'logout', link: '/logout'},
-                    {title: 'Register', page: 'register', link: '/register'}
                 ]
             });
             return <Redirect to='/login'/>
@@ -163,7 +161,6 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
-                    {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Login', page: 'login', link: '/login'},
                     {title: 'Register', page: 'register', link: '/register'}
                 ]
