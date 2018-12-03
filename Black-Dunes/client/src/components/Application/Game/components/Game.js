@@ -31,6 +31,24 @@ export default class Game extends React.Component {
         this.getBoard();
     }
 
+
+    getGames() {
+        let user = {
+            userID: '4'
+        }
+        let update = request(user, 'getGames');
+        update.then((value => {
+            this.updateGames(value);
+            console.log(value);
+        }));
+    }
+
+    updateGames(value) {
+        this.setState({
+            games: value
+        });
+    }
+
     getBoard() {
         let gameInfo = {
             gameID: '3'
@@ -349,19 +367,6 @@ export default class Game extends React.Component {
         return false;
     }
 
-    getGames() {
-        // let update = request(this.props.userID, 'getGames');
-        // update.then((value => {
-        //     this.updateGames(value);
-        //     console.log(value);
-        // }));
-    }
-
-    updateGames(value) {
-        this.setState({
-            games: value
-        });
-    }
 
     render() {
         return (
