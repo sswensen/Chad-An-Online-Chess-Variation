@@ -36,6 +36,7 @@ export default class Game extends React.Component {
     }
 
     handleClick(piece, rowCol) {
+
         let row = parseInt((new String(rowCol)).split("-")[0]);
         let col = parseInt((new String(rowCol)).split("-")[1]);
         let i = row*12 + col;
@@ -55,8 +56,11 @@ export default class Game extends React.Component {
             else {
                 squares[i].style = {
                     backgroundImage: squares[i].style['backgroundImage'],
-                    'background-color': '#00c4ffc9'
+                    'background-color': '#fbda39'
                 };
+                //Add api call here
+                let validMoves = [[6,4],[7,5]];
+                highlightValidMoves(validMoves, squares);
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -118,13 +122,6 @@ export default class Game extends React.Component {
                         turn: turn
                     });
 
-                    //After move update board for db
-//                    let gameObj = {
-//                        gameID: "",
-//                        gameBoard: "",
-//                        turn: ""
-//                    };
-//                    request(obj, 'updateBoard');
                 }
                 else {
                     const squares = this.state.squares.slice();
@@ -161,6 +158,12 @@ export default class Game extends React.Component {
             }
         }
         return isLegal;
+    }
+
+    highlightValidMoves(moves, squares) {
+        for(let i = 0; i < moves.size(); i++) {
+            
+        }
     }
 
     getGames() {
