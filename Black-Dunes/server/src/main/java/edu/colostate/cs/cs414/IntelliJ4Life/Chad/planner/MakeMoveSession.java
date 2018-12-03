@@ -3,6 +3,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
@@ -22,7 +23,7 @@ public class MakeMoveSession {
      * @param request
      */
 
-    public MakeMoveSession(Request request) {
+    public MakeMoveSession(Request request, ActiveGames activeGames) {
         // first print the request
         System.out.println(HTTP.echoRequest(request));
 
@@ -33,21 +34,15 @@ public class MakeMoveSession {
         Gson gson = new Gson();
         moveData = gson.fromJson(requestBody, MoveData.class);
 
-        // TODO Use Scott's code to get game from database once that is completed
-        int gameIdInt = Integer.parseInt(moveData.gameID);
         int userIdInt = Integer.parseInt(moveData.userID);
-        Database db = new Database();
-        ArrayList<Game> games = db.getGames();
-        Game game = null;
-        for (Game g: games) {
-            if(g.getGameID() == gameIdInt)
-                game = g;
-        }
+        Game game = activeGames.getGameFromGameID(moveData.gameID);
+
         if(game == null) {
             result = new Result(game.getBoard().convertBoardToString(), false);
             return;
         }
 
+        Database db = new Database();
         User user = db.getUserFromDatabaseByID(userIdInt);
         Piece piece = game.getBoard().getBoard()[moveData.initialRow][moveData.initialCol];
         int[] move = {moveData.afterRow, moveData.afterCol};
@@ -62,6 +57,10 @@ public class MakeMoveSession {
         boolean makeMoveResult = p.makeMove(piece, move);
 
         // TODO: Scott, get game from database again and compare to the local game object to ensure they're equal
+        Game databaseGame = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
+        if(!databaseGame.getBoard().convertBoardToString().equals(game.getBoard().convertBoardToString())) {
+            System.err.println("GAME IN DATABASE DOESN'T MATCH!");
+        }
 
         result = new Result(game.getBoard().convertBoardToString(), makeMoveResult);
     }

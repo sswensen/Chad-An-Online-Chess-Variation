@@ -171,6 +171,12 @@ public class MicroServer {
 
   }
 
+  /** A REST API that registers a user in the database.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
   private String register(Request request, Response response) {
 
     response.type("text/plain");
@@ -180,7 +186,7 @@ public class MicroServer {
     return new RegisterSession(request).getUserID(); // Send back user id, THIS IS INSECURE
   }
 
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that updates the board in the database.
    *
    * @param request
    * @param response
@@ -205,7 +211,7 @@ public class MicroServer {
     return "";
   }
 
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that returns the board to the frontend.
    *
    * @param request
    * @param response
@@ -231,7 +237,7 @@ public class MicroServer {
       return game.getBoard();
   }
 
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that returns the a user's games to the frontend.
    *
    * @param request
    * @param response
@@ -287,8 +293,19 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    return new MakeMoveSession(request).getMakeMove();
+    return new MakeMoveSession(request, activeGames).getMakeMove();
   }
 
-  // TODO call for new game
+  /** A REST API that creates a new game and adds it to activeGames and the database.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String createGame(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return "";
+  }
 }
