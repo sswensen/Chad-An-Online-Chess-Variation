@@ -7,6 +7,7 @@ import initialiseChessBoard from '../helpers/board-initialiser.js';
 import {Container, Card, CardHeader, CardBody} from 'reactstrap';
 
 import {get_config, request} from '../../../../api/api';
+import piece from "../pieces/piece";
 
 export default class Game extends React.Component {
     constructor() {
@@ -75,6 +76,24 @@ export default class Game extends React.Component {
         boardString = boardString.trim();
         return boardString;
     }
+
+    rebuildBoard(boardString) {
+        let splitArray = boardString.split(" ");
+        for(let i = 0; i < splitArray.length; i++) {
+            console.log(splitArray[i]);
+            let pieceInfo = splitArray[i].split(",");
+            console.log(pieceInfo[0]);
+            let row = parseInt(pieceInfo[0]);
+            let col = parseInt(pieceInfo[1]);
+            let id = (row * 12) + col;
+            console.log(id);
+            console.log(pieceInfo[1]);
+            console.log(pieceInfo[2]);
+            console.log(pieceInfo[3]);
+        }
+
+    }
+
     handleClick(piece, rowCol) {
 
         let row = parseInt((new String(rowCol)).split("-")[0]);
@@ -83,7 +102,7 @@ export default class Game extends React.Component {
         const squares = this.state.squares.slice();
 
         console.log(this.convertBoard())
-
+        console.log(this.rebuildBoard(this.convertBoard()))
         if (this.state.sourceSelection === -1) {
             if (!squares[i] || squares[i].player !== this.state.player) {
                 //reset selection color
