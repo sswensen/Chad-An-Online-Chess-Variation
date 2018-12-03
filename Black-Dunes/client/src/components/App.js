@@ -31,6 +31,9 @@ class App extends Component {
         this.clearLogin = this.clearLogin.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.updateEmail = this.updateEmail.bind(this);
+        this.updateNickname = this.updateNickname.bind(this);
+        this.registerUser = this.registerUser.bind(this);
     }
 
     componentWillMount() {
@@ -44,7 +47,7 @@ class App extends Component {
     }
 
     updateBasedOnResponse(value) {
-        //console.log("User ID Returned from database is " + value);
+        // console.log("User ID Returned from database is " + value);
         if (value > -1) {
             this.setState({
                 'userID': value,
@@ -58,25 +61,49 @@ class App extends Component {
         this.updateAuth(value);
     }
 
+    updateUsername(user) {
+        this.setState({username: user});
     }
 
     updatePassword(pass) {
-        this.setState({password: pass})
+        this.setState({password: pass});
     }
 
-    async updateLogin(username, password) {
-        //console.log(username);
-        //console.log(password);
+    updateEmail(email) {
+        this.setState({email: email});
+    }
+
+    updateNickname(nickname) {
+        this.setState({nickname: nickname})
+    }
+
+    async registerUser(username, password, email, nickname) {
         let user = {
             username: username,
-            password: password
+            password: password,
+            email: email,
+            nickname: nickname
         };
 
-        let updated = request(user, 'login');
+        let updated = request(user, 'register');
         updated.then((values) => {
-            this.updateBasedOnResponse(values)
+            this.updateBasedOnResponse(values);
+            console.log(values);
         });
     }
+
+
+    async updateLogin(username, password) {
+            let user = {
+                username: username,
+                password: password
+            };
+
+            let updated = request(user, 'login');
+            updated.then((values) => {
+                this.updateBasedOnResponse(values)
+            });
+        }
 
     clearLogin() {
         this.setState({
@@ -147,7 +174,10 @@ class App extends Component {
             updateUsername: this.updateUsername,
             updatePassword: this.updatePassword,
             updateLogin: this.updateLogin,
-            clearLogin: this.clearLogin
+            clearLogin: this.clearLogin,
+            updateEmail: this.updateEmail,
+            updateNickname: this.updateNickname,
+            registerUser: this.registerUser
         };
         const routes = this.state.pages.map((element) =>
             <Route exact path={element['link']} key={"route_".concat(element['page'])}

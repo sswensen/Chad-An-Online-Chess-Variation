@@ -3,7 +3,7 @@ import Home from './Home'
 import Game from './Game/components/Game'
 import Login from './Login'
 import Logout from './Logout';
-import Register from "./Register";
+import Register from './Register';
 
 
 /* Renders the application.
@@ -22,17 +22,15 @@ class Application extends Component {
             case 'logout':
                 return <Logout clearLogin={this.props.info['clearLogin']}/>;
             case 'register':
-                return <Register error={this.state.error}
-                                 updateUsername={this.updateUsername}
-                                 updatePassword={this.updatePassword}
-                                 updateEmail={this.updateEmail}
-                                 updateNickname={this.updateNickname}
-                                 registerUser={this.registerUser}/>;
+                return <Register error={this.props.info['error']}
+                                 updateUsername={this.props.info['updateUsername']}
+                                 updatePassword={this.props.info['updatePassword']}
+                                 updateEmail={this.props.info['updateEmail']}
+                                 updateNickname={this.props.info['updateNickname']}
+                                 registerUser={this.props.info['registerUser']}/>;
             default:
                 return <div/>;
             }
-
-        return <div/>
     }
 }
 
