@@ -9,6 +9,7 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GetValidMovesSession {
     private PieceData pieceData;
@@ -47,6 +48,10 @@ public class GetValidMovesSession {
             ArrayList<int[]> validMovesList = piece.validMoves(game.getBoard().getBoard());
             int[][] validMovesArray = new int[validMovesList.size()][2];
             validMovesArray = validMovesList.toArray(validMovesArray);
+
+            System.out.println("Moves: ");
+            for (int i = 0; i < validMovesArray.length; i++)
+                System.out.println("move: " + Arrays.toString(validMovesArray[i]));
 
             validMoves = validMovesArray;
         }
