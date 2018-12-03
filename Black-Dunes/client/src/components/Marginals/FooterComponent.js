@@ -4,7 +4,7 @@ import './css/marginals.css';
 /* Renders a text footer below the application with copyright
  * and other useful information.
  */
-class Footer extends Component {
+class FooterComponent extends Component {
     constructor(props) {
         super(props);
     }
@@ -155,7 +155,7 @@ class Footer extends Component {
 
     render() {
         return (
-            <div>
+            <footer>
                 <br/>
                 {this.companyInformation()}
                 <div className="add-footer">
@@ -175,9 +175,9 @@ class Footer extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </footer>
         )
     }
 }
 
-export default Footer;
+export default FooterComponent;

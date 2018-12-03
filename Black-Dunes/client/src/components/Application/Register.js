@@ -55,6 +55,7 @@ class Register extends Component {
         }
 
         this.props.registerUser(this.state.username, this.state.password, this.state.email, this.state.nickname);
+        this.props.updateLogin(this.state.username, this.state.password);
         return this.setState({error: ''});
     }
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './format.css'
 import Header from './Marginals/Header';
 import Application from './Application/Application';
-import Footer from './Marginals/Footer';
+import FooterComponent from './Marginals/FooterComponent';
 import {HashRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import {get_config, request} from '../api/api';
@@ -14,7 +14,6 @@ class App extends Component {
             auth: -1,
             pages: [
                 {title: 'Home', page: 'home', link: '/'},
-                {title: 'Game', page: 'game', link: '/game'},
                 {title: 'Login', page: 'login', link: '/login'},
                 {title: 'Register', page: 'register', link: '/register'}
             ],
@@ -100,11 +99,6 @@ class App extends Component {
         updated.then((values) => {
             this.updateBasedOnResponse(values)
         });
-
-        let backgroundGames = request(user, 'loadGamesOnServer');
-        backgroundGames.then((values => {
-            console.log(values + " : " + updated.valueOf());
-        }))
     }
 
     clearLogin() {
@@ -136,7 +130,7 @@ class App extends Component {
                                     </Switch>
                                 </CSSTransition>
                             </TransitionGroup>
-                            <Footer/>
+                            <FooterComponent/>
                         </div>
                     )}/>
                 </div>
@@ -154,7 +148,7 @@ class App extends Component {
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Invite', page: 'invite', link: '/invite'},
                     {title: 'Game', page: 'game', link: '/game'},
-                    {title: 'Logout', page: 'logout', link: '/logout'}
+                    {title: 'Logout', page: 'logout', link: '/logout'},
                 ]
             });
             return <Redirect to='/login'/>
@@ -162,7 +156,6 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
-                    {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Login', page: 'login', link: '/login'},
                     {title: 'Register', page: 'register', link: '/register'}
                 ]
