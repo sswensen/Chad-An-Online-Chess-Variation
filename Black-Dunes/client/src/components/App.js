@@ -47,13 +47,11 @@ class App extends Component {
     }
 
     updateBasedOnResponse(value) {
-        // console.log("User ID Returned from database is " + value);
         if (value > -1) {
             this.setState({
                 'userID': value,
                 'error': 'Logged in successfully!'
             });
-            //window.location = './'; // This actually does a refresh which is what we don't want because it clears the userID
             window.location = './#';
         } else {
             this.setState({'error': 'Invalid username or password!'})
@@ -88,7 +86,6 @@ class App extends Component {
         let updated = request(user, 'register');
         updated.then((values) => {
             this.updateBasedOnResponse(values);
-            console.log(values);
         });
     }
 
@@ -150,9 +147,9 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
+                    {title: 'Invite', page: 'invite', link: '/invite'},
                     {title: 'Game', page: 'game', link: '/game'},
-                    {title: 'Logout', page: 'logout', link: '/logout'},
-                    {title: 'Register', page: 'register', link: '/register'}
+                    {title: 'Logout', page: 'logout', link: '/logout'}
                 ]
             });
             return <Redirect to='/login'  />

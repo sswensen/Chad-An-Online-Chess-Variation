@@ -4,6 +4,7 @@ import Game from './Game/components/Game'
 import Login from './Login'
 import Logout from './Logout';
 import Register from './Register';
+import Invite from './Invite';
 
 
 /* Renders the application.
@@ -28,6 +29,8 @@ class Application extends Component {
                                  updateEmail={this.props.info['updateEmail']}
                                  updateNickname={this.props.info['updateNickname']}
                                  registerUser={this.props.info['registerUser']}/>;
+            case 'invite':
+                return <Invite/>;
             default:
                 return <div/>;
             }
