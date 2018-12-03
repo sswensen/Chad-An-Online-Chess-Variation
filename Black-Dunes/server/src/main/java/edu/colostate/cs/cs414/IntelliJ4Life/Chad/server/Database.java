@@ -110,6 +110,27 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
+    public ArrayList<User> getAllUsersFromDatabase() {
+
+        String query = "SELECT ID, Username, Nickname, Email " +
+                "FROM Users;";
+        String dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                Statement stQuery = conn.createStatement();
+                ResultSet rsQuery = stQuery.executeQuery(query)
+            ) {
+                ArrayList<User> userList = parseUsersFromResultSet(rsQuery);
+                return userList;
+            }
+        } catch(Exception e) {
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+        // If no user found with supplied username and password, return a user with -1 as ID
+        return null;
+    }
+
     public User getUserFromDatabase(String username, String password) {
         username = username.toLowerCase();
         password = password.toLowerCase();
