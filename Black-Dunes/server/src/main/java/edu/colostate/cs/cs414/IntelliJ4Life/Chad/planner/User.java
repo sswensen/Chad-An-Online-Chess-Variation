@@ -114,6 +114,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "userID=" + userID +
+                ", username='" + username + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", email='" + email + '\'' +
                 ", receivedNotifications=" + receivedNotifications +

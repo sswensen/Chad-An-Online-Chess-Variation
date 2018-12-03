@@ -101,11 +101,6 @@ class App extends Component {
         updated.then((values) => {
             this.updateBasedOnResponse(values)
         });
-
-        let backgroundGames = request(user, 'loadGamesOnServer');
-        backgroundGames.then((values => {
-            console.log(values + " : " + updated.valueOf());
-        }))
     }
 
     clearLogin() {
