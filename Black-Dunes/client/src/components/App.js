@@ -47,7 +47,6 @@ class App extends Component {
     }
 
     updateBasedOnResponse(value) {
-        // console.log("User ID Returned from database is " + value);
         if (value > -1) {
             this.setState({
                 'userID': value,
@@ -88,7 +87,6 @@ class App extends Component {
         let updated = request(user, 'register');
         updated.then((values) => {
             this.updateBasedOnResponse(values);
-            console.log(values);
         });
     }
 
@@ -170,6 +168,7 @@ class App extends Component {
 
     render() {
         const childInformation = {
+            userID: this.state.userID,
             error: this.state.error,
             updateUsername: this.updateUsername,
             updatePassword: this.updatePassword,

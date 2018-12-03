@@ -16,7 +16,6 @@ export default class Game extends React.Component {
     constructor() {
         super();
         this.state = {
-            userID: 0,
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
@@ -25,19 +24,12 @@ export default class Game extends React.Component {
             status: '',
             turn: 'white',
             games: [],
-            selectedGame: 0
+            selectedGame: 0,
+            validMoves: []
         };
-        this.updateUserID = this.updateUserID.bind(this);
         this.getGames();
     }
 
-    updateUserID(id) {
-
-        this.setState({
-           userID: id
-        });
-        console.log("userID: " + this.userID);
-    }
 
     convertBoard() {
         const squares = this.state.squares.slice();
@@ -176,8 +168,7 @@ export default class Game extends React.Component {
                     'background-color': '#00c4ffc9'
                 };
                 //Add api call here
-                // let moves = [[6,4],[4,7]];
-                // this.highlightValidMoves(moves);
+                this.getValidMoves(row, col);
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -207,10 +198,6 @@ export default class Game extends React.Component {
                 const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
                 const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
-                if(!isMovePossible)
-                    console.log('impossible move');
-                if(!isMoveLegal)
-                    console.log('illegal move');
 
                 if (isMovePossible && isMoveLegal) {
                     if (squares[i] !== null) {
@@ -277,15 +264,37 @@ export default class Game extends React.Component {
         return isLegal;
     }
 
-    highlightValidMoves(moves) {
-        for(let i = 0; i < moves.length; i++) {
-            console.log(document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundImage);
-            if(document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundImage === "")
-                document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundColor = "#00c4ffc9";
-            else
-                document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundColor = "#ff4936c9";
-        }
+    async getValidMoves(row, col) {
+        let obj = {
+            gameID: 4,
+            userID: this.props.userID,
+            row: row,
+            col: col
+        };
+        let update = request(obj,'GetValidMovesSession');
+        update.then((value => {
+            this.setValidMoves(value); // TODO this is broken, below log works but line 186,187 are empty/are undefined
+        }))
 
+    }
+
+    setValidMoves(value) {
+        this.setState({
+            validMoves: value
+        })
+        this.highlightValidMoves();
+    }
+
+    highlightValidMoves() {
+        for(let i = 0; i < this.state.validMoves.length; i++) {
+            if(document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundImage === "")
+                document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#00c4ffc9";
+            else
+                document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#ff4936c9";
+        }
+        this.setState({
+            validMoves: []
+        })
     }
 
     clearHighlights() {
@@ -326,11 +335,11 @@ export default class Game extends React.Component {
     }
 
     getGames() {
-        let update = request(this.state.userID, 'getGames');
-        update.then((value => {
-            this.updateGames(value);
-            console.log(value);
-        }));
+        // let update = request(this.props.userID, 'getGames');
+        // update.then((value => {
+        //     this.updateGames(value);
+        //     console.log(value);
+        // }));
     }
 
     updateGames(value) {
