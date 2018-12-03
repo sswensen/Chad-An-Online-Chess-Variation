@@ -259,6 +259,7 @@ public class MicroServer {
     if(user != null) {
       System.out.println("user.userID: " + user.getUserID());
       System.out.println();
+      db.setUser(user);
       db.getCurrentGamesFromDatabase();
       ArrayList<Game> games = db.getGames();
       System.out.println(gson.toJson(games));
