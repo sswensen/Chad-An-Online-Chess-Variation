@@ -50,7 +50,6 @@ class App extends Component {
                 'userID': value,
                 'error': 'Logged in successfully!'
             });
-            //window.location = './'; // This actually does a refresh which is what we don't want because it clears the userID
             window.location = './#';
         } else {
             this.setState({'error': 'Invalid username or password!'})
@@ -159,6 +158,7 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
+                    {title: 'Invite', page: 'invite', link: '/invite'},
                     {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Logout', page: 'logout', link: '/logout'},
                 ]
