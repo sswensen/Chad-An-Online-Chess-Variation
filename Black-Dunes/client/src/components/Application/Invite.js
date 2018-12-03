@@ -24,10 +24,10 @@ class Invite extends Component {
         this.handleInviteSubmit = this.handleInviteSubmit.bind(this)
     }
 
-    componentDidMount() {
-        const users  = this.getUsers();
-        this.setState({users: users})
-    }
+    // componentDidMount() {
+    //     const users  = this.getUsers();
+    //     this.setState({users: users})
+    // }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
