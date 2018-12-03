@@ -25,7 +25,6 @@ class App extends Component {
         };
 
         this.updateAuth = this.updateAuth.bind(this);
-        this.updateBasedOnResponse = this.updateBasedOnResponse.bind(this);
         this.updateLogin = this.updateLogin.bind(this);
         this.clearLogin = this.clearLogin.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
@@ -45,7 +44,7 @@ class App extends Component {
         );
     }
 
-    updateBasedOnResponse(value) {
+    updateLoginBasedOnResponse(value) {
         if (value > -1) {
             this.setState({
                 'userID': value,
@@ -55,6 +54,20 @@ class App extends Component {
             window.location = './#';
         } else {
             this.setState({'error': 'Invalid username or password!'})
+        }
+        this.updateAuth(value);
+    }
+
+    updateRegisterBasedOnResponse(value) {
+        if (value > -1) {
+            this.setState({
+                'userID': value,
+                'error': 'Registered successfully!'
+            });
+            //window.location = './'; // This actually does a refresh which is what we don't want because it clears the userID
+            window.location = './#';
+        } else {
+            this.setState({'error': 'Please try again. Duplicate !'}) // TODO
         }
         this.updateAuth(value);
     }
@@ -75,6 +88,18 @@ class App extends Component {
         this.setState({nickname: nickname})
     }
 
+    async updateLogin(username, password) {
+        let user = {
+            username: username,
+            password: password
+        };
+
+        let updated = request(user, 'login');
+        updated.then((values) => {
+            this.updateLoginBasedOnResponse(values)
+        });
+    }
+
     async registerUser(username, password, email, nickname) {
         let user = {
             username: username,
@@ -85,20 +110,7 @@ class App extends Component {
 
         let updated = request(user, 'register');
         updated.then((values) => {
-            this.updateBasedOnResponse(values);
-        });
-    }
-
-
-    async updateLogin(username, password) {
-        let user = {
-            username: username,
-            password: password
-        };
-
-        let updated = request(user, 'login');
-        updated.then((values) => {
-            this.updateBasedOnResponse(values)
+            this.updateRegisterBasedOnResponse(values);
         });
     }
 
