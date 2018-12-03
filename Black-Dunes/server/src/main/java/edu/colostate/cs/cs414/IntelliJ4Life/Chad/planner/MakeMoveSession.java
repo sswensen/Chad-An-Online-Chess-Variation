@@ -56,7 +56,6 @@ public class MakeMoveSession {
 
         boolean makeMoveResult = p.makeMove(piece, move);
 
-        // TODO: Scott, get game from database again and compare to the local game object to ensure they're equal
         Game databaseGame = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
         if(!databaseGame.getBoard().convertBoardToString().equals(game.getBoard().convertBoardToString())) {
             System.err.println("GAME IN DATABASE DOESN'T MATCH!");
