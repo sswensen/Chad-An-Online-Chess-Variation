@@ -50,7 +50,7 @@ export default class Game extends React.Component {
 
     getBoard() {
         let gameInfo = {
-            gameID: '3'
+            gameID: this.state.gameID
         };
         let update = request(gameInfo, 'getBoard');
         update.then((value => {
