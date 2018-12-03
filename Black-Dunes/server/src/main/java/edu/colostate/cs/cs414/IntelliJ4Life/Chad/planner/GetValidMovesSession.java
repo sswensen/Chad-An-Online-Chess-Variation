@@ -32,7 +32,6 @@ public class GetValidMovesSession {
         Gson gson = new Gson();
         pieceData = gson.fromJson(requestBody, PieceData.class);
 
-        // TODO: Use Scott's code to get game from database once that is completed
         int userIdInt = Integer.parseInt(pieceData.userID);
         Database db = new Database();
 
