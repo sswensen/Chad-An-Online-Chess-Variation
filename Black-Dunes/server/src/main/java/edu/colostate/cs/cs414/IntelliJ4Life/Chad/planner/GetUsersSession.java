@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class GetUsersSession {
     private UserData userData;
-    private int[][] usersArray;
+    private ReturnData[] usersArray;
 
     /**
      * Gets all the users to return to the frontend
@@ -40,13 +40,13 @@ public class GetUsersSession {
         int userID = Integer.parseInt(userData.userID);
 
         ArrayList<User> users = db.getAllUsersFromDatabase();
-        int[] usersArray = new int[users.size() - 1];
+        usersArray = new ReturnData[users.size() - 1];
         int i = 0;
 
         // Convert users ArrayList to array removing the current user
         for (User u : users) {
             if (u.getUserID() != userID) {
-                usersArray[i] = u.getUserID();
+                usersArray[i] = new ReturnData(u.getUserID(), u.getNickName());
 
                 i++;
             }
@@ -64,5 +64,15 @@ public class GetUsersSession {
 
     private class UserData {
         private String userID = "";
+    }
+
+    private class ReturnData {
+        private int userID;
+        private String nickname;
+
+        private ReturnData(int _userID, String _nickname){
+            userID = _userID;
+            nickname = _nickname;
+        }
     }
 }
