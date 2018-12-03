@@ -1,5 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.GetBoardSession;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
 
 import com.google.gson.Gson;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.*;
@@ -55,6 +57,7 @@ public class MicroServer {
     post("/plan", this::plan);
     post("/login", this::login);
     post("/register", this::register);
+    post("/getBoard", this::getBoard);
     post("/updateBoard", this::updateBoard);
     post("/getGames", this::getGames);
     post("/getValidMovesSession", this::getValidMoves);
@@ -211,32 +214,6 @@ public class MicroServer {
     return "";
   }
 
-  /** A REST API that returns the board to the frontend.
-   *
-   * @param request
-   * @param response
-   * @return
-   */
-  private Object getBoard(Request request, Response response) {
-
-    response.type("text/plain");
-    response.header("Access-Control-Allow-Origin", "*");
-
-    //connect to db and update game
-    Database db = new Database();
-    ArrayList<Game> games = db.getGames();
-    Game game = null;
-    for (Game g: games) {
-      if(g.getGameID() == Integer.parseInt(request.params(":gameID")))
-        game = g;
-    }
-
-    if(game == null)
-      return "";
-    else
-      return game.getBoard();
-  }
-
   /** A REST API that returns the a user's games to the frontend.
    *
    * @param request
@@ -307,5 +284,20 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     return "";
+  }
+
+  /** A REST API that returns the board to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getBoard(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println();
+    return new GetBoardSession(request, activeGames).getBoard();
   }
 }
