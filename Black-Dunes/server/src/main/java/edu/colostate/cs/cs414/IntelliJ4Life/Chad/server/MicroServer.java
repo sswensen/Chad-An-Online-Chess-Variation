@@ -60,6 +60,7 @@ public class MicroServer {
     post("/getBoard", this::getBoard);
     post("/updateBoard", this::updateBoard);
     post("/getGames", this::getGames);
+    post("/getUsers", this::getUsers);
     post("/getValidMovesSession", this::getValidMoves);
     post("/makeMove", this::makeMove);
 
@@ -227,24 +228,73 @@ public class MicroServer {
 
 
     Gson gson = new Gson();
+
     //get userID
     System.out.println("body: " + request.body());
     int userID = Integer.parseInt(request.body());
     System.out.println("userID: " +userID);
+
     //connect to db and update game
     Database db = new Database();
+
     //get user
     User user = db.getUserFromDatabaseByID(userID);
+
     if(user != null) {
       System.out.println("user.userID: " + user.getUserID());
       System.out.println();
-      db.setUser(user);
-      db.getCurrentGamesFromDatabase();
-      ArrayList<Game> games = db.getGames();
+
+      // Get games for user
+      ArrayList<Game> games = activeGames.getGamesFromUserID(String.valueOf(user.getUserID()));
+
+      // Array containing [gameID, user1ID, user2ID] for each game
+      int[][] gamesArray = new int[games.size()][3];
+      int i = 0;
+
+      for (Game g : games) {
+        gamesArray[i][0] = g.getGameID();
+        gamesArray[i][1] = g.getPlayerOne().getUser().getUserID();
+        gamesArray[i][2] = g.getPlayerTwo().getUser().getUserID();
+
+        i++;
+      }
+
       System.out.println(gson.toJson(games));
-      return gson.toJson(games);
+      return gson.toJson(gamesArray);
     }
+
+    // User is null
     return "";
+  }
+
+  /** A REST API that returns all of the users in the system to the frontend
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getUsers(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    Gson gson = new Gson();
+    Database db = new Database();
+
+    int userID = Integer.parseInt(request.body());
+    ArrayList<User> users = db.getAllUsersFromDatabase(); // TODO: change to Scotts updated database method
+    int[] usersArray = new int[users.size() - 1];
+    int i = 0;
+
+    // Convert users ArrayList to array removing the current user
+    for (User u : users) {
+      if (u.getUserID() != userID) {
+        usersArray[i] = u.getUserID();
+
+        i++;
+      }
+    }
+
+    return gson.toJson(usersArray);
   }
 
   /** A REST API that returns the team information associated with the server.
@@ -297,7 +347,7 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println();
+    System.out.println("getBoard");
     return new GetBoardSession(request, activeGames).getBoard();
   }
 }
