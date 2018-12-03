@@ -7,6 +7,7 @@ export default class Board extends React.Component {
 
     renderSquare(i, squareShade, row) {
         return <Square
+            key={'Square ' + i}
             id={row + '-' + i % 12}
             style={this.props.squares[i] ? this.props.squares[i].style : null}
             shade={squareShade}
@@ -29,11 +30,11 @@ export default class Board extends React.Component {
                     squareRows.push(this.renderSquare((i * 12) + j, squareShade, i));
                 }
             }
-            board.push(<div id={i} className="board-row">{squareRows}</div>)
+            board.push(<div key={i} id={i} className="board-row">{squareRows}</div>)
         }
 
         return (
-            <div className="board">
+            <div key = "board" className="board">
                 {board}
             </div>
         );

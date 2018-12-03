@@ -7,12 +7,15 @@ import initialiseChessBoard from '../helpers/board-initialiser.js';
 import {Container, Card, CardHeader, CardBody} from 'reactstrap';
 
 import {get_config, request} from '../../../../api/api';
+import Rook from '../pieces/rook.js';
+import King from '../pieces/king.js';
+import Queen from '../pieces/queen.js';
+import piece from "../pieces/piece";
 
 export default class Game extends React.Component {
     constructor() {
         super();
         this.state = {
-            userID: 0,
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
@@ -21,25 +24,147 @@ export default class Game extends React.Component {
             status: '',
             turn: 'white',
             games: [],
-            selectedGame: 0
+            selectedGame: 0,
+            validMoves: []
         };
-        this.updateUserID = this.updateUserID.bind(this);
         this.getGames();
+        this.getBoard();
     }
 
-    updateUserID(id) {
+    getBoard() {
+        let gameInfo = {
+            gameID: '3'
+        };
+        let update = request(gameInfo, 'getBoard');
+        update.then((value => {
+            this.updateGame(value);
+        }));
+    }
 
+    updateGame(value) {
         this.setState({
-           userID: id
-        });
-        console.log("userID: " + this.userID);
+            squares: this.rebuildBoard(value["board"]),
+            turn: (value["turn"] === 0 ? 'white' : 'black')
+        })
+    }
+
+    convertBoard() {
+        const squares = this.state.squares.slice();
+        let boardString = "";
+        for(let i = 0, j = 0; i < 144; i++, j++) {
+            if(squares[i]) {
+                // white
+                if(squares[i].player == 1) {
+                    if(squares[i].constructor.name == "Rook") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 1);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 1 + " "
+                    }
+                    if(squares[i].constructor.name == "Queen") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 1);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 1 + " "
+                    }
+                    if(squares[i].constructor.name == "King") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 1);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 1 + " "
+                    }
+                } else {
+                // black
+                    if(squares[i].constructor.name == "Rook") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 0);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 0 + " "
+                    }
+                    if(squares[i].constructor.name == "Queen") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 0);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 0 + " "
+                    }
+                    if(squares[i].constructor.name == "King") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 0);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 0 + " "
+                    }
+
+                }
+            }
+        }
+        boardString = boardString.trim();
+        return boardString;
+    }
+
+    rebuildBoard(boardString) {
+        // new board
+        const squares = Array(144).fill(null);
+
+        let splitArray = boardString.split(" ");
+        for(let i = 0; i < splitArray.length; i++) {
+            // console.log(splitArray[i]);
+            let pieceInfo = splitArray[i].split(",");
+            let row = parseInt(pieceInfo[0]);
+            // console.log(row);
+            let col = parseInt(pieceInfo[1]);
+            // console.log(col);
+            let id = (row * 12) + col;
+            // console.log(id);
+            // piecetype 1=rook 2=queen 3=king
+            let pieceType = pieceInfo[2];
+            // piece color 0=black 1=white
+            let pieceColor = pieceInfo[3];
+
+            if(pieceType === '1') {
+                if (pieceColor === '0') {
+                    // black
+                    squares[id] = new Rook(2);
+                } else {
+                    // white
+                    squares[id] = new Rook(1);
+                }
+            }
+            if (pieceType === '2') {
+                if (pieceColor === '0') {
+                    // black
+                    squares[id] = new Queen(2);
+                } else {
+                    // white
+                    squares[id] = new Queen(1);
+                }
+            }
+            if (pieceType === '3') {
+                if (pieceColor === '0') {
+                    // black
+                    squares[id] = new King(2);
+                } else {
+                    // white
+                    squares[id] = new King(1);
+                }
+            }
+        }
+        return squares;
+    }
+
+    arraysEqual(arr1, arr2) {
+        if(arr1.length !== arr2.length)
+            return false;
+        for(var i = arr1.length; i--;) {
+            if(arr1[i] !== arr2[i]) {
+                console.log(arr1[i]);
+                console.log(arr2[i]);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     handleClick(piece, rowCol) {
+
         let row = parseInt((new String(rowCol)).split("-")[0]);
         let col = parseInt((new String(rowCol)).split("-")[1]);
         let i = row*12 + col;
         const squares = this.state.squares.slice();
+
+        // testing conversion functions
+        let newboard = this.rebuildBoard(this.convertBoard());
+        // console.log(newboard.length);
+        // console.log(this.state.squares.length);
+        // console.log(this.arraysEqual(newboard, this.state.squares));
 
         if (this.state.sourceSelection === -1) {
             if (!squares[i] || squares[i].player !== this.state.player) {
@@ -57,6 +182,8 @@ export default class Game extends React.Component {
                     backgroundImage: squares[i].style['backgroundImage'],
                     'background-color': '#00c4ffc9'
                 };
+                //Add api call here
+                this.getValidMoves(row, col);
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -86,10 +213,6 @@ export default class Game extends React.Component {
                 const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
                 const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
-                if(!isMovePossible)
-                    console.log('impossible move');
-                if(!isMoveLegal)
-                    console.log('illegal move');
 
                 if (isMovePossible && isMoveLegal) {
                     if (squares[i] !== null) {
@@ -118,13 +241,6 @@ export default class Game extends React.Component {
                         turn: turn
                     });
 
-                    //After move update board for db
-//                    let gameObj = {
-//                        gameID: "",
-//                        gameBoard: "",
-//                        turn: ""
-//                    };
-//                    request(obj, 'updateBoard');
                 }
                 else {
                     const squares = this.state.squares.slice();
@@ -144,8 +260,8 @@ export default class Game extends React.Component {
 
                 }
             }
+            this.clearHighlights();
         }
-
     }
 
     /**
@@ -163,12 +279,82 @@ export default class Game extends React.Component {
         return isLegal;
     }
 
-    getGames() {
-        let update = request(this.state.userID, 'getGames');
+    async getValidMoves(row, col) {
+        let obj = {
+            gameID: 4,
+            userID: this.props.userID,
+            row: row,
+            col: col
+        };
+        let update = request(obj,'getValidMovesSession');
         update.then((value => {
-            this.updateGames(value);
-            console.log(value);
-        }));
+            this.setValidMoves(value); // TODO this is broken, below log works but line 186,187 are empty/are undefined
+        }))
+
+    }
+
+    setValidMoves(value) {
+        this.setState({
+            validMoves: value
+        })
+        this.highlightValidMoves();
+    }
+
+    highlightValidMoves() {
+        for(let i = 0; i < this.state.validMoves.length; i++) {
+            if(document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundImage === "")
+                document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#00c4ffc9";
+            else
+                document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#ff4936c9";
+        }
+        this.setState({
+            validMoves: []
+        })
+    }
+
+    clearHighlights() {
+        for(let i = 0; i < 12; i++) {
+            for(let j = 0; j < 12; j++) {
+                if(!this.isWall(i, j))
+                    document.getElementById(i + '-' + j).style.backgroundColor = "#ffce9e";
+                else
+                    document.getElementById(i + '-' + j).style.backgroundColor = "#d18b47";
+            }
+        }
+    }
+
+    isWall(row, col) {
+
+        // BLACK walls
+        if(row == 1 && col >= 7 && col <= 9)
+            return true;
+        if(col == 6 && row >= 2 && row <= 4)
+            return true;
+        if(col == 10 && row >= 2 && row <= 4)
+            return true;
+        if(row == 5 && col >= 7 && col <= 9)
+            return true;
+
+        // WHITE walls
+        if(row == 6 && col >= 2 && col <= 4)
+            return true;
+        if(col == 1 && row >= 7 && row <= 9)
+            return true;
+        if(col == 5 && row >= 7 && row <= 9)
+            return true;
+        if(row == 10 && col >= 2 && col <= 4)
+            return true;
+
+        // If not a wall return false
+        return false;
+    }
+
+    getGames() {
+        // let update = request(this.props.userID, 'getGames');
+        // update.then((value => {
+        //     this.updateGames(value);
+        //     console.log(value);
+        // }));
     }
 
     updateGames(value) {

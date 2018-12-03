@@ -1,16 +1,12 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.GetBoardSession;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
 
 import com.google.gson.Gson;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.*;
 import org.json.*;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.RegisterSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
-import org.json.*;
 
 import spark.Request;
 import spark.Response;
@@ -60,9 +56,14 @@ public class MicroServer {
     get("/config", this::config);
     post("/plan", this::plan);
     post("/login", this::login);
+    post("/loadGamesOnServer", this::loadGamesOnServer);
     post("/register", this::register);
+    post("/getBoard", this::getBoard);
     post("/updateBoard", this::updateBoard);
     post("/getGames", this::getGames);
+    post("/getUsers", this::getUsers);
+    post("/getValidMovesSession", this::getValidMoves);
+    post("/makeMove", this::makeMove);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -151,7 +152,7 @@ public class MicroServer {
     return name;
   }
 
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that logs in user and returns id if user exists.
    *
    * @param request
    * @param response
@@ -164,17 +165,41 @@ public class MicroServer {
 
     System.out.println();
     LoginSession lSesh = new LoginSession(request);
-    Database db = new Database(lSesh.getAuthUser());
-    db.getCurrentGamesFromDatabase();
-    ArrayList<Game> games = db.getGames();
-  for(Game g : games) {
-      activeGames.add(g);
-  }
 
-    return lSesh.getUserID(); // Send back user id, THIS IS INSECURE
+    return lSesh.getUserID();
 
   }
 
+    /** A REST API that loads the games on the backend and returns the user id.
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    private String loadGamesOnServer(Request request, Response response) {
+
+        response.type("text/plain");
+        response.header("Access-Control-Allow-Origin", "*");
+
+        System.out.println();
+        LoginSession lSesh = new LoginSession(request);
+        Database db = new Database(lSesh.getAuthUser());
+        db.getCurrentGamesFromDatabase();
+        ArrayList<Game> games = db.getGames();
+        for(Game g : games) {
+            activeGames.add(g);
+        }
+
+        return lSesh.getUserID();
+
+    }
+
+  /** A REST API that registers a user in the database.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
   private String register(Request request, Response response) {
 
     response.type("text/plain");
@@ -184,7 +209,7 @@ public class MicroServer {
     return new RegisterSession(request).getUserID(); // Send back user id, THIS IS INSECURE
   }
 
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that updates the board in the database.
    *
    * @param request
    * @param response
@@ -209,33 +234,7 @@ public class MicroServer {
     return "";
   }
 
-  /** A REST API that returns the team information associated with the server.
-   *
-   * @param request
-   * @param response
-   * @return
-   */
-  private Object getBoard(Request request, Response response) {
-
-    response.type("text/plain");
-    response.header("Access-Control-Allow-Origin", "*");
-
-    //connect to db and update game
-    Database db = new Database();
-    ArrayList<Game> games = db.getGames();
-    Game game = null;
-    for (Game g: games) {
-      if(g.getGameID() == Integer.parseInt(request.params(":gameID")))
-        game = g;
-    }
-
-    if(game == null)
-      return "";
-    else
-      return game.getBoard();
-  }
-
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that returns the a user's games to the frontend.
    *
    * @param request
    * @param response
@@ -248,23 +247,126 @@ public class MicroServer {
 
 
     Gson gson = new Gson();
+
     //get userID
     System.out.println("body: " + request.body());
     int userID = Integer.parseInt(request.body());
     System.out.println("userID: " +userID);
+
     //connect to db and update game
     Database db = new Database();
+
     //get user
     User user = db.getUserFromDatabaseByID(userID);
+
     if(user != null) {
       System.out.println("user.userID: " + user.getUserID());
       System.out.println();
-      db.setUser(user);
-      db.getCurrentGamesFromDatabase();
-      ArrayList<Game> games = db.getGames();
+
+      // Get games for user
+      ArrayList<Game> games = activeGames.getGamesFromUserID(String.valueOf(user.getUserID()));
+
+      // Array containing [gameID, user1ID, user2ID] for each game
+      int[][] gamesArray = new int[games.size()][3];
+      int i = 0;
+
+      for (Game g : games) {
+        gamesArray[i][0] = g.getGameID();
+        gamesArray[i][1] = g.getPlayerOne().getUser().getUserID();
+        gamesArray[i][2] = g.getPlayerTwo().getUser().getUserID();
+
+        i++;
+      }
+
       System.out.println(gson.toJson(games));
-      return gson.toJson(games);
+      return gson.toJson(gamesArray);
     }
+
+    // User is null
     return "";
+  }
+
+  /** A REST API that returns all of the users in the system to the frontend
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getUsers(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    Gson gson = new Gson();
+    Database db = new Database();
+
+    int userID = Integer.parseInt(request.body());
+    ArrayList<User> users = db.getAllUsersFromDatabase(); // TODO: change to Scotts updated database method
+    int[] usersArray = new int[users.size() - 1];
+    int i = 0;
+
+    // Convert users ArrayList to array removing the current user
+    for (User u : users) {
+      if (u.getUserID() != userID) {
+        usersArray[i] = u.getUserID();
+
+        i++;
+      }
+    }
+
+    return gson.toJson(usersArray);
+  }
+
+  /** A REST API that returns the team information associated with the server.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getValidMoves(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return new GetValidMovesSession(request, activeGames).getValidMoves();
+  }
+
+  /** A REST API that makes a move in the backend and sends the result to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String makeMove(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return new MakeMoveSession(request, activeGames).getMakeMove();
+  }
+
+  /** A REST API that creates a new game and adds it to activeGames and the database.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String createGame(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return "";
+  }
+
+  /** A REST API that returns the board to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getBoard(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getBoard");
+    return new GetBoardSession(request, activeGames).getBoard();
   }
 }
