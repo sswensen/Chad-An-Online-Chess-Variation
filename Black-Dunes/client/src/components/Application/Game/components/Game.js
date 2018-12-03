@@ -170,9 +170,10 @@ export default class Game extends React.Component {
         };
         let update = request(obj,'GetValidMovesSession');
         update.then((value => {
-            this.setValidMoves(value);
+            this.setValidMoves(value); // TODO this is broken, below log works but line 186,187 are empty/are undefined
             console.log(value);
         }))
+        this.highlightValidMoves();
     }
 
     setValidMoves(value) {
@@ -181,15 +182,19 @@ export default class Game extends React.Component {
         })
     }
 
-    highlightValidMoves(moves) {
-        for(let i = 0; i < moves.length; i++) {
-            console.log(document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundImage);
-            if(document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundImage === "")
-                document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundColor = "#00c4ffc9";
+    highlightValidMoves() {
+        console.log("here");
+        console.log(this.moves);
+        for(let i = 0; i < this.state.validMoves.length; i++) {
+            console.log(document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundImage);
+            if(document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundImage === "")
+                document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#00c4ffc9";
             else
-                document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundColor = "#ff4936c9";
+                document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#ff4936c9";
         }
-
+        this.setState({
+            validMoves: []
+        })
     }
 
     clearHighlights() {
