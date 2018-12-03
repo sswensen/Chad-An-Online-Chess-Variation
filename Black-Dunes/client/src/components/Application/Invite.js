@@ -24,6 +24,11 @@ class Invite extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+    componentDidMount() {
+        const users  = this.getUsers();
+        this.setState({users: users})
+    }
+
     componentWillReceiveProps(nextProps) {
         this.setState({
             error: nextProps.error
@@ -31,24 +36,40 @@ class Invite extends Component {
     }
 
     async getUsers() {
-        let updated = request('', 'getUsers');
+        let updated = request({userID: this.props.userID}, 'getUsers');
         updated.then((values) => {
-            this.formatUsers(values);
-        })
+            Invite.formatUsers(values);
+            return true;
+        });
+        return false;
     }
 
-    formatUsers(values) {
-        for (let i = 0; i < values.length; i++) {
-            this.state.users.append({value: i, label: values[i]})
+    async sendInvites() {
+        let updated = request({selectedUsers: this.state.selectedUsers}, 'sendInvites');
+        updated.then((values) => {
+           if (values) {
+               return this.setState({error: ''})
+           } else {
+               return this.setState({error: 'Sending invites failed'});
+           }
+        });
+    }
+
+    static formatUsers(values) {
+        let users = [];
+        for (let user in values) {
+            users.append({value: user.userID, label: user.nickName});
         }
+        return users;
     }
 
     handleSubmit() {
         if (this.state.selectedUsers.length === 0) {
             return this.setState({error: 'You must select at least one user'});
+        } else {
+            this.sendInvites();
+            return this.setState({error: ''});
         }
-
-        return this.setState({error: ''});
     }
 
     render() {
