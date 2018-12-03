@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
-import org.json.JSONObject;
 import spark.Request;
 
 public class LoginSession {
@@ -35,7 +34,7 @@ public class LoginSession {
         // TODO convert LoginUser to a User after authenticating and verifying in the database.
 
         Database db = new Database();
-         authUser = db.getUserFromDatabase(user.username, user.password);
+        authUser = db.getUserFromDatabase(user.username, user.password);
 
         // log something.
 //        System.out.println("UserID: " + user.getUserID());
@@ -45,11 +44,19 @@ public class LoginSession {
 
     }
 
+    public User getAuthUser() {
+        return authUser;
+    }
+
+    public void setAuthUser(User authUser) {
+        this.authUser = authUser;
+    }
+
     /**
      * Handles the response for a User object.
      * Does the conversion from a Java class to a Json string.*
      */
-    public String getUser() {
+    public String getUserGson() {
         Gson gson = new Gson();
         return gson.toJson(user);
     }

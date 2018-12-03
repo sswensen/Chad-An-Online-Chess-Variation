@@ -1,5 +1,6 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
+
 import com.google.gson.Gson;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
@@ -28,15 +29,17 @@ public class MicroServer {
   private int    port;
   private String name;
   private String path = "/public/";
+  private ActiveGames activeGames;
 
   /** Creates a micro-server to load static files and provide REST APIs.
    *
    * @param port Which port to start the server on
    * @param name Name of the server
    */
-  MicroServer(int port, String name) {
+  MicroServer(int port, String name, ActiveGames activeGames) {
     this.port = port;
     this.name = name;
+    this.activeGames = activeGames;
 
     port(port);
 
@@ -159,7 +162,17 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    return new LoginSession(request).getUserID(); // Send back user id, THIS IS INSECURE
+    System.out.println();
+    LoginSession lSesh = new LoginSession(request);
+    Database db = new Database(lSesh.getAuthUser());
+    db.getCurrentGamesFromDatabase();
+    ArrayList<Game> games = db.getGames();
+  for(Game g : games) {
+      activeGames.add(g);
+  }
+
+    return lSesh.getUserID(); // Send back user id, THIS IS INSECURE
+
   }
 
   private String register(Request request, Response response) {
