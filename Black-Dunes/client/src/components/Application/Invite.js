@@ -12,12 +12,7 @@ class Invite extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [
-                {value: 'freddy', label: 'Freddy'},
-                {value: 'sly', label: 'Sly Ry'},
-                {value: 'abby', label: 'Abby'},
-                {value: 'sandy', label: 'Sandy'}
-            ],
+            users: [],
             selectedUsers: [],
         };
 
