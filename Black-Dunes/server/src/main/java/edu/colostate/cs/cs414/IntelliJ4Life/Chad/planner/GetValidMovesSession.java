@@ -3,9 +3,9 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
-import org.json.JSONObject;
 import spark.Request;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class GetValidMovesSession {
      * @param request
      */
 
-    public GetValidMovesSession(Request request) {
+    public GetValidMovesSession(Request request, ActiveGames activeGames) {
         // first print the request
         System.out.println(HTTP.echoRequest(request));
 
@@ -33,28 +33,21 @@ public class GetValidMovesSession {
         pieceData = gson.fromJson(requestBody, PieceData.class);
 
         // TODO: Use Scott's code to get game from database once that is completed
-        int gameIdInt = Integer.parseInt(pieceData.gameID);
         int userIdInt = Integer.parseInt(pieceData.userID);
         Database db = new Database();
-        ArrayList<Game> games = db.getGames();
-        Game game = null;
-        for (Game g: games) {
-            if(g.getGameID() == gameIdInt)
-                game = g;
-        }
+
+        Game game = activeGames.getGameFromGameID(pieceData.gameID);
+
         if(game == null) {
             validMoves = new int[0][0];
-        }
-        else {
+        } else {
             User user = db.getUserFromDatabaseByID(userIdInt);
             Piece piece = game.getBoard().getBoard()[pieceData.row][pieceData.col];
-
             Player p = game.getPlayer(user);
 
-            if (piece.getColor() != p.getColor()){
+            if(piece.getColor() != p.getColor()) {
                 validMoves = new int[0][0];
-            }
-            else {
+            } else {
                 // Find valid moves
                 ArrayList<int[]> validMovesList = piece.validMoves(game.getBoard().getBoard());
                 int[][] validMovesArray = new int[validMovesList.size()][2];

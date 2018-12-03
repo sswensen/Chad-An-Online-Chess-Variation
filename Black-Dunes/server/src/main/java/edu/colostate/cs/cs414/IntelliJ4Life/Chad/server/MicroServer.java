@@ -273,6 +273,8 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    return new GetValidMovesSession(request).getValidMoves();
+    return new GetValidMovesSession(request, activeGames).getValidMoves();
   }
+
+  // TODO call for new game
 }
