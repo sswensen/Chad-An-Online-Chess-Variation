@@ -3,23 +3,23 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import org.json.JSONObject;
 import spark.Request;
 
 public class GetBoardSession {
-    private RetrievedBoard retrievedBoard;
-    private Board board;
+    private GameInfo gameInfo;
+    private BoardResponse boardResponse;
 
     /**
-     * Handles trip planning request, creating a new trip object from the trip request.
-     * Does the conversion from Json to a Java class before planning the trip.
+     * Handles returning the board and the turn to the frontend
      *
      * @param request
      */
 
-    public GetBoardSession(Request request) {
+    public GetBoardSession(Request request, ActiveGames activeGames) {
         // first print the request
         System.out.println(HTTP.echoRequest(request));
 
@@ -29,11 +29,15 @@ public class GetBoardSession {
 
         // convert the body of the request to a Java class.
         Gson gson = new Gson();
-        retrievedBoard = gson.fromJson(requestBody, RetrievedBoard.class);
+        gameInfo = gson.fromJson(requestBody, GameInfo.class);
 
-        board = new Board(retrievedBoard.board);
+        Database db = new Database();
+        Game game = activeGames.getGameFromGameID(gameInfo.gameID);
 
-        // @TODO: Update board in database
+        String board = game.getBoard().convertBoardToString();
+        int turn = game.getTurn();
+
+        boardResponse = new BoardResponse(board, turn);
     }
 
     /**
@@ -42,11 +46,20 @@ public class GetBoardSession {
      */
     public String getBoard() {
         Gson gson = new Gson();
-        return gson.toJson(retrievedBoard);
+        return gson.toJson(boardResponse);
     }
 
-    private class RetrievedBoard {
-        private String userID = "";
-        private String board = "";
+    private class GameInfo {
+        private String gameID = "";
+    }
+
+    private class BoardResponse {
+        private String board;
+        private int turn;
+
+        private BoardResponse(String _board, int _turn) {
+            board = _board;
+            turn  = _turn;
+        }
     }
 }

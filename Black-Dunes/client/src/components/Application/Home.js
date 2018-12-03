@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Container, Card, CardHeader, CardBody} from 'reactstrap'
 
-export default class Info extends Component {
+export default class Home extends Component {
     render() {
         return (
             <Container>

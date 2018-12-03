@@ -14,6 +14,7 @@ public class Game {
     private Player playerTwo;
     private int turn; // 0 if white, 1 if black
     private int GameID;
+    private int finished = 0;
 
     public Game(User user) {
         startTime = null;
@@ -22,7 +23,7 @@ public class Game {
         playerTwo = new Player(Color.BLACK);
     }
 
-    public Game(int GameID, String startTimeString, String board, User player1, User player2, int turn) {
+    public Game(int GameID, String startTimeString, String board, User player1, User player2, int turn, int finished) {
         // Do we need to use the playerIDs?
         this.GameID = GameID;
         //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
@@ -36,6 +37,7 @@ public class Game {
             this. playerTwo = new Player(player2, this, Color.BLACK);
             this.turn = 1;
         }
+        this.finished = finished;
     }
 
     /*******************
@@ -66,7 +68,7 @@ public class Game {
     public int getTurn() { return turn; }
 
     public void setTurn(int turn) { this.turn = turn; }
-    
+
     public void setBoard(Board board) {
         this.board = board;
     }
@@ -316,5 +318,5 @@ public class Game {
             }
             counter++;
         }
-    }    
+    }
 }

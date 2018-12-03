@@ -1,19 +1,10 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
-import spark.Request;
+
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
 
@@ -47,10 +38,13 @@ public class Database {
         this.limit = limit;
     }
 
-    //Both findResults and printJSON came from the slides as a template to start
+    public void setUser(User user) {
+        this.user = user;
+        this.auth = true;
+    }
 
     public void getCurrentGamesFromDatabase() {
-        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
+        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
                 "FROM Games g, Users u\n" +
                 "WHERE (g.User1ID = " + user.getUserID() + " OR g.User2ID = " + user.getUserID() + ") AND u.ID = " + user.getUserID() + ";";
         String dbUrl;
@@ -68,6 +62,27 @@ public class Database {
         } catch(Exception e) {
             System.err.println("Encountered exception: " + e.getMessage());
         }
+    }
+
+    public Game getGameFromDatabaseByID(int gameID) {
+        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
+                "FROM Games g, Users u\n" +
+                "WHERE GameID = " + gameID + ";";
+        String dbUrl;
+
+        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                Statement stQuery = conn.createStatement();
+                ResultSet rsQuery = stQuery.executeQuery(query)
+            ) {
+                return parseGamesFromResultSet(rsQuery).get(0);
+            }
+        } catch(Exception e) {
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+        return null;
     }
 
     public void updateGameInDatabase(int gameID, String board, int turn) {
@@ -117,7 +132,7 @@ public class Database {
                     if(userList.size() == 1) {
                         authenticateUser(userList.get(0));
                         return userList.get(0);
-                    } else if(userList.size() == 0){
+                    } else if(userList.size() == 0) {
                         System.err.println("Username/password incorrect");
                     } else {
                         System.err.println("More than one users with same username and password");
@@ -151,7 +166,7 @@ public class Database {
                         //user = userList.get(0);
                         //auth = true;
                         return userList.get(0);
-                    } else if(userList.size() == 0){
+                    } else if(userList.size() == 0) {
                         System.err.println("No users found");
                     } else {
                         System.err.println("More than one users with same ID");
@@ -203,8 +218,9 @@ public class Database {
             int player2 = Integer.parseInt(rs.getString("User2ID"));
             User p2 = getUserFromDatabaseByID(player2);
             int turn = Integer.parseInt(rs.getString("Turn"));
+            int finished = Integer.parseInt(rs.getString("Finished"));
 
-            out.add(new Game(gameID, time, board, p1, p2, turn)); // TODO fill here
+            out.add(new Game(gameID, time, board, p1, p2, turn, finished)); // TODO fill here
         }
         return out;
     }
@@ -283,14 +299,8 @@ public class Database {
     public static void main(String[] args) {
         User u = new User(1, "sswensen", "swenyjr", "sswensen@email.com");
         Database db = new Database(u);
-        db.getCurrentGamesFromDatabase();
-        Game g = db.getGames().get(0);
-        // g.setBoard(new Board(""));
-        db.updateGameInDatabase(g.getGameID(), "0,0,1,0 2,8,1,0 2,9,1,0 3,7,1,0 3,8,3,0 3,9,1,0 4,7,1,0 4,8,1,0 4,9,1,0 7,2,1,1 7,3,1,1 7,4,1,1 8,2,1,1 8,3,3,1 8,4,1,1 9,2,1,1 9,3,1,1 9,4,1,1", 1);
-        System.out.println("PAUSE");
-
-        Boolean b = db.registerUserInDatabase("sswensen", "swenyjr", "sswensen@email.com", "mypassword");
-        System.out.println(b);
+        Game g = db.getGameFromDatabaseByID(5);
+        System.out.println(g);
     }
 
 }
