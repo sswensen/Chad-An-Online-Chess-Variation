@@ -4,32 +4,59 @@ import './Board.css';
 import Board from './Board.js';
 import TakenPiece from './TakenPiece.js';
 import initialiseChessBoard from '../helpers/board-initialiser.js';
-import {Container, Card, CardHeader, CardBody} from 'reactstrap'
+import {Container, Card, CardHeader, CardBody} from 'reactstrap';
+
+import {get_config, request} from '../../../../api/api';
 
 export default class Game extends React.Component {
     constructor() {
         super();
         this.state = {
+            userID: 0,
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
             player: 1,
             sourceSelection: -1,
             status: '',
-            turn: 'white'
-        }
+            turn: 'white',
+            games: [],
+            selectedGame: 0
+        };
+        this.updateUserID = this.updateUserID.bind(this);
+        this.getGames();
     }
 
-    handleClick(i) {
+    updateUserID(id) {
+
+        this.setState({
+           userID: id
+        });
+        console.log("userID: " + this.userID);
+    }
+
+    handleClick(piece, rowCol) {
+        let row = parseInt((new String(rowCol)).split("-")[0]);
+        let col = parseInt((new String(rowCol)).split("-")[1]);
+        let i = row*12 + col;
         const squares = this.state.squares.slice();
 
         if (this.state.sourceSelection === -1) {
             if (!squares[i] || squares[i].player !== this.state.player) {
+                //reset selection color
+                for(let x = 0; x < 144; x++) {
+                    squares[x].style = {
+                        backgroundImage: squares[i].style['backgroundImage']
+                    };
+                }
                 this.setState({status: "Wrong selection. Choose player " + this.state.player + " pieces."});
                 squares[i] ? delete squares[i].style.backgroundColor : null;
             }
             else {
-                //squares[i].style = {...squares[i].style, backgroundColor: "RGB(111,143,114)"}; //TODO this needs to be fixed!!!
+                squares[i].style = {
+                    backgroundImage: squares[i].style['backgroundImage'],
+                    'background-color': '#00c4ffc9'
+                };
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -40,6 +67,10 @@ export default class Game extends React.Component {
         else if (this.state.sourceSelection > -1) {
             delete squares[this.state.sourceSelection].style.backgroundColor;
             if (squares[i] && squares[i].player === this.state.player) {
+                //reset selection color
+                squares[i].style = {
+                    backgroundImage: squares[i].style['backgroundImage']
+                };
                 this.setState({
                     status: "Wrong selection. Choose valid source and destination again.",
                     sourceSelection: -1,
@@ -55,6 +86,11 @@ export default class Game extends React.Component {
                 const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
                 const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
+                if(!isMovePossible)
+                    console.log('impossible move');
+                if(!isMoveLegal)
+                    console.log('illegal move');
+
                 if (isMovePossible && isMoveLegal) {
                     if (squares[i] !== null) {
                         if (squares[i].player === 1) {
@@ -65,6 +101,10 @@ export default class Game extends React.Component {
                         }
                     }
                     squares[i] = squares[this.state.sourceSelection];
+                    //reset selection color
+                    squares[i].style = {
+                        backgroundImage: squares[i].style['backgroundImage']
+                    };
                     squares[this.state.sourceSelection] = null;
                     let player = this.state.player === 1 ? 2 : 1;
                     let turn = this.state.turn === 'white' ? 'black' : 'white';
@@ -77,12 +117,31 @@ export default class Game extends React.Component {
                         status: '',
                         turn: turn
                     });
+
+                    //After move update board for db
+//                    let gameObj = {
+//                        gameID: "",
+//                        gameBoard: "",
+//                        turn: ""
+//                    };
+//                    request(obj, 'updateBoard');
                 }
                 else {
+                    const squares = this.state.squares.slice();
+                    //reset selection color
+                    for(let x = 0; x < 144; x++) {
+                        try{
+                            squares[x].style = {
+                                backgroundImage: squares[x].style['backgroundImage']
+                            };
+                        }
+                        catch(err) { }
+                    }
                     this.setState({
                         status: "Wrong selection. Choose valid source and destination again.",
                         sourceSelection: -1,
                     });
+
                 }
             }
         }
@@ -104,17 +163,35 @@ export default class Game extends React.Component {
         return isLegal;
     }
 
+    getGames() {
+        let update = request(this.state.userID, 'getGames');
+        update.then((value => {
+            this.updateGames(value);
+            console.log(value);
+        }));
+    }
+
+    updateGames(value) {
+        this.setState({
+            games: value
+        });
+    }
+
     render() {
         return (
             <Container>
                 <Card>
                     <CardBody>
                         <div>
+                            <h3>Games</h3>
+                            {this.state.games}
+                        </div>
+                        <div>
                             <div className="game row">
                                 <div className="game-board col-lg-8 col-sm-12">
                                     <Board
                                         squares={this.state.squares}
-                                        onClick={(i) => this.handleClick(i)}
+                                        onClick={(i, j) => this.handleClick(i, j)}
                                     />
                                 </div>
                                 <div className="game-info col-lg-4 col-sm-12">

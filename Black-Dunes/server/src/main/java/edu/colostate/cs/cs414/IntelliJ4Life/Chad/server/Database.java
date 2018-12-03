@@ -38,7 +38,10 @@ public class Database {
         this.limit = limit;
     }
 
-    //Both findResults and printJSON came from the slides as a template to start
+    public void setUser(User user) {
+        this.user = user;
+        this.auth = true;
+    }
 
     public void getCurrentGamesFromDatabase() {
         String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
