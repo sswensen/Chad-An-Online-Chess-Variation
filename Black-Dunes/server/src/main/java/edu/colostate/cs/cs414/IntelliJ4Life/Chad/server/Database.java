@@ -1,19 +1,10 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
-import spark.Request;
+
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
 
@@ -47,7 +38,10 @@ public class Database {
         this.limit = limit;
     }
 
-    //Both findResults and printJSON came from the slides as a template to start
+    public void setUser(User user) {
+        this.user = user;
+        this.auth = true;
+    }
 
     public void getCurrentGamesFromDatabase() {
         String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
@@ -117,7 +111,7 @@ public class Database {
                     if(userList.size() == 1) {
                         authenticateUser(userList.get(0));
                         return userList.get(0);
-                    } else if(userList.size() == 0){
+                    } else if(userList.size() == 0) {
                         System.err.println("Username/password incorrect");
                     } else {
                         System.err.println("More than one users with same username and password");
@@ -151,7 +145,7 @@ public class Database {
                         //user = userList.get(0);
                         //auth = true;
                         return userList.get(0);
-                    } else if(userList.size() == 0){
+                    } else if(userList.size() == 0) {
                         System.err.println("No users found");
                     } else {
                         System.err.println("More than one users with same ID");

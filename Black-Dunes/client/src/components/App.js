@@ -15,7 +15,8 @@ class App extends Component {
             pages: [
                 {title: 'Home', page: 'home', link: '/'},
                 {title: 'Game', page: 'game', link: '/game'},
-                {title: 'Login', page: 'login', link: '/login'}
+                {title: 'Login', page: 'login', link: '/login'},
+                {title: 'Register', page: 'register', link: '/register'}
             ],
             config: null,
             userID: '-1',
@@ -57,8 +58,6 @@ class App extends Component {
         this.updateAuth(value);
     }
 
-    updateUsername(user) {
-        this.setState({username: user});
     }
 
     updatePassword(pass) {
@@ -125,7 +124,8 @@ class App extends Component {
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Game', page: 'game', link: '/game'},
-                    {title: 'Logout', page: 'logout', link: '/logout'}
+                    {title: 'Logout', page: 'logout', link: '/logout'},
+                    {title: 'Register', page: 'register', link: '/register'}
                 ]
             });
             return <Redirect to='/login'  />
@@ -134,7 +134,8 @@ class App extends Component {
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
                     {title: 'Game', page: 'game', link: '/game'},
-                    {title: 'Login', page: 'login', link: '/login'}
+                    {title: 'Login', page: 'login', link: '/login'},
+                    {title: 'Register', page: 'register', link: '/register'}
                 ]
             })
         }

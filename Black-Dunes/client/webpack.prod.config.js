@@ -17,7 +17,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)/, loader: 'babel-loader',
+        test: /\.(js|jsx)/, loader: 'babel-loader?presets[]=react,presets[]=es2015',
         include: path.join(__dirname, 'src'),
       },
       { test: /\.json$/, loader: 'file-loader', options: { name: 'pages/[name].[ext]' }},

@@ -5,11 +5,12 @@ import Square from './Square.js';
 
 export default class Board extends React.Component {
 
-    renderSquare(i, squareShade) {
+    renderSquare(i, squareShade, row) {
         return <Square
+            id={row + '-' + i % 12}
             style={this.props.squares[i] ? this.props.squares[i].style : null}
             shade={squareShade}
-            onClick={() => this.props.onClick(i)}
+            onClick={() => this.props.onClick(this.props.squares[i], row + '-' + i % 12)}
         />
     }
 
@@ -20,15 +21,15 @@ export default class Board extends React.Component {
             for (let j = 0; j < 12; j++) {
                 if(isWall(i,j)) {
                     const squareShade = "wall-square";
-                    squareRows.push(this.renderSquare((i * 12) + j, squareShade));
+                    squareRows.push(this.renderSquare((i * 12) + j, squareShade, i));
                 }
 
                 else {
                     const squareShade = "square-color";
-                    squareRows.push(this.renderSquare((i * 12) + j, squareShade));
+                    squareRows.push(this.renderSquare((i * 12) + j, squareShade, i));
                 }
             }
-            board.push(<div className="board-row">{squareRows}</div>)
+            board.push(<div id={i} className="board-row">{squareRows}</div>)
         }
 
         return (

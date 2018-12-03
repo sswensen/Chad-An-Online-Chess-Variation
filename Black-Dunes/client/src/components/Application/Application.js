@@ -3,6 +3,8 @@ import Home from './Home'
 import Game from './Game/components/Game'
 import Login from './Login'
 import Logout from './Logout';
+import Register from "./Register";
+
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -19,9 +21,18 @@ class Application extends Component {
                                   updatePassword={this.props.info['updatePassword']} updateLogin={this.props.info['updateLogin']}/>;
             case 'logout':
                 return <Logout clearLogin={this.props.info['clearLogin']}/>;
+            case 'register':
+                return <Register error={this.state.error}
+                                 updateUsername={this.updateUsername}
+                                 updatePassword={this.updatePassword}
+                                 updateEmail={this.updateEmail}
+                                 updateNickname={this.updateNickname}
+                                 registerUser={this.registerUser}/>;
             default:
                 return <div/>;
             }
+
+        return <div/>
     }
 }
 
