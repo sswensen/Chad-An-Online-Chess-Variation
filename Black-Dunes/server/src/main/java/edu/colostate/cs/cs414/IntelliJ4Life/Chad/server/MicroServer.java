@@ -57,7 +57,8 @@ public class MicroServer {
     post("/register", this::register);
     post("/updateBoard", this::updateBoard);
     post("/getGames", this::getGames);
-    post("/GetValidMovesSession", this::getValidMoves);
+    post("/getValidMovesSession", this::getValidMoves);
+    post("/makeMove", this::makeMove);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -263,7 +264,7 @@ public class MicroServer {
     return "";
   }
 
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that returns the valid moves for a piece.
    *
    * @param request
    * @param response
@@ -274,5 +275,18 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     return new GetValidMovesSession(request).getValidMoves();
+  }
+
+  /** A REST API that makes a move in the backend and sends the result to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String makeMove(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return new MakeMoveSession(request).getMakeMove();
   }
 }
