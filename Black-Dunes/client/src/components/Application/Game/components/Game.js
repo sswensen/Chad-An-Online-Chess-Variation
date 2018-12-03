@@ -24,7 +24,7 @@ export default class Game extends React.Component {
             status: '',
             turn: 'white',
             games: [],
-            selectedGame: 0,
+            gameID: 0,
             validMoves: []
         };
         this.getGames();
@@ -39,13 +39,12 @@ export default class Game extends React.Component {
         let update = request(user, 'getGames');
         update.then((value => {
             this.updateGames(value);
-            console.log(value);
         }));
     }
 
     updateGames(value) {
         this.setState({
-            games: value
+            games: this.getGamesDisplay(value)
         });
     }
 
@@ -162,8 +161,6 @@ export default class Game extends React.Component {
             return false;
         for(var i = arr1.length; i--;) {
             if(arr1[i] !== arr2[i]) {
-                console.log(arr1[i]);
-                console.log(arr2[i]);
                 return false;
             }
         }
@@ -367,6 +364,33 @@ export default class Game extends React.Component {
         return false;
     }
 
+    getGamesDisplay(games) {
+        const display = [];
+        for(let i = 0; i < games.length; i++) {
+            display.push(
+                <li><button
+                    onClick={() => this.getBoard(games[i][0]) }
+                >{games[i][1]} --vs-- {games[i][2]}</button></li>
+            ); //TODO: Tickle Scott's fancy (key thing)
+        }
+
+        return (
+            <ul>{display}</ul>
+        );
+    }
+
+    getBoard(gameID) {
+        let gameInfo = {
+            gameID: gameID
+        };
+        let update = request(gameInfo, 'getBoard');
+        update.then((value => {
+            this.updateGame(value);
+        }));
+        this.setState({
+            gameID: gameID
+        });
+    }
 
     render() {
         return (
