@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './format.css'
 import Header from './Marginals/Header';
 import Application from './Application/Application';
-import Footer from './Marginals/Footer';
+import FooterComponent from './Marginals/FooterComponent';
 import {HashRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import {get_config, request} from '../api/api';
@@ -132,7 +132,7 @@ class App extends Component {
                                     </Switch>
                                 </CSSTransition>
                             </TransitionGroup>
-                            <Footer/>
+                            <FooterComponent/>
                         </div>
                     )}/>
                 </div>
