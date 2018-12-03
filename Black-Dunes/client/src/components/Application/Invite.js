@@ -21,7 +21,7 @@ class Invite extends Component {
             selectedUsers: [],
         };
 
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleInviteSubmit = this.handleInviteSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -63,13 +63,17 @@ class Invite extends Component {
         return users;
     }
 
-    handleSubmit() {
+    handleInviteSubmit() {
         if (this.state.selectedUsers.length === 0) {
             return this.setState({error: 'You must select at least one user'});
         } else {
             this.sendInvites();
             return this.setState({error: ''});
         }
+    }
+
+    listUserInvites() {
+        return <li/>;
     }
 
     render() {
@@ -88,9 +92,12 @@ class Invite extends Component {
                                     isMulti
                                     onChange={(selected) => {this.setState({selectedUsers: selected})}}
                                 />
-                                <Button sm={12} md={12} lg={12} type="submit" value="Register" data-test="submit" onClick={this.handleSubmit}>
+                                <Button sm={12} md={12} lg={12} type="submit" value="Register" data-test="submit" onClick={this.handleInviteSubmit}>
                                     Submit
                                 </Button>
+                            </div>
+                            <div className = "UserInvites">
+                                {this.listUserInvites()}
                             </div>
                         </div>
                     </CardBody>
