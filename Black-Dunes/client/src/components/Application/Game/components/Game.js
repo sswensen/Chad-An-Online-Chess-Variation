@@ -36,6 +36,7 @@ export default class Game extends React.Component {
     }
 
     handleClick(piece, rowCol) {
+
         let row = parseInt((new String(rowCol)).split("-")[0]);
         let col = parseInt((new String(rowCol)).split("-")[1]);
         let i = row*12 + col;
@@ -57,6 +58,9 @@ export default class Game extends React.Component {
                     backgroundImage: squares[i].style['backgroundImage'],
                     'background-color': '#00c4ffc9'
                 };
+                //Add api call here
+                // let moves = [[6,4],[4,7]];
+                // this.highlightValidMoves(moves);
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -118,13 +122,6 @@ export default class Game extends React.Component {
                         turn: turn
                     });
 
-                    //After move update board for db
-//                    let gameObj = {
-//                        gameID: "",
-//                        gameBoard: "",
-//                        turn: ""
-//                    };
-//                    request(obj, 'updateBoard');
                 }
                 else {
                     const squares = this.state.squares.slice();
@@ -144,8 +141,8 @@ export default class Game extends React.Component {
 
                 }
             }
+            this.clearHighlights();
         }
-
     }
 
     /**
@@ -161,6 +158,54 @@ export default class Game extends React.Component {
             }
         }
         return isLegal;
+    }
+
+    highlightValidMoves(moves) {
+        for(let i = 0; i < moves.length; i++) {
+            console.log(document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundImage);
+            if(document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundImage === "")
+                document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundColor = "#00c4ffc9";
+            else
+                document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundColor = "#ff4936c9";
+        }
+
+    }
+
+    clearHighlights() {
+        for(let i = 0; i < 12; i++) {
+            for(let j = 0; j < 12; j++) {
+                if(!this.isWall(i, j))
+                    document.getElementById(i + '-' + j).style.backgroundColor = "#ffce9e";
+                else
+                    document.getElementById(i + '-' + j).style.backgroundColor = "#d18b47";
+            }
+        }
+    }
+
+    isWall(row, col) {
+
+        // BLACK walls
+        if(row == 1 && col >= 7 && col <= 9)
+            return true;
+        if(col == 6 && row >= 2 && row <= 4)
+            return true;
+        if(col == 10 && row >= 2 && row <= 4)
+            return true;
+        if(row == 5 && col >= 7 && col <= 9)
+            return true;
+
+        // WHITE walls
+        if(row == 6 && col >= 2 && col <= 4)
+            return true;
+        if(col == 1 && row >= 7 && row <= 9)
+            return true;
+        if(col == 5 && row >= 7 && row <= 9)
+            return true;
+        if(row == 10 && col >= 2 && col <= 4)
+            return true;
+
+        // If not a wall return false
+        return false;
     }
 
     getGames() {
