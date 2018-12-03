@@ -44,7 +44,7 @@ public class Database {
     }
 
     public void getCurrentGamesFromDatabase() {
-        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn\n" +
+        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
                 "FROM Games g, Users u\n" +
                 "WHERE (g.User1ID = " + user.getUserID() + " OR g.User2ID = " + user.getUserID() + ") AND u.ID = " + user.getUserID() + ";";
         String dbUrl;
@@ -57,6 +57,26 @@ public class Database {
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
                 //System.out.println("Query: " + query);
+                this.games = parseGamesFromResultSet(rsQuery);
+            }
+        } catch(Exception e) {
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+    }
+
+    public void getGameFromDatabaseByID(int gameID) {
+        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
+                "FROM Games g, Users u\n" +
+                "WHERE GameID = " + gameID + ";";
+        String dbUrl;
+
+        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                Statement stQuery = conn.createStatement();
+                ResultSet rsQuery = stQuery.executeQuery(query)
+            ) {
                 this.games = parseGamesFromResultSet(rsQuery);
             }
         } catch(Exception e) {
@@ -197,8 +217,9 @@ public class Database {
             int player2 = Integer.parseInt(rs.getString("User2ID"));
             User p2 = getUserFromDatabaseByID(player2);
             int turn = Integer.parseInt(rs.getString("Turn"));
+            int finished = Integer.parseInt(rs.getString("Finished"));
 
-            out.add(new Game(gameID, time, board, p1, p2, turn)); // TODO fill here
+            out.add(new Game(gameID, time, board, p1, p2, turn, finished)); // TODO fill here
         }
         return out;
     }
