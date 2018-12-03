@@ -44,9 +44,14 @@ public class Database {
     }
 
     public void getCurrentGamesFromDatabase() {
-        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
+        String q1 = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
                 "FROM Games g, Users u\n" +
                 "WHERE (g.User1ID = " + user.getUserID() + " OR g.User2ID = " + user.getUserID() + ") AND u.ID = " + user.getUserID() + ";";
+        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished, u1.ID, u1.Username,  u1.Nickname, u1.Email, u2.ID, u2.Username,  u2.Nickname, u2.Email\n" +
+                "FROM Games g\n" +
+                "LEFT JOIN Users u1 ON u1.ID = g.User1ID\n" +
+                "LEFT JOIN Users u2 ON u2.ID = g.User2ID\n" +
+                "WHERE (g.User1ID = " + user.getUserID() + " OR g.User2ID = " + user.getUserID() + ") AND (u1.ID = " + user.getUserID() + " OR u2.ID = + " + user.getUserID() + ");";
         String dbUrl;
 
         dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
@@ -56,10 +61,11 @@ public class Database {
                 Statement stQuery = conn.createStatement();
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
-                //System.out.println("Query: " + query);
+                System.out.println("Query: " + query);
                 this.games = parseGamesFromResultSet(rsQuery);
             }
         } catch(Exception e) {
+            System.out.println(query);
             System.err.println("Encountered exception: " + e.getMessage());
         }
     }
@@ -234,14 +240,28 @@ public class Database {
             int gameID = Integer.parseInt(rs.getString("GameID"));
             String time = rs.getString("StartTime");
             String board = rs.getString("Board");
-            int player1 = Integer.parseInt(rs.getString("User1ID"));
-            User p1 = getUserFromDatabaseByID(player1);
-            int player2 = Integer.parseInt(rs.getString("User2ID"));
-            User p2 = getUserFromDatabaseByID(player2);
             int turn = Integer.parseInt(rs.getString("Turn"));
             int finished = Integer.parseInt(rs.getString("Finished"));
 
-            out.add(new Game(gameID, time, board, p1, p2, turn, finished)); // TODO fill here
+
+            int user1ID = Integer.parseInt(rs.getString("u1.ID"));
+            int user2ID = Integer.parseInt(rs.getString("u2.ID"));
+
+
+            String user1Username = rs.getString("u1.Username");
+            String user2Username = rs.getString("u2.Username");
+
+            String user1Nickname = rs.getString("u1.Nickname");
+            String user2Nickname = rs.getString("u2.Nickname");
+
+            String user1Email = rs.getString("u1.Email");
+            String user2Email = rs.getString("u2.Email");
+
+            User u1 = new User(user1ID, user1Username, user1Nickname, user1Email);
+            User u2 = new User(user2ID, user2Username, user2Nickname, user2Email);
+
+
+            out.add(new Game(gameID, time, board, u1, u2, turn, finished)); // TODO fill here
         }
         return out;
     }
