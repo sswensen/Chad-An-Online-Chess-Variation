@@ -171,6 +171,7 @@ export default class Game extends React.Component {
         let update = request(obj,'GetValidMovesSession');
         update.then((value => {
             this.setValidMoves(value);
+            console.log(value);
         }))
     }
 
