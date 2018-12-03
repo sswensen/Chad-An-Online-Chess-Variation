@@ -11,13 +11,10 @@ export default function initialiseChessBoard(){
   // 1 = White
   // 2 = Black
 
-  // regular squares
-  for(let i = 0, j = 0; i < 144; i++, j++){
-    squares[i] = Math.floor(j/12) + "-" + i%12;
-  }
-
+  // int[] = {xcord, ycord, piece_type[1->Rook, 2->Queen, 3->King], piece_color[0->Black, 1->White]
   // Black Pieces
     // Top row
+  squares[33] = new Rook(2)
   squares[33] = new Rook(2)
   squares[32] = new Rook(2)
   squares[31] = new Rook(2)

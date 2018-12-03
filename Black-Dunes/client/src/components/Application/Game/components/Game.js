@@ -35,12 +35,54 @@ export default class Game extends React.Component {
         console.log("userID: " + this.userID);
     }
 
+    convertBoard() {
+        const squares = this.state.squares.slice();
+        let boardString = "";
+        for(let i = 0, j = 0; i < 144; i++, j++) {
+            if(squares[i]) {
+                // white
+                if(squares[i].player == 1) {
+                    if(squares[i].constructor.name == "Rook") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 1);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 1 + " "
+                    }
+                    if(squares[i].constructor.name == "Queen") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 1);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 1 + " "
+                    }
+                    if(squares[i].constructor.name == "King") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 1);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 1 + " "
+                    }
+                } else {
+                // black
+                    if(squares[i].constructor.name == "Rook") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 0);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 1 + "," + 0 + " "
+                    }
+                    if(squares[i].constructor.name == "Queen") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 0);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 2 + "," + 0 + " "
+                    }
+                    if(squares[i].constructor.name == "King") {
+                        // console.log(Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 0);
+                        boardString += Math.floor(j/12) + "," + i%12 + "," + 3 + "," + 0 + " "
+                    }
+
+                }
+            }
+        }
+        boardString = boardString.trim();
+        return boardString;
+    }
     handleClick(piece, rowCol) {
 
         let row = parseInt((new String(rowCol)).split("-")[0]);
         let col = parseInt((new String(rowCol)).split("-")[1]);
         let i = row*12 + col;
         const squares = this.state.squares.slice();
+
+        console.log(this.convertBoard())
 
         if (this.state.sourceSelection === -1) {
             if (!squares[i] || squares[i].player !== this.state.player) {
