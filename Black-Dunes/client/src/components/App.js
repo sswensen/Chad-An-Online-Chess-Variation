@@ -88,7 +88,6 @@ class App extends Component {
         let updated = request(user, 'register');
         updated.then((values) => {
             this.updateBasedOnResponse(values);
-            console.log(values);
         });
     }
 
@@ -170,6 +169,7 @@ class App extends Component {
 
     render() {
         const childInformation = {
+            userID: this.state.userID,
             error: this.state.error,
             updateUsername: this.updateUsername,
             updatePassword: this.updatePassword,

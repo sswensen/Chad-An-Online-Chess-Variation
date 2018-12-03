@@ -12,7 +12,6 @@ export default class Game extends React.Component {
     constructor() {
         super();
         this.state = {
-            userID: 0,
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
@@ -21,19 +20,20 @@ export default class Game extends React.Component {
             status: '',
             turn: 'white',
             games: [],
-            selectedGame: 0
+            selectedGame: 0,
+            validMoves: []
         };
-        this.updateUserID = this.updateUserID.bind(this);
+        this.updateValidMoves = this.updateValidMoves.bind(this);
         this.getGames();
     }
 
-    updateUserID(id) {
-
+    updateValidMoves(moves) {
         this.setState({
-           userID: id
+            validMoves: moves
         });
-        console.log("userID: " + this.userID);
+        this.highlightValidMoves(moves);
     }
+
 
     handleClick(piece, rowCol) {
 
@@ -59,6 +59,7 @@ export default class Game extends React.Component {
                     'background-color': '#00c4ffc9'
                 };
                 //Add api call here
+                this.getValidMoves(row, col);
                 // let moves = [[6,4],[4,7]];
                 // this.highlightValidMoves(moves);
                 this.setState({
@@ -160,6 +161,25 @@ export default class Game extends React.Component {
         return isLegal;
     }
 
+    async getValidMoves(row, col) {
+        let obj = {
+            gameID: 3,
+            userID: this.props.userID,
+            row: row,
+            col: col
+        };
+        let update = request(obj,'GetValidMovesSession');
+        update.then((value => {
+            this.setValidMoves(value);
+        }))
+    }
+
+    setValidMoves(value) {
+        this.setState({
+            validMoves: value
+        })
+    }
+
     highlightValidMoves(moves) {
         for(let i = 0; i < moves.length; i++) {
             console.log(document.getElementById(moves[i][0] + '-' + moves[i][1]).style.backgroundImage);
@@ -209,11 +229,11 @@ export default class Game extends React.Component {
     }
 
     getGames() {
-        let update = request(this.state.userID, 'getGames');
-        update.then((value => {
-            this.updateGames(value);
-            console.log(value);
-        }));
+        // let update = request(this.props.userID, 'getGames');
+        // update.then((value => {
+        //     this.updateGames(value);
+        //     console.log(value);
+        // }));
     }
 
     updateGames(value) {
