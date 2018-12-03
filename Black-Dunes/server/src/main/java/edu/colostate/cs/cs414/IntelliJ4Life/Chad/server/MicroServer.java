@@ -1,15 +1,12 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
-<<<<<<< HEAD
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.GetBoardSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
-=======
 
 import com.google.gson.Gson;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.*;
 import org.json.*;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
->>>>>>> ss-dev-board
 
 import spark.Request;
 import spark.Response;
