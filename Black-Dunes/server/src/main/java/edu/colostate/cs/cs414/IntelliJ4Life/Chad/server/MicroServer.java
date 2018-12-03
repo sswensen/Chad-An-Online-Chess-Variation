@@ -289,6 +289,7 @@ public class MicroServer {
     for (User u : users) {
       if (u.getUserID() != userID) {
         usersArray[i] = u.getUserID();
+
         i++;
       }
     }
