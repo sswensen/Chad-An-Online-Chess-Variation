@@ -297,7 +297,7 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println();
+    System.out.println("getBoard");
     return new GetBoardSession(request, activeGames).getBoard();
   }
 }

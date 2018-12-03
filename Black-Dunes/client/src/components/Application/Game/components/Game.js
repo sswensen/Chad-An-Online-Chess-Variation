@@ -28,8 +28,25 @@ export default class Game extends React.Component {
             validMoves: []
         };
         this.getGames();
+        this.getBoard();
     }
 
+    getBoard() {
+        let gameInfo = {
+            gameID: '3'
+        };
+        let update = request(gameInfo, 'getBoard');
+        update.then((value => {
+            this.updateGame(value);
+        }));
+    }
+
+    updateGame(value) {
+        this.setState({
+            squares: this.rebuildBoard(value["board"]),
+            turn: (value["turn"] === 0 ? 'white' : 'black')
+        })
+    }
 
     convertBoard() {
         const squares = this.state.squares.slice();
@@ -78,22 +95,21 @@ export default class Game extends React.Component {
 
         let splitArray = boardString.split(" ");
         for(let i = 0; i < splitArray.length; i++) {
-            console.log(splitArray[i]);
+            // console.log(splitArray[i]);
             let pieceInfo = splitArray[i].split(",");
             let row = parseInt(pieceInfo[0]);
             // console.log(row);
             let col = parseInt(pieceInfo[1]);
             // console.log(col);
             let id = (row * 12) + col;
-            console.log(id);
+            // console.log(id);
             // piecetype 1=rook 2=queen 3=king
             let pieceType = pieceInfo[2];
-
             // piece color 0=black 1=white
             let pieceColor = pieceInfo[3];
 
-            if(pieceType == 1) {
-                if (pieceColor == 0) {
+            if(pieceType === '1') {
+                if (pieceColor === '0') {
                     // black
                     squares[id] = new Rook(2);
                 } else {
@@ -101,8 +117,8 @@ export default class Game extends React.Component {
                     squares[id] = new Rook(1);
                 }
             }
-            if (pieceType == 2) {
-                if (pieceColor == 0) {
+            if (pieceType === '2') {
+                if (pieceColor === '0') {
                     // black
                     squares[id] = new Queen(2);
                 } else {
@@ -110,8 +126,8 @@ export default class Game extends React.Component {
                     squares[id] = new Queen(1);
                 }
             }
-            if (pieceType == 3) {
-                if (pieceColor == 0) {
+            if (pieceType === '3') {
+                if (pieceColor === '0') {
                     // black
                     squares[id] = new King(2);
                 } else {
@@ -145,11 +161,10 @@ export default class Game extends React.Component {
         const squares = this.state.squares.slice();
 
         // testing conversion functions
-        console.log(this.convertBoard())
         let newboard = this.rebuildBoard(this.convertBoard());
-        console.log(newboard.length);
-        console.log(this.state.squares.length);
-        console.log(this.arraysEqual(newboard, this.state.squares));
+        // console.log(newboard.length);
+        // console.log(this.state.squares.length);
+        // console.log(this.arraysEqual(newboard, this.state.squares));
 
         if (this.state.sourceSelection === -1) {
             if (!squares[i] || squares[i].player !== this.state.player) {
@@ -271,7 +286,7 @@ export default class Game extends React.Component {
             row: row,
             col: col
         };
-        let update = request(obj,'GetValidMovesSession');
+        let update = request(obj,'getValidMovesSession');
         update.then((value => {
             this.setValidMoves(value); // TODO this is broken, below log works but line 186,187 are empty/are undefined
         }))
