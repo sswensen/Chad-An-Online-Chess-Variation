@@ -80,11 +80,13 @@ class Login extends Component {
                 </Col>
                 <Col sm={6} md={4} lg={4}>
                     <Input style={{width: "100%"}} placeholder="Username" type="text"
+                           autoComplete="off"
                            data-test="username" value={this.state.username}
                            onChange={this.handleUserChange}/>
                 </Col>
                 <Col sm={6} md={4} lg={4}>
                     <Input style={{width: "100%"}} placeholder="Password" type="password"
+                           autoComplete="off"
                            data-test="password" value={this.state.password}
                            onChange={this.handlePassChange}/>
                 </Col>
