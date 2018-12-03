@@ -42,19 +42,13 @@ public class GetValidMovesSession {
         } else {
             User user = db.getUserFromDatabaseByID(userIdInt);
             Piece piece = game.getBoard().getBoard()[Integer.parseInt(pieceData.row)][Integer.parseInt(pieceData.col)];
-            Player p = game.getPlayer(user);
-            System.out.println("p:" + p);
-            System.out.println("piece: " + piece);
-            if(piece.getColor() != p.getColor()) {
-                validMoves = new int[0][0];
-            } else {
-                // Find valid moves
-                ArrayList<int[]> validMovesList = piece.validMoves(game.getBoard().getBoard());
-                int[][] validMovesArray = new int[validMovesList.size()][2];
-                validMovesArray = validMovesList.toArray(validMovesArray);
 
-                validMoves = validMovesArray;
-            }
+            // Find valid moves
+            ArrayList<int[]> validMovesList = piece.validMoves(game.getBoard().getBoard());
+            int[][] validMovesArray = new int[validMovesList.size()][2];
+            validMovesArray = validMovesList.toArray(validMovesArray);
+
+            validMoves = validMovesArray;
         }
     }
 

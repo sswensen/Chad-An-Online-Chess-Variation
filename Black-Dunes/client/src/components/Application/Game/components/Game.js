@@ -163,7 +163,7 @@ export default class Game extends React.Component {
 
     async getValidMoves(row, col) {
         let obj = {
-            gameID: 3,
+            gameID: 4,
             userID: this.props.userID,
             row: row,
             col: col
