@@ -36,7 +36,7 @@ class Invite extends Component {
     }
 
     async getUsers() {
-        let updated = request({userID: this.props.userID}, 'getUsers');
+        let updated = request(this.props.userID, 'getUsers');
         updated.then((values) => {
             Invite.formatUsers(values);
             return true;
