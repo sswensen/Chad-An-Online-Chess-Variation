@@ -92,16 +92,21 @@ class App extends Component {
 
 
     async updateLogin(username, password) {
-            let user = {
-                username: username,
-                password: password
-            };
+        let user = {
+            username: username,
+            password: password
+        };
 
-            let updated = request(user, 'login');
-            updated.then((values) => {
-                this.updateBasedOnResponse(values)
-            });
-        }
+        let updated = request(user, 'login');
+        updated.then((values) => {
+            this.updateBasedOnResponse(values)
+        });
+
+        let backgroundGames = request(user, 'loadGamesOnServer');
+        backgroundGames.then((values => {
+            console.log(values + " : " + updated.valueOf());
+        }))
+    }
 
     clearLogin() {
         this.setState({
@@ -144,7 +149,7 @@ class App extends Component {
         this.setState({
             auth: auth,
         });
-        if(auth > -1) {
+        if (auth > -1) {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
@@ -153,7 +158,7 @@ class App extends Component {
                     {title: 'Register', page: 'register', link: '/register'}
                 ]
             });
-            return <Redirect to='/login'  />
+            return <Redirect to='/login'/>
         } else {
             this.setState({
                 pages: [
