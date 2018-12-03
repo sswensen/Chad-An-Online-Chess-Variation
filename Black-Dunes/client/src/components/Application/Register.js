@@ -98,24 +98,28 @@ class Register extends Component {
 
                 }
 
-                <Col sm={12} md={6} lg={6}>
-                    <Input style={{width: "100%"}} placeholder="Username" type="text"
+                <Col sm={0} md={6} lg={6}>
+                    <label>Username</label>
+                    <Input style={{width: "100%"}} placeholder="A Username" type="text"
                            data-test="username" value={this.state.username}
                            onChange={this.handleUserChange}/>
                 </Col>
                 <Col sm={12} md={6} lg={6}>
-                    <Input style={{width: "100%"}} placeholder="Password" type="password"
+                    <label>Password</label>
+                    <Input style={{width: "100%"}} placeholder="A Password" type="password"
                            data-test="password" value={this.state.password}
                            onChange={this.handlePassChange}/>
                 </Col>
                 <Col sm={12} md={6} lg={6}>
-                    <Input style={{width: "100%"}} placeholder="Email" type="text"
-                           data-test="Email" value={this.state.username}
+                    <label>Email</label>
+                    <Input style={{width: "100%"}} placeholder="An Email" type="text"
+                           data-test="Email" value={this.state.email}
                            onChange={this.handleEmailChange}/>
                 </Col>
                 <Col sm={12} md={6} lg={6}>
-                    <Input style={{width: "100%"}} placeholder="Nickname" type="text"
-                           data-test="Nickname" value={this.state.password}
+                    <label>Nickname</label>
+                    <Input style={{width: "100%"}} placeholder="A Nickname" type="text"
+                           data-test="Nickname" value={this.state.nickname}
                            onChange={this.handleNicknameChange}/>
                 </Col>
 
