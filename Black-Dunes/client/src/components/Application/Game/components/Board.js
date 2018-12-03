@@ -32,7 +32,7 @@ export default class Board extends React.Component {
         }
 
         return (
-            <div class="board">
+            <div className="board">
                 {board}
             </div>
         );
