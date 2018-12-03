@@ -56,6 +56,7 @@ public class MicroServer {
     get("/config", this::config);
     post("/plan", this::plan);
     post("/login", this::login);
+    post("/loadGamesOnServer", this::loadGamesOnServer);
     post("/register", this::register);
     post("/getBoard", this::getBoard);
     post("/updateBoard", this::updateBoard);
@@ -151,7 +152,7 @@ public class MicroServer {
     return name;
   }
 
-  /** A REST API that returns the team information associated with the server.
+  /** A REST API that logs in user and returns id if user exists.
    *
    * @param request
    * @param response
@@ -164,16 +165,34 @@ public class MicroServer {
 
     System.out.println();
     LoginSession lSesh = new LoginSession(request);
-    Database db = new Database(lSesh.getAuthUser());
-    db.getCurrentGamesFromDatabase();
-    ArrayList<Game> games = db.getGames();
-  for(Game g : games) {
-      activeGames.add(g);
-  }
 
-    return lSesh.getUserID(); // Send back user id, THIS IS INSECURE
+    return lSesh.getUserID();
 
   }
+
+    /** A REST API that loads the games on the backend and returns the user id.
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    private String loadGamesOnServer(Request request, Response response) {
+
+        response.type("text/plain");
+        response.header("Access-Control-Allow-Origin", "*");
+
+        System.out.println();
+        LoginSession lSesh = new LoginSession(request);
+        Database db = new Database(lSesh.getAuthUser());
+        db.getCurrentGamesFromDatabase();
+        ArrayList<Game> games = db.getGames();
+        for(Game g : games) {
+            activeGames.add(g);
+        }
+
+        return lSesh.getUserID();
+
+    }
 
   /** A REST API that registers a user in the database.
    *
