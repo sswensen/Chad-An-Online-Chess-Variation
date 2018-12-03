@@ -2,15 +2,9 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
 
 import com.google.gson.Gson;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.*;
 import org.json.*;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.RegisterSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
-import org.json.*;
 
 import spark.Request;
 import spark.Response;
@@ -63,6 +57,7 @@ public class MicroServer {
     post("/register", this::register);
     post("/updateBoard", this::updateBoard);
     post("/getGames", this::getGames);
+    post("/GetValidMovesSession", this::getValidMoves);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -266,5 +261,18 @@ public class MicroServer {
       return gson.toJson(games);
     }
     return "";
+  }
+
+  /** A REST API that returns the team information associated with the server.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getValidMoves(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return new GetValidMovesSession(request).getValidMoves();
   }
 }
