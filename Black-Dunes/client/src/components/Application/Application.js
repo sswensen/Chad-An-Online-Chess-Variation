@@ -13,7 +13,7 @@ class Application extends Component {
     render() {
         switch (this.props.page) {
             case 'home':
-                return <Home/>;
+                return <Home message={this.props.info['error']}/>;
             case 'game':
                 return <Game userID={this.props.info['userID']}/>;
             case 'login':
