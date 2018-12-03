@@ -23,15 +23,7 @@ export default class Game extends React.Component {
             selectedGame: 0,
             validMoves: []
         };
-        this.updateValidMoves = this.updateValidMoves.bind(this);
         this.getGames();
-    }
-
-    updateValidMoves(moves) {
-        this.setState({
-            validMoves: moves
-        });
-        this.highlightValidMoves(moves);
     }
 
 
@@ -60,8 +52,6 @@ export default class Game extends React.Component {
                 };
                 //Add api call here
                 this.getValidMoves(row, col);
-                // let moves = [[6,4],[4,7]];
-                // this.highlightValidMoves(moves);
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -91,10 +81,6 @@ export default class Game extends React.Component {
                 const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
                 const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
-                if(!isMovePossible)
-                    console.log('impossible move');
-                if(!isMoveLegal)
-                    console.log('illegal move');
 
                 if (isMovePossible && isMoveLegal) {
                     if (squares[i] !== null) {
@@ -171,22 +157,19 @@ export default class Game extends React.Component {
         let update = request(obj,'GetValidMovesSession');
         update.then((value => {
             this.setValidMoves(value); // TODO this is broken, below log works but line 186,187 are empty/are undefined
-            console.log(value);
         }))
-        this.highlightValidMoves();
+
     }
 
     setValidMoves(value) {
         this.setState({
             validMoves: value
         })
+        this.highlightValidMoves();
     }
 
     highlightValidMoves() {
-        console.log("here");
-        console.log(this.moves);
         for(let i = 0; i < this.state.validMoves.length; i++) {
-            console.log(document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundImage);
             if(document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundImage === "")
                 document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#00c4ffc9";
             else
