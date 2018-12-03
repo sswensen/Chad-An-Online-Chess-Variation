@@ -21,13 +21,14 @@ class Invite extends Component {
             selectedUsers: [],
         };
 
-        this.handleInviteSubmit = this.handleInviteSubmit.bind(this)
+        this.handleInviteSubmit = this.handleInviteSubmit.bind(this);
+        this.getUsers = this.getUsers.bind(this);
+        this.sendInvites = this.sendInvites.bind(this);
     }
 
-    // componentDidMount() {
-    //     const users  = this.getUsers();
-    //     this.setState({users: users})
-    // }
+    componentDidMount() {
+        this.getUsers();
+    }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -36,12 +37,14 @@ class Invite extends Component {
     }
 
     async getUsers() {
-        let updated = request(this.props.userID, 'getUsers');
+        let user = {
+            userID: '4'
+        };
+        let updated = request(user, 'getUsers');
         updated.then((values) => {
-            Invite.formatUsers(values);
-            return true;
+            this.setState({users: Invite.formatUsers(values)});
         });
-        return false;
+        return this.setState({users: []})
     }
 
     async sendInvites() {
@@ -57,8 +60,8 @@ class Invite extends Component {
 
     static formatUsers(values) {
         let users = [];
-        for (let user in values) {
-            users.append({value: user.userID, label: user.nickName});
+        for (let i = 0; i < values.length; i++) {
+            users.push({value: values[i]['userID'], label: values[i]['nickname']});
         }
         return users;
     }
