@@ -43,27 +43,6 @@ public class Database {
         this.auth = true;
     }
 
-//    public void getCurrentGamesFromDatabase() {
-//        String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
-//                "FROM Games g, Users u\n" +
-//                "WHERE (g.User1ID = " + user.getUserID() + " OR g.User2ID = " + user.getUserID() + ") AND u.ID = " + user.getUserID() + ";";
-//        String dbUrl;
-//
-//        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
-//        try {
-//            Class.forName(myDriver);
-//            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
-//                Statement stQuery = conn.createStatement();
-//                ResultSet rsQuery = stQuery.executeQuery(query)
-//            ) {
-//                //System.out.println("Query: " + query);
-//                this.games = parseGamesFromResultSet(rsQuery);
-//            }
-//        } catch(Exception e) {
-//            System.err.println("Encountered exception: " + e.getMessage());
-//        }
-//    }
-
     public void getCurrentGamesFromDatabase() {
         String q1 = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
                 "FROM Games g, Users u\n" +
