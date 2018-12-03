@@ -14,8 +14,8 @@ class App extends Component {
             auth: -1,
             pages: [
                 {title: 'Home', page: 'home', link: '/'},
-                {title: 'Login', page: 'login', link: '/login'},
-                {title: 'Register', page: 'register', link: '/register'}
+                {title: 'Register', page: 'register', link: '/register'},
+                {title: 'Login', page: 'login', link: '/login'}
             ],
             config: null,
             userID: '-1',
@@ -168,8 +168,8 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
-                    {title: 'Login', page: 'login', link: '/login'},
-                    {title: 'Register', page: 'register', link: '/register'}
+                    {title: 'Register', page: 'register', link: '/register'},
+                    {title: 'Login', page: 'login', link: '/login'}
                 ]
             })
         }
