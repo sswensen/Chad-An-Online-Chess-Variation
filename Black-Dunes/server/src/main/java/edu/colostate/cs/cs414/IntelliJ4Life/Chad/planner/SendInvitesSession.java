@@ -9,8 +9,10 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import org.json.JSONObject;
 import spark.Request;
 
+import java.util.ArrayList;
+
 public class SendInvitesSession {
-    private UserInfo userInfo;
+    private InviteInfo inviteInfo;
     private boolean response;
 
     /**
@@ -29,15 +31,34 @@ public class SendInvitesSession {
 
         // convert the body of the request to a Java class.
         Gson gson = new Gson();
-        userInfo = gson.fromJson(requestBody, UserInfo.class);
+        inviteInfo = gson.fromJson(requestBody, InviteInfo.class);
 
         Database db = new Database();
-        Game game = activeGames.getGameFromGameID(userInfo.userID);
 
-        String board = game.getBoard().convertBoardToString();
-        int turn = game.getTurn();
+        ArrayList<User> users = new ArrayList<User>();
 
-        boardResponse = new BoardResponse(board, turn);
+        for (int i = 0; i < inviteInfo.userIDs.length; i++) {
+            int userID = Integer.parseInt(inviteInfo.userIDs[i]);
+            User u = db.getUserFromDatabaseByID(userID);
+            users.add(u);
+        }
+
+        int senderID = Integer.parseInt(inviteInfo.senderID);
+        User sender  = db.getUserFromDatabaseByID(senderID);
+
+        /*
+         *   TODO: Update Invites Table with the following
+         *      1. inviteID
+         *      2. sender          - foreign key
+         *      3. receiveing user - foreign key
+         *      4. message
+         */
+
+
+//        Invite invite = new Invite(sender.getNickName() + "invited you to a game!", sender);
+//
+//        invite.inviteUsers(users);
+
     }
 
     /**
@@ -49,7 +70,8 @@ public class SendInvitesSession {
         return gson.toJson(boardResponse);
     }
 
-    private class UserInfo {
-        private String userID = "";
+    private class InviteInfo {
+        private String senderID = "";
+        private String[] userIDs = new String[0];
     }
 }
