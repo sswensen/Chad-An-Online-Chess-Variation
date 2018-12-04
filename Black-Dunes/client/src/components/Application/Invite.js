@@ -93,7 +93,7 @@ class Invite extends Component {
     async handleAcceptSubmit(invitationID) {
         const body = {
             type: 'accept',
-            inviteId: invitationID
+            inviteID: invitationID.toString()
         };
         let updated = request(body, 'invitationInteraction');
         updated.then((value) => {
