@@ -8,6 +8,11 @@ public class User {
     private ArrayList<Notification> receivedNotifications = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
 
+    /** Object that represents a user
+     *
+     * @param nickName
+     * @param email
+     */
     public User(String nickName, String email) {
         this.nickName = nickName;
         this.email = email;
@@ -26,6 +31,9 @@ public class User {
         this.email = email;
     }
 
+    /** Inner class that holds the wins losses and draws for a user*
+     *
+     */
     public class Profile {
         private int wins, losses, draws;
 
@@ -35,9 +43,10 @@ public class User {
             this.draws = 0;
         }
 
-        /************
-         * Accessors
-         ***********/
+        /** Accessors to get wins, losses, and draws for a user
+         *
+         * @return
+         */
         public int getWins() {
             return wins;
         }
@@ -50,9 +59,9 @@ public class User {
             return draws;
         }
 
-        /*************
-         * Public Methods
-         *************/
+        /** Setters to add a win, loss, or draw to a user
+         *
+         */
         public void addWin() {
             this.wins++;
         }
@@ -66,50 +75,90 @@ public class User {
         }
     }
 
-    /************
-     * Accessors
-     ***********/
+    /** Accessor to get the nickname of user
+     *
+     * @return
+     */
     public String getNickName() { return nickName; }
 
+    /** Setter to change the nickname of user
+     *
+     * @param nickName
+     */
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
 
+    /** Accessor to get the email of a user
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /** Setter to change the email of a user
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /** Accessor to get a list of all notifications received
+     *
+     * @return
+     */
     public ArrayList<Notification> getReceivedNotifications() {
         return receivedNotifications;
     }
 
+    /** Accessor to get a list of all sent invites
+     *
+     * @return
+     */
     public ArrayList<Invite> getSentInvites() {
         return sentInvites;
     }
 
+    /** Accessor to get unique userID
+     *
+     * @return
+     */
     public int getUserID() {
         return userID;
     }
 
+    /** Setter to change userID
+     *
+     * @param userID
+     */
     public void setUserID(int userID) {
         this.userID = userID;
     }
 
+    /** Accessor to get the username
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /** Setter to change the username
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /*************
-     * Public Methods
-     *************/
+    /** Method to send an invite to a several users
+     *
+     * @param invite Invite object being sent to users
+     * @param users Arraylist of users that will receive an invite
+     * @return
+     */
     public boolean sendInvite(Invite invite, ArrayList<User> users) {
         if (invite.inviteUsers(users)) {
             if (!sentInvites.contains(invite)) {
@@ -121,12 +170,21 @@ public class User {
         }
     }
 
+    /** Method to get specific notification from list of received notifications
+     *
+     * @param notification
+     */
     public void receiveNotification(Notification notification) {
         if (!receivedNotifications.contains(notification)) {
             this.receivedNotifications.add(notification);
         }
     }
 
+    /** Method that accepts an invite
+     *
+     * @param invite
+     * @return True if invite was successfully accepted, false otherwise
+     */
     public boolean acceptInvitation(Invite invite) {
         if (receivedNotifications.contains(invite)) {
             boolean accepted = invite.accept();
@@ -138,6 +196,10 @@ public class User {
         }
     }
 
+    /** Method that rejects a invite
+     *
+     * @param invite
+     */
     public void rejectInvitation(Invite invite) {
         if (this.receivedNotifications.contains(invite)) {
             this.receivedNotifications.remove(invite);
@@ -146,6 +208,11 @@ public class User {
         }
     }
 
+    /** Method to cancel an invite
+     *
+     * @param invite
+     * @return
+     */
     public boolean cancelInvitation(Invite invite) {
         return sentInvites.contains(invite) && invite.cancel();
     }
