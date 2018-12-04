@@ -38,9 +38,10 @@ public class GetBoardSession {
 
         String board = game.getBoard().convertBoardToString();
         int turn = game.getTurn();
+        int userID = game.getPlayerOne().getUser().getUserID();
 
 
-        boardResponse = new BoardResponse(board, turn);
+        boardResponse = new BoardResponse(board, turn, userID);
     }
 
     /**
@@ -59,10 +60,12 @@ public class GetBoardSession {
     private class BoardResponse {
         private String board;
         private int turn;
+        private int userID;
 
-        private BoardResponse(String _board, int _turn) {
+        private BoardResponse(String _board, int _turn, int _userID) {
             board = _board;
             turn  = _turn;
+            userID = _userID;
         }
     }
 }

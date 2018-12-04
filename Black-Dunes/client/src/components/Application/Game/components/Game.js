@@ -20,7 +20,7 @@ export default class Game extends React.Component {
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
-            player: 2,
+            player: -1,
             sourceSelection: -1,
             status: '',
             turn: 'white',
@@ -67,8 +67,7 @@ export default class Game extends React.Component {
         this.setState({
             squares: this.rebuildBoard(value["board"]),
             turn: value["turn"] == '0' ? 'white' : 'black',
-            // TODO: CHANGE THIS
-            // player: value["turn"] == '0' ? 1 : 2
+            player: value["userID"] == this.props.userID ? 1 : 2
         });
         console.log(this.state.turn);
     }
