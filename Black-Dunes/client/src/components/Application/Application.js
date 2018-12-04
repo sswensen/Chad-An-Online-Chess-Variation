@@ -30,7 +30,7 @@ class Application extends Component {
                                  updateNickname={this.props.info['updateNickname']}
                                  registerUser={this.props.info['registerUser']}/>;
             case 'invite':
-                return <Invite/>;
+                return <Invite userID={this.props.info['userID']}/>;
             default:
                 return <div/>;
             }
