@@ -1,24 +1,20 @@
 import React, {Component} from 'react'
-import Select from 'react-select'
-import {Button, Card, CardBody, Col, Container, Row} from 'reactstrap'
+import {Col, Container, ListGroup, ListGroupItem, Row} from 'reactstrap'
 import {request} from '../../api/api';
 
-class Invite extends Component {
+class Notifications extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
-            selectedUsers: []
+            notifications: ['You suck Joe', 'You are the worst', 'Hope you are having fun! -Mom']
         };
 
-        this.handleInviteSubmit = this.handleInviteSubmit.bind(this);
-        this.getUsers = this.getUsers.bind(this);
-        this.sendInvites = this.sendInvites.bind(this);
+        this.getNotifications = this.getNotifications.bind(this);
     }
 
-    componentDidMount() {
-        this.getUsers();
-    }
+    // componentDidMount() {
+    //     this.getNotifications();
+    // }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -26,48 +22,15 @@ class Invite extends Component {
         });
     }
 
-    async getUsers() {
+    async getNotifications() {
         let user = {
             userID: this.props.userID
         };
-        let updated = request(user, 'getUsers');
+        let updated = request(user, 'getNotifications');
         updated.then((values) => {
-            this.setState({users: Invite.formatUsers(values)});
+            this.setState({notifications: values});
         });
-        return this.setState({users: []})
-    }
-
-    async sendInvites() {
-        const userIDs = this.state.selectedUsers.map(user => user.value);
-        let updated = request({userIDs: userIDs}, 'sendInvites');
-        updated.then((values) => {
-            if (values) {
-                return this.setState({error: ''})
-            } else {
-                return this.setState({error: 'Sending invites failed'});
-            }
-        });
-    }
-
-    static formatUsers(values) {
-        let users = [];
-        for (let i = 0; i < values.length; i++) {
-            users.push({value: values[i]['userID'], label: values[i]['nickname']});
-        }
-        return users;
-    }
-
-    handleInviteSubmit() {
-        if (this.state.selectedUsers.length === 0) {
-            return this.setState({error: 'You must select at least one user'});
-        } else {
-            this.sendInvites();
-            return this.setState({error: ''});
-        }
-    }
-
-    listUserInvites() {
-        return <li/>;
+        return this.setState({notifications: []})
     }
 
     render() {
@@ -79,11 +42,11 @@ class Invite extends Component {
                             <h3>Notifications</h3>
                         </div>
                         <div className="notifications">
-                                <Select
-                                    closeMenuOnSelect={true}
-                                    options={this.state.users}
-                                    onChange={(selected) => {this.setState({selectedUsers: selected})}}
-                                />
+                            <ListGroup>
+                                {this.state.notifications.map((notification) => (
+                                    <ListGroupItem>{notification}</ListGroupItem>
+                                ))}
+                            </ListGroup>
                         </div>
                     </Col>
                 </Row>
@@ -92,4 +55,4 @@ class Invite extends Component {
     }
 }
 
-export default Invite;
+export default Notifications;
