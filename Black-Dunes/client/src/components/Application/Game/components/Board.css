@@ -73,3 +73,21 @@ h3 {
 .selected {
     border: 1px solid blue;
 }
+
+.game-btn-container {
+    margin: 10px;
+}
+
+.game-btn {
+    margin: 5px;
+    background: none;
+    color: #1e4d2b;
+    border: 1px solid #1e4d2b;
+    border-radius: 5px;
+    font-weight: 600;
+    font-family: sans-serif;
+    letter-spacing: .11em;
+    line-height: 1.1em;
+    font-size: 13px;
+    cursor: pointer;
+}
