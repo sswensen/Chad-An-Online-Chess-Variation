@@ -1,19 +1,14 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
-import {Button, Card, CardBody, Container} from 'reactstrap'
-import {request} from "../../api/api";
+import {Button, Col, Container, Row} from 'reactstrap'
+import {request} from '../../api/api';
 
-/* Options allows the user to change the parameters for planning
- * and rendering the trip map and itinerary.
- * The options reside in the parent object so they may be shared with the Trip object.
- * Allows the user to set the options used by the application via a set of buttons.
- */
 class Invite extends Component {
     constructor(props) {
         super(props);
         this.state = {
             users: [],
-            selectedUsers: [],
+            selectedUsers: []
         };
 
         this.handleInviteSubmit = this.handleInviteSubmit.bind(this);
@@ -33,7 +28,7 @@ class Invite extends Component {
 
     async getUsers() {
         let user = {
-            userID: '4'
+            userID: this.props.userID
         };
         let updated = request(user, 'getUsers');
         updated.then((values) => {
@@ -43,13 +38,17 @@ class Invite extends Component {
     }
 
     async sendInvites() {
-        let updated = request({selectedUsers: this.state.selectedUsers}, 'sendInvites');
+        const body = {
+            senderID: this.props.userID,
+            userIDs: this.state.selectedUsers.map(user => user.value)
+        };
+        let updated = request(body, 'sendInvites');
         updated.then((values) => {
-           if (values) {
-               return this.setState({error: ''})
-           } else {
-               return this.setState({error: 'Sending invites failed'});
-           }
+            if (values) {
+                return this.setState({error: ''})
+            } else {
+                return this.setState({error: 'Sending invites failed'});
+            }
         });
     }
 
@@ -77,29 +76,32 @@ class Invite extends Component {
     render() {
         return (
             <Container>
-                <Card>
-                    <CardBody>
+                <Row>
+                    <Col>
                         <div>
-                            <h3>Invite Users</h3>
+                            <h3>Invite to New Game</h3>
                         </div>
-                        <div className="Invite">
-                            <div className="UserSelection">
+                        <div className="invite-users">
+                            <div className="user-selection">
                                 <Select
                                     closeMenuOnSelect={false}
                                     options={this.state.users}
                                     isMulti
                                     onChange={(selected) => {this.setState({selectedUsers: selected})}}
                                 />
-                                <Button sm={12} md={12} lg={12} type="submit" value="Register" data-test="submit" onClick={this.handleInviteSubmit}>
+                                <Button className="send-invite" sm={12} md={12} lg={12} type="submit" value="Register" data-test="submit" onClick={this.handleInviteSubmit}>
                                     Submit
                                 </Button>
                             </div>
-                            <div className = "UserInvites">
-                                {this.listUserInvites()}
-                            </div>
                         </div>
-                    </CardBody>
-                </Card>
+                    </Col>
+                    <Col>
+                        <div className = "user-invites">
+                            <h3>Edit Invites</h3>
+                            {this.listUserInvites()}
+                        </div>
+                    </Col>
+                </Row>
             </Container>
         );
     }

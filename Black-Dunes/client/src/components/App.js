@@ -158,6 +158,8 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
+                    {title: 'Profile', page: 'profile', link: '/profile'},
+                    {title: 'Notifications', page: 'notifications', link: '/notifications'},
                     {title: 'Invite', page: 'invite', link: '/invite'},
                     {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Logout', page: 'logout', link: '/logout'},
