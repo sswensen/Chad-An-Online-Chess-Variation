@@ -23,7 +23,7 @@ public class GetGamesSession {
 
     public GetGamesSession(Request request, ActiveGames activeGames) {
         // first print the request
-        System.out.println(HTTP.echoRequest(request));
+        //System.out.println(HTTP.echoRequest(request));
 
         // extract the information from the body of the request.
         JsonParser jsonParser = new JsonParser();
@@ -45,8 +45,8 @@ public class GetGamesSession {
         gamesArray = new String[0][0];
 
         if (user != null) {
-            System.out.println("user.userID: " + user.getUserID());
-            System.out.println();
+//            System.out.println("user.userID: " + user.getUserID());
+//            System.out.println();
 
             // Get games for user
 //            ArrayList<Game> games = activeGames.getGamesFromUserID(String.valueOf(user.getUserID()));

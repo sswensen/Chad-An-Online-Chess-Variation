@@ -21,7 +21,7 @@ public class GetBoardSession {
 
     public GetBoardSession(Request request, ActiveGames activeGames) {
         // first print the request
-        System.out.println(HTTP.echoRequest(request));
+        //System.out.println(HTTP.echoRequest(request));
 
         // extract the information from the body of the request.
         JsonParser jsonParser = new JsonParser();
@@ -34,14 +34,19 @@ public class GetBoardSession {
 
         Database db = new Database();
         // Game game = activeGames.getGameFromGameID(gameInfo.gameID);
-        Game game = db.getGameFromDatabaseByID(Integer.parseInt(gameInfo.gameID));
+        if(gameInfo.gameID == null) {
+            boardResponse = (new BoardResponse("", 0, -1));
+        }
+        else {
+            Game game = db.getGameFromDatabaseByID(Integer.parseInt(gameInfo.gameID));
 
-        String board = game.getBoard().convertBoardToString();
-        int turn = game.getTurn();
-        int userID = game.getPlayerOne().getUser().getUserID();
+            String board = game.getBoard().convertBoardToString();
+            int turn = game.getTurn();
+            int userID = game.getPlayerOne().getUser().getUserID();
 
 
-        boardResponse = new BoardResponse(board, turn, userID);
+            boardResponse = new BoardResponse(board, turn, userID);
+        }
     }
 
     /**

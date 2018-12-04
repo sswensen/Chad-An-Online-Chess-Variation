@@ -17,7 +17,7 @@ export default class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            squares: initialiseChessBoard(),
+            squares: [],
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
             player: -1,
@@ -25,7 +25,7 @@ export default class Game extends React.Component {
             status: '',
             turn: 'white',
             games: [],
-            gameID: 0,
+            gameID: 1,
             validMoves: []
         };
         this.getGames();
@@ -50,7 +50,7 @@ export default class Game extends React.Component {
     }
 
     getBoard() {
-        console.log("getBoard() gameID:" + this.state.gameID);
+        // console.log("getBoard() gameID:" + this.state.gameID);
         let gameInfo = {
             gameID: this.state.gameID
         };
@@ -61,15 +61,11 @@ export default class Game extends React.Component {
     }
 
     updateGame(value) {
-        console.log("turn: ")
-        console.log(value["turn"] == '0' ? 'white' : 'black');
-        console.log(this.state.turn);
         this.setState({
             squares: this.rebuildBoard(value["board"]),
             turn: value["turn"] == '0' ? 'white' : 'black',
             player: value["userID"] == this.props.userID ? 1 : 2
         });
-        console.log(this.state.turn);
     }
 
     convertBoard() {
@@ -192,18 +188,24 @@ export default class Game extends React.Component {
             if (!squares[i] || squares[i].player !== this.state.player) {
                 //reset selection color
                 for(let x = 0; x < 144; x++) {
-                    squares[x].style = {
-                        backgroundImage: squares[i].style['backgroundImage']
-                    };
+                    if(squares[x] !== null) {
+                        squares[x].style = {
+                            backgroundImage: squares[x].style['backgroundImage']
+                        };
+                    }
                 }
                 this.setState({status: "Wrong selection. Choose player " + this.state.player + " pieces."});
                 squares[i] ? delete squares[i].style.backgroundColor : null;
             }
             else {
                 squares[i].style = {
-                    backgroundImage: squares[i].style['backgroundImage'],
-                    'background-color': '#00c4ffc9'
-                };
+                    backgroundImage: squares[i].style['backgroundImage']
+                }
+                squares[i].style.backgroundColor = '#00c4ffc9';
+                // squares[i].style = {
+                //     backgroundImage: squares[i].style['backgroundImage'],
+                //     'background-color': '#00c4ffc9'
+                // };
                 //Add api call here
                 this.getValidMoves(row, col);
                 this.setState({
@@ -214,7 +216,7 @@ export default class Game extends React.Component {
         }
 
         else if (this.state.sourceSelection > -1) {
-            delete squares[this.state.sourceSelection].style.backgroundColor;
+            // delete squares[this.state.sourceSelection].style.backgroundColor;
             if (squares[i] && squares[i].player === this.state.player) {
                 //reset selection color
                 squares[i].style = {
@@ -287,9 +289,9 @@ export default class Game extends React.Component {
      * @return {Boolean}
      */
     makeMove(row, col, source) {
-        console.log(Math.floor(source / 12), source % 12);
-        console.log(row, col);
-        console.log(this.state.gameID)
+        // console.log(Math.floor(source / 12), source % 12);
+        // console.log(row, col);
+        // console.log(this.state.gameID)
         let move = {
             gameID: this.state.gameID,
             userID: this.props.userID,
@@ -305,8 +307,8 @@ export default class Game extends React.Component {
     }
 
     isValidMove(row, col) {
-        console.log(row, col);
-        console.log(this.state.validMoves);
+        // console.log(row, col);
+        // console.log(this.state.validMoves);
         for(let i = 0; i < this.state.validMoves.length; i++) {
             if(this.state.validMoves[i][0] === row && this.state.validMoves[i][1] === col)
                 return true;
@@ -400,7 +402,7 @@ export default class Game extends React.Component {
     }
 
     getBoard(gameID) {
-        console.log(gameID);
+        // console.log(gameID);
         let gameInfo = {
             gameID: gameID
         };
@@ -408,9 +410,11 @@ export default class Game extends React.Component {
         update.then((value => {
             this.updateGame(value);
         }));
-        this.setState({
-            gameID: gameID
-        });
+        if(gameID !== undefined){
+            this.setState({
+                gameID: gameID
+            });
+        }
     }
 
     render() {

@@ -7,7 +7,7 @@ export default class Home extends Component {
             <Container>
                 <Card>
                     <CardBody>
-                        <p className="lead">"Do you even lift, bro?"</p>
+                        <p className="lead">GAME RULES</p>
                         <ul>
                             <li>
                                 Each player owns a 3x3 castle surrounded by 12 squares of walls.
