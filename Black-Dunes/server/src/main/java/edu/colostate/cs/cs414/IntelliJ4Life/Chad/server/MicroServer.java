@@ -63,6 +63,11 @@ public class MicroServer {
     post("/getUsers", this::getUsers);
     post("/getValidMovesSession", this::getValidMoves);
     post("/makeMove", this::makeMove);
+    post("/getProfile", this::getProfile);
+    post("/getInvites", this::getInvites);
+    post("/getNotifications", this::getNotifications);
+    post("/inviteInteractions", this::inviteInteractions);
+
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -162,7 +167,6 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println();
     LoginSession lSesh = new LoginSession(request);
     Database db = new Database(lSesh.getAuthUser());
     db.getCurrentGamesFromDatabase();
@@ -186,7 +190,6 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println();
     return new RegisterSession(request).getUserID(); // Send back user id, THIS IS INSECURE
   }
 
@@ -292,7 +295,48 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println("getBoard");
     return new GetBoardSession(request, activeGames).getBoard();
+  }
+
+  /** A REST API that returns the profile to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getProfile(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getProfile");
+    return new GetUsersSession(request).getUserData();
+  }
+
+  private String getInvites(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getProfile");
+    return new GetUsersSession(request).getUserData();
+  }
+
+  private String getNotifications(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getProfile");
+    return new GetUsersSession(request).getUserData();
+  }
+
+  private String inviteInteractions(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getProfile");
+    return new GetUsersSession(request).getUserData();
   }
 }
