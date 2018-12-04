@@ -54,6 +54,7 @@ public class MicroServer {
     post("/updateBoard", this::updateBoard);
     post("/getGames", this::getGames);
     post("/getUsers", this::getUsers);
+    post("/removeUser", this::removeUser);
     post("/getValidMovesSession", this::getValidMoves);
     post("/makeMove", this::makeMove);
     post("/getProfile", this::getProfile);
@@ -229,6 +230,19 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     return new GetUsersSession(request, activeGames).getUsers();
+  }
+
+  /** A REST API that returns all of the users in the system to the frontend
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String removeUser(Request request, Response response) {
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return new RemoveUsersSession(request).getResult();
   }
 
   /** A REST API that returns the team information associated with the server.

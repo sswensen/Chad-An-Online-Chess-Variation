@@ -14,13 +14,13 @@ import piece from "../pieces/piece";
 import Select from "react-select";
 
 export default class Game extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
-            player: 1,
+            player: -1,
             sourceSelection: -1,
             status: '',
             turn: 'white',
@@ -35,7 +35,7 @@ export default class Game extends React.Component {
 
     getGames() {
         let user = {
-            userID: '4'
+            userID: this.props.userID
         }
         let update = request(user, 'getGames');
         update.then((value => {
@@ -61,10 +61,15 @@ export default class Game extends React.Component {
     }
 
     updateGame(value) {
+        console.log("turn: ")
+        console.log(value["turn"] == '0' ? 'white' : 'black');
+        console.log(this.state.turn);
         this.setState({
             squares: this.rebuildBoard(value["board"]),
-            turn: (value["turn"] === 0 ? 'white' : 'black')
-        })
+            turn: value["turn"] == '0' ? 'white' : 'black',
+            player: value["userID"] == this.props.userID ? 1 : 2
+        });
+        console.log(this.state.turn);
     }
 
     convertBoard() {
@@ -225,13 +230,9 @@ export default class Game extends React.Component {
                 const squares = this.state.squares.slice();
                 const whiteFallenSoldiers = this.state.whiteFallenSoldiers.slice();
                 const blackFallenSoldiers = this.state.blackFallenSoldiers.slice();
-                const isDestEnemyOccupied = squares[i] ? true : false;
-                const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, isDestEnemyOccupied);
-                const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
-                const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
 
-                if (isMovePossible && isMoveLegal) {
+                if (this.isValidMove(row, col)) {
                     if (squares[i] !== null) {
                         if (squares[i].player === 1) {
                             whiteFallenSoldiers.push(squares[i]);
@@ -248,14 +249,13 @@ export default class Game extends React.Component {
                     squares[this.state.sourceSelection] = null;
                     let player = this.state.player === 1 ? 2 : 1;
                     let turn = this.state.turn === 'white' ? 'black' : 'white';
+
+                    this.makeMove(row, col, this.state.sourceSelection);
                     this.setState({
                         sourceSelection: -1,
-                        squares: squares,
                         whiteFallenSoldiers: whiteFallenSoldiers,
                         blackFallenSoldiers: blackFallenSoldiers,
-                        player: player,
                         status: '',
-                        turn: turn
                     });
 
                 }
@@ -286,14 +286,32 @@ export default class Game extends React.Component {
      * @param  {[type]}  srcToDestPath [array of board indices comprising path between src and dest ]
      * @return {Boolean}
      */
-    isMoveLegal(srcToDestPath) {
-        let isLegal = true;
-        for (let i = 0; i < srcToDestPath.length; i++) {
-            if (this.state.squares[srcToDestPath[i]] !== null) {
-                isLegal = false;
-            }
+    makeMove(row, col, source) {
+        console.log(Math.floor(source / 12), source % 12);
+        console.log(row, col);
+        console.log(this.state.gameID)
+        let move = {
+            gameID: this.state.gameID,
+            userID: this.props.userID,
+            initialRow: Math.floor(source / 12),
+            initialCol: source % 12,
+            afterRow: row,
+            afterCol: col
         }
-        return isLegal;
+        let update = request(move, 'makeMove');
+        update.then(value => {
+            this.updateGame(value);
+        });
+    }
+
+    isValidMove(row, col) {
+        console.log(row, col);
+        console.log(this.state.validMoves);
+        for(let i = 0; i < this.state.validMoves.length; i++) {
+            if(this.state.validMoves[i][0] === row && this.state.validMoves[i][1] === col)
+                return true;
+        }
+        return false;
     }
 
     async getValidMoves(row, col) {
@@ -324,9 +342,6 @@ export default class Game extends React.Component {
             else
                 document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#ff4936c9";
         }
-        this.setState({
-            validMoves: []
-        })
     }
 
     clearHighlights() {
@@ -371,6 +386,7 @@ export default class Game extends React.Component {
         for(let i = 0; i < games.length; i++) {
             display.push(
                 <button
+                    key={"button" + games[i][0]}
                     className="game-btn"
                     id={games[i][0]}
                     onClick={() => this.getBoard(games[i][0])}>
