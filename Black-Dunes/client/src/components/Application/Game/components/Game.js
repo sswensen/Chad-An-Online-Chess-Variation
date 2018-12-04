@@ -370,7 +370,8 @@ export default class Game extends React.Component {
         for(let i = 0; i < games.length; i++) {
             display.push(
                 <button
-                    class="game-btn"
+                    className="game-btn"
+                    id={games[i][0]}
                     onClick={() => this.getBoard(games[i][0])}>
                     {games[i][2]}
                 </button>)
