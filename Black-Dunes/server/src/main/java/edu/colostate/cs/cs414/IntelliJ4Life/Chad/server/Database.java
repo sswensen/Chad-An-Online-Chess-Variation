@@ -325,7 +325,7 @@ public class Database {
                 int notificationID = Integer.parseInt(rs.getString("ID"));
                 int user1ID = Integer.parseInt(rs.getString("User1ID"));
                 int user2ID = Integer.parseInt(rs.getString("User2ID"));
-                String message = rs.getString("User2ID");
+                String message = rs.getString("Message");
                 notificationRows.add(new NotificationRow(notificationID, user1ID, user2ID, message));
             }
         } catch (SQLException e) {

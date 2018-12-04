@@ -7,16 +7,12 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class NotificationsSession {
     private NotificationTypeRequest notificationTypeRequest;
-    private List<Database.NotificationRow> response;
+    private ArrayList<Database.NotificationRow> response;
 
     /**
      * Handles returning the board and the turn to the frontend
@@ -39,11 +35,20 @@ public class NotificationsSession {
         Database db = new Database();
 
         ArrayList<Database.NotificationRow> notificationRows = db.getNotificationsFromDatabase(notificationTypeRequest.userID);
+        response = new ArrayList<>();
 
-        if (notificationTypeRequest.notificationType == "notification") {
-            response = notificationRows.stream().filter(x -> x.user2ID == -1).collect(Collectors.toList());
-        } else if (notificationTypeRequest.notificationType == "invitation") {
-            response = notificationRows.stream().filter(x -> x.user2ID > -1).collect(Collectors.toList());
+        if (notificationTypeRequest.notificationType.equals("notification")) {
+            for (Database.NotificationRow row: notificationRows) {
+                if (row.user2ID == -1) {
+                    response.add(row);
+                }
+            }
+        } else if (notificationTypeRequest.notificationType.equals("invitation")) {
+            for (Database.NotificationRow row: notificationRows) {
+                if (row.user2ID > -1) {
+                    response.add(row);
+                }
+            }
         }
     }
 

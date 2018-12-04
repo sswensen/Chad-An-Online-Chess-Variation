@@ -56,7 +56,7 @@ class Invite extends Component {
 
     async getInvites() {
         const body = {
-            type: 'invitation',
+            notificationType: 'invitation',
             userID: this.props.userID
         }
         let updated = request(body, 'getNotifications');
@@ -117,8 +117,11 @@ class Invite extends Component {
                     </Col>
                     <Col>
                         <div>
-                            <h3>Edit Invites</h3>
+                            <h3>Invitation Interactoin</h3>
                         </div>
+                        <Table>
+
+                        </Table>
                     </Col>
                 </Row>
             </Container>
