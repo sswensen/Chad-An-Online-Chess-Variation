@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Rook extends Piece {
 
     /**
-     * Object that represents a Rook
+     * Object that represents a Rook piece
      * @param color color that determines which player the rook belongs to
      */
     public Rook(Color color) {

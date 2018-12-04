@@ -7,6 +7,10 @@ public class Player {
     private Game game;
     private Color color;
 
+    /**
+     * Object that represents a Player
+     * @param color
+     */
     public Player(Color color) {
         this.user = null;
         this.game = null;
@@ -20,16 +24,24 @@ public class Player {
         this.userID = user.getUserID();
     }
 
-    /*******************
-     * Accessors
-     ******************/
+    /**
+     * Accessor to get user object
+     * @return
+     */
     public User getUser() { return user; }
 
+    /**
+     * Accessor that gets the color of the player
+     * @return
+     */
     public Color getColor() { return color; }
 
-    /*************
-     * Public Methods
-     *************/
+    /**
+     * Method that gets a piece object from specific coordinate
+     * @param x X cord of piece to be retrieved
+     * @param y Y cord of piece to be retrieved
+     * @return
+     */
     public Piece getPiece(int x, int y) {
         Piece ret = game.getBoard().getPiece(x, y);
         //Only returns a piece if it can move it
@@ -41,6 +53,12 @@ public class Player {
             return null;
     }
 
+    /**
+     * Method that moves a piece
+     * @param piece Piece to be moved
+     * @param move valid move that will be used to move piece
+     * @return
+     */
     public boolean makeMove(Piece piece, int[] move) {
         return game.makeMove(this, piece, move);
     }

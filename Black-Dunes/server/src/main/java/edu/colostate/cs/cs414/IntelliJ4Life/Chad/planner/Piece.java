@@ -42,12 +42,20 @@ public abstract class Piece {
         this.position = position;
     }
 
-    /*******************
-     * Public Methods
-     ******************/
+    /**
+     * Abstract method to return a list of valid moves
+     * @param board
+     * @return
+     */
     // Returns a list of valid moves in the form of locations the piece can move to
     abstract public ArrayList<int[]> validMoves(Piece[][] board);
 
+    /**
+     * Method that checks if move is valid
+     * @param move
+     * @param board
+     * @return
+     */
     // Find if a specific move is valid by checking if it exists in the validMoves list
     public boolean isValid(int[] move, Piece[][] board) {
         ArrayList<int[]> validMoves = this.validMoves(board);
@@ -61,6 +69,11 @@ public abstract class Piece {
         return false;
     }
 
+    /**
+     * Method that applies a move onto a piece
+     * @param move Move that will be applied
+     * @param board Instance of board the piece is on
+     */
     // Conducts the passed in move
     public void move(int[] move, Piece[][] board) {
         // Sanity check -- validity should be determined in game class
@@ -91,12 +104,22 @@ public abstract class Piece {
         }
     }
 
+    /**
+     * Method that removes a piece from the board due to capture
+     */
     // Removes the piece from the board due to capture
     public void take() {
         this.isTaken = true;
         this.position = new int[] {-1, -1};
     }
 
+    /**
+     * method that determines whether a move will cause a check to happen
+     * @param move Move that is being checked
+     * @param color Color of opponents king
+     * @param board
+     * @return
+     */
     // Determine whether a specific move causes check
     public boolean causesCheck(int[] move, Color color, Piece[][] board) {
         King king = null;
@@ -156,9 +179,11 @@ public abstract class Piece {
     // toString method
     public abstract String toString();
 
-     /*******************
-     * Helpers
-     ******************/
+    /**
+     * Method that checks if piece is on a castle's wall
+     * @param color Color of piece
+     * @return
+     */
     // Returns true or false depending on if the piece is on a caatle wall
     private boolean onWall(Color color){
         int[][] walls;
@@ -190,6 +215,11 @@ public abstract class Piece {
         return false;
     }
 
+    /**
+     * Method that checks if piece is in a castle
+     * @param color
+     * @return
+     */
     private boolean inCastle(Color color) {
         int[][] castleLocs;
 
@@ -218,6 +248,13 @@ public abstract class Piece {
         return false;
     }
 
+    /**
+     * Method that adds a valid move to a list of all valid moves
+     * @param move move being checked
+     * @param board
+     * @param validMoves list containing valid moves
+     * @return
+     */
     // Adds valid moves to the valid moves list and returns whether or not the calling function should keep adding moves
     protected boolean addMoveToList(int[] move, Piece[][] board, ArrayList<int[]> validMoves){
         int row = move[0];

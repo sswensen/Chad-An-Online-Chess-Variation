@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 public class Queen extends Piece{
 
-    /*******************
-     * Constructor
-     ******************/
+    /**
+     * Object that represents a Queen piece
+     * @param color color that determines which player the rook belongs to
+     */
     public Queen(Color color) {
         initializePiece(color);
     }
@@ -15,9 +16,11 @@ public class Queen extends Piece{
         initializePiece(color, position);
     }
 
-    /*******************
-     * Overrides
-     ******************/
+    /**
+     * Method that determines all valid moves of piece
+     * @param board
+     * @return
+     */
     @Override
     public ArrayList<int[]> validMoves(Piece[][] board) {
         int[] position = this.getPosition();
