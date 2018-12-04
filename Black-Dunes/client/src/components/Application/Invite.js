@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
-import {Button, Col, Container, Row, Table, tr} from 'reactstrap'
+import {Button, Col, Container, Row, Table} from 'reactstrap'
 import {request} from '../../api/api';
 
 class Invite extends Component {
@@ -13,6 +13,7 @@ class Invite extends Component {
         };
 
         this.handleInviteSubmit = this.handleInviteSubmit.bind(this);
+        this.handleAcceptSubmit = this.handleAcceptSubmit.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.sendInvites = this.sendInvites.bind(this);
     }
@@ -58,11 +59,10 @@ class Invite extends Component {
         const body = {
             notificationType: 'invitation',
             userID: this.props.userID
-        }
+        };
         let updated = request(body, 'getNotifications');
         updated.then((values) => {
             if (values) {
-                console.log(values);
                 return this.setState({
                     error: '',
                     invitations: values
@@ -87,6 +87,48 @@ class Invite extends Component {
         } else {
             this.sendInvites();
             return this.setState({error: ''});
+        }
+    }
+
+    async handleAcceptSubmit(invitationID) {
+        const body = {
+            type: 'accept',
+            inviteId: invitationID
+        };
+        let updated = request(body, 'invitationInteraction');
+        updated.then((value) => {
+           if (value) {
+               alert('The game was accepted!');
+           }
+        });
+    }
+
+    getInvitationRow(invitation) {
+        if (invitation['user1ID'] === this.props.userID) {
+            return (
+                <tr>
+                    <td>{invitation['user2ID']}</td>
+                    <td>
+                        <Button outline color="secondary" size="sm">Cancel</Button>
+                    </td>
+                </tr>
+            );
+        } else {
+            return (
+                <tr>
+                    <td>{invitation['user1ID']}</td>
+                    <td>
+                        <Button
+                            className="accept-button"
+                            outline color="success"
+                            size="sm"
+                            onClick={() => {this.handleAcceptSubmit(invitation['notificationID'])}}>
+                            Accept
+                        </Button>
+                        <Button outline color="danger" size="sm">Reject</Button>
+                    </td>
+                </tr>
+            );
         }
     }
 
@@ -117,10 +159,20 @@ class Invite extends Component {
                     </Col>
                     <Col>
                         <div>
-                            <h3>Invitation Interactoin</h3>
+                            <h3>Invitation Interaction</h3>
                         </div>
                         <Table>
-
+                            <thead>
+                            <tr>
+                                <th>Opponent</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.invitations.map((invitation => (
+                                this.getInvitationRow(invitation)
+                            )))}
+                            </tbody>
                         </Table>
                     </Col>
                 </Row>

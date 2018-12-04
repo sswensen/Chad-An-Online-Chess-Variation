@@ -173,3 +173,7 @@ code {
 .send-invite {
   margin-top: 15px;
 }
+
+.accept-button {
+    margin-right: 10px;
+}
