@@ -5,9 +5,10 @@ import java.util.ArrayList;
 
 public class Rook extends Piece {
 
-    /*******************
-     * Constructors
-     ******************/
+    /**
+     * Object that represents a Rook
+     * @param color color that determines which player the rook belongs to
+     */
     public Rook(Color color) {
         initializePiece(color);
     }
@@ -16,9 +17,11 @@ public class Rook extends Piece {
         initializePiece(color, position);
     }
 
-    /*******************
-     * Overrides
-     ******************/
+    /**
+     * Method that determines all the valid moves of a piece
+     * @param board
+     * @return
+     */
     @Override
     public ArrayList<int[]> validMoves(Piece[][] board) {
         int[] position = this.getPosition();

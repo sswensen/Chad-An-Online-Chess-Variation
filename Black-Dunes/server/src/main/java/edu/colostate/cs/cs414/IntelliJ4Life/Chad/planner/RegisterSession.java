@@ -13,9 +13,7 @@ public class RegisterSession {
     private User newUser;
 
     /**
-     * Handles trip planning request, creating a new trip object from the trip request.
-     * Does the conversion from Json to a Java class before planning the trip.
-     *
+     * Registers a user into the database
      * @param request
      */
 

@@ -8,8 +8,8 @@ public class User {
     private ArrayList<Notification> receivedNotifications = new ArrayList<>();
     private ArrayList<Invite> sentInvites = new ArrayList<>();
 
-    /** Object that represents a user
-     *
+    /**
+     * Object that represents a user
      * @param nickName
      * @param email
      */
@@ -31,8 +31,8 @@ public class User {
         this.email = email;
     }
 
-    /** Inner class that holds the wins losses and draws for a user*
-     *
+    /**
+     * Inner class that holds the wins losses and draws for a user*
      */
     public class Profile {
         private int wins, losses, draws;
@@ -43,8 +43,8 @@ public class User {
             this.draws = 0;
         }
 
-        /** Accessors to get wins, losses, and draws for a user
-         *
+        /**
+         * Accessors to get wins, losses, and draws for a user
          * @return
          */
         public int getWins() {
@@ -59,8 +59,8 @@ public class User {
             return draws;
         }
 
-        /** Setters to add a win, loss, or draw to a user
-         *
+        /**
+         * Setters to add a win, loss, or draw to a user
          */
         public void addWin() {
             this.wins++;
@@ -75,86 +75,86 @@ public class User {
         }
     }
 
-    /** Accessor to get the nickname of user
-     *
+    /**
+     * Accessor to get the nickname of user
      * @return
      */
     public String getNickName() { return nickName; }
 
-    /** Setter to change the nickname of user
-     *
+    /**
+     * Setter to change the nickname of user
      * @param nickName
      */
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
 
-    /** Accessor to get the email of a user
-     *
+    /**
+     * Accessor to get the email of a user
      * @return
      */
     public String getEmail() {
         return email;
     }
 
-    /** Setter to change the email of a user
-     *
+    /**
+     * Setter to change the email of a user
      * @param email
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /** Accessor to get a list of all notifications received
-     *
+    /**
+     * Accessor to get a list of all notifications received
      * @return
      */
     public ArrayList<Notification> getReceivedNotifications() {
         return receivedNotifications;
     }
 
-    /** Accessor to get a list of all sent invites
-     *
+    /**
+     * Accessor to get a list of all sent invites
      * @return
      */
     public ArrayList<Invite> getSentInvites() {
         return sentInvites;
     }
 
-    /** Accessor to get unique userID
-     *
+    /**
+     * Accessor to get unique userID
      * @return
      */
     public int getUserID() {
         return userID;
     }
 
-    /** Setter to change userID
-     *
+    /**
+     * Setter to change userID
      * @param userID
      */
     public void setUserID(int userID) {
         this.userID = userID;
     }
 
-    /** Accessor to get the username
-     *
+    /**
+     * Accessor to get the usernam
      * @return
      */
     public String getUsername() {
         return username;
     }
 
-    /** Setter to change the username
-     *
+    /**
+     * Setter to change the username
      * @param username
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /** Method to send an invite to a several users
-     *
+    /**
+     * Method to send an invite to a several users
      * @param invite Invite object being sent to users
      * @param users Arraylist of users that will receive an invite
      * @return
@@ -170,8 +170,8 @@ public class User {
         }
     }
 
-    /** Method to get specific notification from list of received notifications
-     *
+    /**
+     * Method to get specific notification from list of received notifications
      * @param notification
      */
     public void receiveNotification(Notification notification) {
@@ -180,8 +180,8 @@ public class User {
         }
     }
 
-    /** Method that accepts an invite
-     *
+    /**
+     * Method that accepts an invite
      * @param invite
      * @return True if invite was successfully accepted, false otherwise
      */
@@ -196,8 +196,8 @@ public class User {
         }
     }
 
-    /** Method that rejects a invite
-     *
+    /**
+     * Method that rejects a invite
      * @param invite
      */
     public void rejectInvitation(Invite invite) {
@@ -208,8 +208,8 @@ public class User {
         }
     }
 
-    /** Method to cancel an invite
-     *
+    /**
+     * Method to cancel an invite
      * @param invite
      * @return
      */
