@@ -392,7 +392,7 @@ export default class Game extends React.Component {
                     className="game-btn"
                     id={games[i][0]}
                     onClick={() => this.getBoard(games[i][0])}>
-                    {games[i][2]}
+                    {games[i][2] == this.props.nickname ? games[i][1] : games[i][2]}
                 </button>)
         }
 

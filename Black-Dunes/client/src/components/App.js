@@ -22,6 +22,7 @@ class App extends Component {
             error: '',
             username: 'null',
             password: 'null',
+            nickname: 'null'
         };
 
         this.updateAuth = this.updateAuth.bind(this);
@@ -45,9 +46,10 @@ class App extends Component {
     }
 
     updateLoginBasedOnResponse(value) {
-        if (value > -1) {
+        if (value != null && value["userID"] > -1) {
             this.setState({
-                'userID': value,
+                'userID': value["userID"],
+                'nickname': value["nickName"],
                 'error': 'Logged in successfully!'
             });
             window.location = './#';
@@ -60,7 +62,7 @@ class App extends Component {
     updateRegisterBasedOnResponse(value) {
         if (value > -1) {
             this.setState({
-                'userID': value,
+                userID: value,
                 'error': 'Registered successfully!'
             });
             window.location = './#';
@@ -151,9 +153,9 @@ class App extends Component {
 
     updateAuth(auth) {
         this.setState({
-            auth: auth,
+            auth: auth["userID"],
         });
-        if (auth > -1) {
+        if (auth["userID"] > -1) {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
@@ -179,6 +181,7 @@ class App extends Component {
     render() {
         const childInformation = {
             userID: this.state.userID,
+            nickname: this.state.nickname,
             error: this.state.error,
             updateUsername: this.updateUsername,
             updatePassword: this.updatePassword,
