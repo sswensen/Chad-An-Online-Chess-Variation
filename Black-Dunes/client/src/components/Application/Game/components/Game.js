@@ -406,9 +406,11 @@ export default class Game extends React.Component {
         update.then((value => {
             this.updateGame(value);
         }));
-        this.setState({
-            gameID: gameID
-        });
+        if(gameID !== undefined){
+            this.setState({
+                gameID: gameID
+            });
+        }
     }
 
     render() {
