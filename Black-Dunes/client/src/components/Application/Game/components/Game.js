@@ -11,6 +11,7 @@ import Rook from '../pieces/rook.js';
 import King from '../pieces/king.js';
 import Queen from '../pieces/queen.js';
 import piece from "../pieces/piece";
+import Select from "react-select";
 
 export default class Game extends React.Component {
     constructor() {
@@ -49,6 +50,7 @@ export default class Game extends React.Component {
     }
 
     getBoard() {
+        console.log("getBoard() gameID:" + this.state.gameID);
         let gameInfo = {
             gameID: this.state.gameID
         };
@@ -296,7 +298,7 @@ export default class Game extends React.Component {
 
     async getValidMoves(row, col) {
         let obj = {
-            gameID: 4,
+            gameID: this.state.gameID,
             userID: this.props.userID,
             row: row,
             col: col
@@ -368,18 +370,21 @@ export default class Game extends React.Component {
         const display = [];
         for(let i = 0; i < games.length; i++) {
             display.push(
-                <li><button
-                    onClick={() => this.getBoard(games[i][0]) }
-                >{games[i][1]} --vs-- {games[i][2]}</button></li>
-            ); //TODO: Tickle Scott's fancy (key thing)
+                <button
+                    className="game-btn"
+                    id={games[i][0]}
+                    onClick={() => this.getBoard(games[i][0])}>
+                    {games[i][2]}
+                </button>)
         }
 
         return (
-            <ul>{display}</ul>
+            <div className="game-btn-container" >{display}</div>
         );
     }
 
     getBoard(gameID) {
+        console.log(gameID);
         let gameInfo = {
             gameID: gameID
         };
@@ -399,6 +404,7 @@ export default class Game extends React.Component {
                     <CardBody>
                         <div>
                             <h3>Games</h3>
+                            <p>Games versus:</p>
                             {this.state.games}
                         </div>
                         <div>
