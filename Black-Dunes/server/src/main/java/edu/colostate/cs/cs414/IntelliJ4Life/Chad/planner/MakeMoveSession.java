@@ -34,34 +34,43 @@ public class MakeMoveSession {
         Gson gson = new Gson();
         moveData = gson.fromJson(requestBody, MoveData.class);
 
+        Database db = new Database();
         int userIdInt = Integer.parseInt(moveData.userID);
         Game game = activeGames.getGameFromGameID(moveData.gameID);
+        //Game game = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
+
 
         if(game == null) {
-            result = new Result(game.getBoard().convertBoardToString(), false);
+            result = new Result(game.getBoard().convertBoardToString(), false, game.getTurn());
             return;
         }
 
-        Database db = new Database();
         User user = db.getUserFromDatabaseByID(userIdInt);
-        Piece piece = game.getBoard().getBoard()[moveData.initialRow][moveData.initialCol];
-        int[] move = {moveData.afterRow, moveData.afterCol};
+
+        int initialRow = Integer.parseInt(moveData.initialRow);
+        int initialCol = Integer.parseInt(moveData.initialCol);
+        int afterRow   = Integer.parseInt(moveData.afterRow);
+        int afterCol   = Integer.parseInt(moveData.afterCol);
+
+        Piece piece = game.getBoard().getBoard()[initialRow][initialCol];
+        int[] move = {afterRow, afterCol};
 
         Player p = game.getPlayer(user);
 
         if (piece.getColor() != p.getColor()) {
-            result = new Result(game.getBoard().convertBoardToString(), false);
+            result = new Result(game.getBoard().convertBoardToString(), false, game.getTurn());
             return;
         }
 
         boolean makeMoveResult = p.makeMove(piece, move);
 
         Game databaseGame = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
-        if(!databaseGame.getBoard().convertBoardToString().equals(game.getBoard().convertBoardToString())) {
-            System.err.println("GAME IN DATABASE DOESN'T MATCH!");
-        }
-
-        result = new Result(game.getBoard().convertBoardToString(), makeMoveResult);
+//        if(!databaseGame.getBoard().convertBoardToString().equals(game.getBoard().convertBoardToString())) {
+//            System.err.println("GAME IN DATABASE DOESN'T MATCH!");
+//        }
+        game.getBoard().printBoard();
+        databaseGame.getBoard().printBoard();
+        result = new Result(game.getBoard().convertBoardToString(), makeMoveResult, game.getTurn());
     }
 
     /**
@@ -74,21 +83,23 @@ public class MakeMoveSession {
     }
 
     private class MoveData {
-        private String gameID  = "";
-        private String userID  = "";
-        private int initialRow = -1;
-        private int initialCol = -1;
-        private int afterRow   = -1;
-        private int afterCol   = -1;
+        private String gameID     = "";
+        private String userID     = "";
+        private String initialRow = "";
+        private String initialCol = "";
+        private String afterRow   = "";
+        private String afterCol   = "";
     }
 
     private class Result {
         private String board;
         private boolean IsSuccess;
+        private int turn;
 
-        private Result(String _board, boolean _IsSuccess) {
+        private Result(String _board, boolean _IsSuccess, int _turn) {
             board     = _board;
             IsSuccess = _IsSuccess;
+            turn      = _turn;
         }
     }
 }

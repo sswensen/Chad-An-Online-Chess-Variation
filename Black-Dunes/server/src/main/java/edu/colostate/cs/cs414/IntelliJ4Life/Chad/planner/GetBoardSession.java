@@ -33,14 +33,22 @@ public class GetBoardSession {
         if(gameInfo.gameID != null) {
             Game game = activeGames.getGameFromGameID(gameInfo.gameID);
 
-            String board = game.getBoard().convertBoardToString();
-            int turn = game.getTurn();
+        Database db = new Database();
+        Game game = activeGames.getGameFromGameID(gameInfo.gameID);
+        //Game game = db.getGameFromDatabaseByID(Integer.parseInt(gameInfo.gameID));
 
-            boardResponse = new BoardResponse(board, turn);
-        } else {
-            boardResponse = new BoardResponse(null, -1);
-            System.err.println("Did not get board ID from frontend!");
+        String board = game.getBoard().convertBoardToString();
+        int turn = game.getTurn();
+        int returnID;
+
+        if (turn == 0) {
+            returnID = game.getPlayerOne().getUser().getUserID();
         }
+        else {
+            returnID = game.getPlayerTwo().getUser().getUserID();
+        }
+
+        boardResponse = new BoardResponse(board, returnID);
     }
 
     /**
