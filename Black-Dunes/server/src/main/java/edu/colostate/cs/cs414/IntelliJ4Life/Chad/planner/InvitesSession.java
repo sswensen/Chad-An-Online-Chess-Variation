@@ -43,10 +43,11 @@ public class InvitesSession {
 
         int senderID = Integer.parseInt(inviteInfo.senderID);
         User sender  = db.getUserFromDatabaseByID(senderID);
+        int maxGroupID = db.getMaxInviteGroupIdFromDatabase();
 
         Invite invite = new Invite(sender.getNickName() + " invited you to a game!", sender);
         for (User user: users) {
-            if (!db.addInviteToDatabase(senderID, user.getUserID(), invite.getMessage())){
+            if (!db.addInviteToDatabase(senderID, user.getUserID(), invite.getMessage(), maxGroupID + 1)){
                 response = false;
             }
         }

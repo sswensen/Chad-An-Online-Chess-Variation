@@ -116,18 +116,51 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
-    public boolean addInviteToDatabase(int senderID, int inviteeID, String message) {
+    public int getMaxInviteGroupIdFromDatabase() {
+        String query = "SELECT MAX(GroupID) FROM Notifications;";
+        String dbUrl;
+
+        dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                Statement stQuery = conn.createStatement(); // TODO make these global and test that connections stays live
+                ResultSet rsQuery = stQuery.executeQuery(query)
+            ) {
+                //System.out.println("Query: " + query);
+                int maxGroupId = -1;
+
+                while(rsQuery.next()) {
+                    maxGroupId = Integer.parseInt(rsQuery.getString("MAX(GroupID)"));
+                }
+
+                if(maxGroupId != -1) {
+                    return maxGroupId;
+                }
+                else {
+                    System.err.println("No group ID's in database");
+                }
+            }
+        } catch(Exception e) {
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public boolean addInviteToDatabase(int senderID, int inviteeID, String message, int groupID) {
         if(!checkIfUserExistsInDatabaseByID(senderID) || !checkIfUserExistsInDatabaseByID(inviteeID)) {
             return false;
         }
         String query = "INSERT INTO Notifications (" +
                 "User1ID, " +
                 "User2ID, " +
-                "Message" +
+                "Message, " +
+                "GroupID" +
                 ") VALUES (" +
                 "'" + senderID + "', " +
                 "'" + inviteeID + "', " +
-                "'" + message + "'" +
+                "'" + message + "', " +
+                "'" + groupID + "'" +
                 ");\n";
         return sendUpdateQueryToDatabase(query);
     }
