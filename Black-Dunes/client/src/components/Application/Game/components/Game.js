@@ -225,13 +225,9 @@ export default class Game extends React.Component {
                 const squares = this.state.squares.slice();
                 const whiteFallenSoldiers = this.state.whiteFallenSoldiers.slice();
                 const blackFallenSoldiers = this.state.blackFallenSoldiers.slice();
-                const isDestEnemyOccupied = squares[i] ? true : false;
-                const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, isDestEnemyOccupied);
-                const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
-                const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
 
-                if (isMovePossible && isMoveLegal) {
+                if (this.isValidMove(row, col)) {
                     if (squares[i] !== null) {
                         if (squares[i].player === 1) {
                             whiteFallenSoldiers.push(squares[i]);
@@ -257,7 +253,7 @@ export default class Game extends React.Component {
                         status: '',
                         turn: turn
                     });
-
+                    this.makeMove(row, col);
                 }
                 else {
                     const squares = this.state.squares.slice();
@@ -286,14 +282,23 @@ export default class Game extends React.Component {
      * @param  {[type]}  srcToDestPath [array of board indices comprising path between src and dest ]
      * @return {Boolean}
      */
-    isMoveLegal(srcToDestPath) {
-        let isLegal = true;
-        for (let i = 0; i < srcToDestPath.length; i++) {
-            if (this.state.squares[srcToDestPath[i]] !== null) {
-                isLegal = false;
-            }
+    makeMove(row, col) {
+        console.log(row, col);
+        let move = {
+            gameID: this.gameID,
+            userID: this.userID,
+            initialRow:
         }
-        return isLegal;
+    }
+
+    isValidMove(row, col) {
+        console.log(row, col);
+        console.log(this.state.validMoves);
+        for(let i = 0; i < this.state.validMoves.length; i++) {
+            if(this.state.validMoves[i][0] === row && this.state.validMoves[i][1] === col)
+                return true;
+        }
+        return false;
     }
 
     async getValidMoves(row, col) {
@@ -324,9 +329,6 @@ export default class Game extends React.Component {
             else
                 document.getElementById(this.state.validMoves[i][0] + '-' + this.state.validMoves[i][1]).style.backgroundColor = "#ff4936c9";
         }
-        this.setState({
-            validMoves: []
-        })
     }
 
     clearHighlights() {
