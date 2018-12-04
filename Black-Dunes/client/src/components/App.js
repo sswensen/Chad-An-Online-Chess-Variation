@@ -63,7 +63,6 @@ class App extends Component {
                 'userID': value,
                 'error': 'Registered successfully!'
             });
-            //window.location = './'; // This actually does a refresh which is what we don't want because it clears the userID
             window.location = './#';
         } else {
             this.setState({'error': 'Please try again. Duplicate !'}) // TODO

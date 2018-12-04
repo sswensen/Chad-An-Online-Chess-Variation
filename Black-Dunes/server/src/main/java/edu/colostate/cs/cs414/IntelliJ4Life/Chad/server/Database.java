@@ -115,6 +115,22 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
+    public boolean addInviteToDatabase(int senderId, int inviteeId, String message) {
+        if(!checkIfUserExistsInDatabaseByID(senderId) || !checkIfUserExistsInDatabaseByID(inviteeId)) {
+            return false;
+        }
+        String query = "INSERT INTO Notifications (" +
+                "User1ID, " +
+                "User2ID, " +
+                "Message" +
+                ") VALUES (" +
+                "'" + senderId + "', " +
+                "'" + inviteeId + "', " +
+                "'" + message + "'" +
+                ");\n";
+        return sendUpdateQueryToDatabase(query);
+    }
+
     public ArrayList<User> getAllUsersFromDatabase() {
 
         String query = "SELECT ID, Username, Nickname, Email " +

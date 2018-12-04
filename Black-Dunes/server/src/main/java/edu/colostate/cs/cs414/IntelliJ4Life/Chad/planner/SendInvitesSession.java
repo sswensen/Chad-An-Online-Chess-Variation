@@ -21,7 +21,7 @@ public class SendInvitesSession {
      * @param request
      */
 
-    public SendInvitesSession(Request request, ActiveGames activeGames) {
+    public SendInvitesSession(Request request) {
         // first print the request
         System.out.println(HTTP.echoRequest(request));
 
@@ -35,7 +35,7 @@ public class SendInvitesSession {
 
         Database db = new Database();
 
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<User> users = new ArrayList<>();
 
         for (int i = 0; i < inviteInfo.userIDs.length; i++) {
             int userID = Integer.parseInt(inviteInfo.userIDs[i]);
@@ -46,19 +46,14 @@ public class SendInvitesSession {
         int senderID = Integer.parseInt(inviteInfo.senderID);
         User sender  = db.getUserFromDatabaseByID(senderID);
 
-        /*
-         *   TODO: Update Invites Table with the following
-         *      1. inviteID
-         *      2. sender          - foreign key
-         *      3. receiveing user - foreign key
-         *      4. message
-         */
+        Invite invite = new Invite(sender.getNickName() + " invited you to a game!", sender);
+        for (User user: users) {
+            if (!db.addInviteToDatabase(senderID, user.getUserID(), invite.getMessage())){
+                response = false;
+            }
+        }
 
-
-//        Invite invite = new Invite(sender.getNickName() + "invited you to a game!", sender);
-//
-//        invite.inviteUsers(users);
-
+        invite.inviteUsers(users);
     }
 
     /**
@@ -67,7 +62,7 @@ public class SendInvitesSession {
      */
     public String sendInvitesStatus() {
         Gson gson = new Gson();
-        return gson.toJson(boardResponse);
+        return gson.toJson(response);
     }
 
     private class InviteInfo {
