@@ -89,9 +89,9 @@ public class Game {
      * Public Methods
      ******************/
     public Player getPlayer(User user){
-        if(playerOne.getUser().equals(user))
+        if(playerOne.getUser().getUserID() == user.getUserID())
             return playerOne;
-        else if(playerTwo.getUser().equals(user))
+        else if(playerTwo.getUser().getUserID() == user.getUserID())
             return playerTwo;
         else
             return null;

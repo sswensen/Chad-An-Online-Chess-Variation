@@ -38,7 +38,7 @@ public class MakeMoveSession {
         Game game = activeGames.getGameFromGameID(moveData.gameID);
 
         if(game == null) {
-            result = new Result(game.getBoard().convertBoardToString(), false);
+            result = new Result(game.getBoard().convertBoardToString(), false, game.getTurn());
             return;
         }
 
@@ -56,18 +56,19 @@ public class MakeMoveSession {
         Player p = game.getPlayer(user);
 
         if (piece.getColor() != p.getColor()) {
-            result = new Result(game.getBoard().convertBoardToString(), false);
+            result = new Result(game.getBoard().convertBoardToString(), false, game.getTurn());
             return;
         }
 
         boolean makeMoveResult = p.makeMove(piece, move);
 
         Game databaseGame = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
-        if(!databaseGame.getBoard().convertBoardToString().equals(game.getBoard().convertBoardToString())) {
-            System.err.println("GAME IN DATABASE DOESN'T MATCH!");
-        }
-
-        result = new Result(game.getBoard().convertBoardToString(), makeMoveResult);
+//        if(!databaseGame.getBoard().convertBoardToString().equals(game.getBoard().convertBoardToString())) {
+//            System.err.println("GAME IN DATABASE DOESN'T MATCH!");
+//        }
+        game.getBoard().printBoard();
+        databaseGame.getBoard().printBoard();
+        result = new Result(game.getBoard().convertBoardToString(), makeMoveResult, game.getTurn());
     }
 
     /**
@@ -91,10 +92,12 @@ public class MakeMoveSession {
     private class Result {
         private String board;
         private boolean IsSuccess;
+        private int turn;
 
-        private Result(String _board, boolean _IsSuccess) {
+        private Result(String _board, boolean _IsSuccess, int _turn) {
             board     = _board;
             IsSuccess = _IsSuccess;
+            turn      = _turn;
         }
     }
 }

@@ -20,7 +20,7 @@ export default class Game extends React.Component {
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
-            player: 1,
+            player: -1,
             sourceSelection: -1,
             status: '',
             turn: 'white',
@@ -61,10 +61,16 @@ export default class Game extends React.Component {
     }
 
     updateGame(value) {
+        console.log("turn: ")
+        console.log(value["turn"] == '0' ? 'white' : 'black');
+        console.log(this.state.turn);
         this.setState({
             squares: this.rebuildBoard(value["board"]),
-            turn: (value["turn"] === 0 ? 'white' : 'black')
-        })
+            turn: value["turn"] == '0' ? 'white' : 'black',
+            // TODO: CHANGE THIS
+            // player: value["turn"] == '0' ? 1 : 2
+        });
+        console.log(this.state.turn);
     }
 
     convertBoard() {
@@ -244,16 +250,15 @@ export default class Game extends React.Component {
                     squares[this.state.sourceSelection] = null;
                     let player = this.state.player === 1 ? 2 : 1;
                     let turn = this.state.turn === 'white' ? 'black' : 'white';
+
+                    this.makeMove(row, col, this.state.sourceSelection);
                     this.setState({
                         sourceSelection: -1,
-                        squares: squares,
                         whiteFallenSoldiers: whiteFallenSoldiers,
                         blackFallenSoldiers: blackFallenSoldiers,
-                        player: player,
                         status: '',
-                        turn: turn
                     });
-                    this.makeMove(row, col);
+
                 }
                 else {
                     const squares = this.state.squares.slice();
@@ -282,13 +287,22 @@ export default class Game extends React.Component {
      * @param  {[type]}  srcToDestPath [array of board indices comprising path between src and dest ]
      * @return {Boolean}
      */
-    makeMove(row, col) {
+    makeMove(row, col, source) {
+        console.log(Math.floor(source / 12), source % 12);
         console.log(row, col);
+        console.log(this.state.gameID)
         let move = {
-            gameID: this.gameID,
-            userID: this.userID,
-            initialRow:
+            gameID: this.state.gameID,
+            userID: '4',
+            initialRow: Math.floor(source / 12),
+            initialCol: source % 12,
+            afterRow: row,
+            afterCol: col
         }
+        let update = request(move, 'makeMove');
+        update.then(value => {
+            this.updateGame(value);
+        });
     }
 
     isValidMove(row, col) {
