@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
-import {Button, Col, Container, Row, tr} from 'reactstrap'
+import {Button, Col, Container, Row, Table, tr} from 'reactstrap'
 import {request} from '../../api/api';
 
 class Invite extends Component {
