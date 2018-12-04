@@ -10,6 +10,15 @@ body {
   padding: 0 15px 0 15px;
 }
 
+.outer-container {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.inner-content {
+  flex-grow : 1;
+}
 /* FONTS */
 
 body {

@@ -128,9 +128,9 @@ class App extends Component {
             <Router>
                 <div id="App">
                     <Route render={({location}) => (
-                        <div>
+                        <div className="outer-container">
                             <Header pages={this.state.pages} auth={this.state.auth}/>
-                            <TransitionGroup>
+                            <TransitionGroup className="inner-content">
                                 <CSSTransition
                                     key={location.pathname}
                                     appear
