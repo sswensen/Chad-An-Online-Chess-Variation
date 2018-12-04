@@ -82,7 +82,7 @@ public class Database {
                 Statement stQuery = conn.createStatement();
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
-                return parseGamesFromResultSet(rsQuery).get(0);
+                return parseGameFromResultSet(rsQuery);
             }
         } catch(Exception e) {
             System.err.println("Encountered exception: " + e.getMessage());
@@ -275,6 +275,24 @@ public class Database {
             out.add(new Game(gameID, time, board, u1, u2, turn, finished)); // TODO fill here
         }
         return out;
+    }
+
+    private Game parseGameFromResultSet(ResultSet rs) throws SQLException {
+        if(rs.next()) {
+            int gameID = Integer.parseInt(rs.getString("GameID"));
+            String startTime = rs.getString("StartTime");
+            String board = rs.getString("Board");
+            int turn = Integer.parseInt(rs.getString("Turn"));
+            int finished = Integer.parseInt(rs.getString("Finished"));
+
+            User u1 = getUserFromDatabaseByID(Integer.parseInt(rs.getString("User1ID")));
+            User u2 = getUserFromDatabaseByID(Integer.parseInt(rs.getString("User2ID")));
+
+
+            return new Game(gameID, startTime, board, u1, u2, turn, finished);
+        }
+        else
+            return null;
     }
 
     private ArrayList<User> parseUsersFromResultSet(ResultSet rs) throws SQLException {

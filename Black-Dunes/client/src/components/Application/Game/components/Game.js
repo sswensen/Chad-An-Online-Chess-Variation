@@ -14,8 +14,8 @@ import piece from "../pieces/piece";
 import Select from "react-select";
 
 export default class Game extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
@@ -35,7 +35,7 @@ export default class Game extends React.Component {
 
     getGames() {
         let user = {
-            userID: '4'
+            userID: this.props.userID
         }
         let update = request(user, 'getGames');
         update.then((value => {
@@ -67,8 +67,7 @@ export default class Game extends React.Component {
         this.setState({
             squares: this.rebuildBoard(value["board"]),
             turn: value["turn"] == '0' ? 'white' : 'black',
-            // TODO: CHANGE THIS
-            // player: value["turn"] == '0' ? 1 : 2
+            player: value["userID"] == this.props.userID ? 1 : 2
         });
         console.log(this.state.turn);
     }
@@ -293,7 +292,7 @@ export default class Game extends React.Component {
         console.log(this.state.gameID)
         let move = {
             gameID: this.state.gameID,
-            userID: '4',
+            userID: this.props.userID,
             initialRow: Math.floor(source / 12),
             initialCol: source % 12,
             afterRow: row,

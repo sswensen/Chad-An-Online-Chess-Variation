@@ -33,21 +33,15 @@ public class GetBoardSession {
 
 
         Database db = new Database();
-        Game game = activeGames.getGameFromGameID(gameInfo.gameID);
-        //Game game = db.getGameFromDatabaseByID(Integer.parseInt(gameInfo.gameID));
+        // Game game = activeGames.getGameFromGameID(gameInfo.gameID);
+        Game game = db.getGameFromDatabaseByID(Integer.parseInt(gameInfo.gameID));
 
         String board = game.getBoard().convertBoardToString();
         int turn = game.getTurn();
-        int returnID;
+        int userID = game.getPlayerOne().getUser().getUserID();
 
-        if (turn == 0) {
-            returnID = game.getPlayerOne().getUser().getUserID();
-        }
-        else {
-            returnID = game.getPlayerTwo().getUser().getUserID();
-        }
 
-        boardResponse = new BoardResponse(board, returnID);
+        boardResponse = new BoardResponse(board, turn, userID);
     }
 
     /**
@@ -66,10 +60,12 @@ public class GetBoardSession {
     private class BoardResponse {
         private String board;
         private int turn;
+        private int userID;
 
-        private BoardResponse(String _board, int _turn) {
+        private BoardResponse(String _board, int _turn, int _userID) {
             board = _board;
             turn  = _turn;
+            userID = _userID;
         }
     }
 }
