@@ -199,9 +199,13 @@ export default class Game extends React.Component {
             }
             else {
                 squares[i].style = {
-                    backgroundImage: squares[i].style['backgroundImage'],
-                    'background-color': '#00c4ffc9'
-                };
+                    backgroundImage: squares[i].style['backgroundImage']
+                }
+                squares[i].style.backgroundColor = '#00c4ffc9';
+                // squares[i].style = {
+                //     backgroundImage: squares[i].style['backgroundImage'],
+                //     'background-color': '#00c4ffc9'
+                // };
                 //Add api call here
                 this.getValidMoves(row, col);
                 this.setState({
@@ -212,7 +216,7 @@ export default class Game extends React.Component {
         }
 
         else if (this.state.sourceSelection > -1) {
-            delete squares[this.state.sourceSelection].style.backgroundColor;
+            // delete squares[this.state.sourceSelection].style.backgroundColor;
             if (squares[i] && squares[i].player === this.state.player) {
                 //reset selection color
                 squares[i].style = {
