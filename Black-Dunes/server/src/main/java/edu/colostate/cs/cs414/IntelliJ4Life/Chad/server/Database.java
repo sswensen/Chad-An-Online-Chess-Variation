@@ -61,7 +61,6 @@ public class Database {
                 Statement stQuery = conn.createStatement();
                 ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
-                System.out.println("Query: " + query);
                 this.games = parseGamesFromResultSet(rsQuery);
             }
         } catch(Exception e) {

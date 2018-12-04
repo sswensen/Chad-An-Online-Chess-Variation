@@ -50,6 +50,7 @@ export default class Game extends React.Component {
     }
 
     getBoard() {
+        console.log("getBoard() gameID:" + this.state.gameID);
         let gameInfo = {
             gameID: this.state.gameID
         };
@@ -297,7 +298,7 @@ export default class Game extends React.Component {
 
     async getValidMoves(row, col) {
         let obj = {
-            gameID: 4,
+            gameID: this.state.gameID,
             userID: this.props.userID,
             row: row,
             col: col
@@ -383,6 +384,7 @@ export default class Game extends React.Component {
     }
 
     getBoard(gameID) {
+        console.log(gameID);
         let gameInfo = {
             gameID: gameID
         };
