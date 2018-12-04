@@ -38,16 +38,9 @@ public class GetBoardSession {
 
         String board = game.getBoard().convertBoardToString();
         int turn = game.getTurn();
-        int returnID;
 
-        if (turn == 0) {
-            returnID = game.getPlayerOne().getUser().getUserID();
-        }
-        else {
-            returnID = game.getPlayerTwo().getUser().getUserID();
-        }
 
-        boardResponse = new BoardResponse(board, returnID);
+        boardResponse = new BoardResponse(board, turn);
     }
 
     /**

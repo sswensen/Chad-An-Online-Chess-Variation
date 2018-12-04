@@ -36,8 +36,8 @@ public class MakeMoveSession {
 
         Database db = new Database();
         int userIdInt = Integer.parseInt(moveData.userID);
-        Game game = activeGames.getGameFromGameID(moveData.gameID);
-        //Game game = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
+//        Game game = activeGames.getGameFromGameID(moveData.gameID);
+        Game game = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
 
 
         if(game == null) {

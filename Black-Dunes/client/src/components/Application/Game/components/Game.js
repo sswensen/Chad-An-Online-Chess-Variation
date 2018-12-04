@@ -14,13 +14,13 @@ import piece from "../pieces/piece";
 import Select from "react-select";
 
 export default class Game extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             squares: initialiseChessBoard(),
             whiteFallenSoldiers: [],
             blackFallenSoldiers: [],
-            player: -1,
+            player: 2,
             sourceSelection: -1,
             status: '',
             turn: 'white',
@@ -35,7 +35,7 @@ export default class Game extends React.Component {
 
     getGames() {
         let user = {
-            userID: '4'
+            userID: this.props.userID
         }
         let update = request(user, 'getGames');
         update.then((value => {
@@ -293,7 +293,7 @@ export default class Game extends React.Component {
         console.log(this.state.gameID)
         let move = {
             gameID: this.state.gameID,
-            userID: '4',
+            userID: this.props.userID,
             initialRow: Math.floor(source / 12),
             initialCol: source % 12,
             afterRow: row,

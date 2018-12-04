@@ -49,9 +49,12 @@ public class GetGamesSession {
             System.out.println();
 
             // Get games for user
-            ArrayList<Game> games = activeGames.getGamesFromUserID(String.valueOf(user.getUserID()));
+//            ArrayList<Game> games = activeGames.getGamesFromUserID(String.valueOf(user.getUserID()));
+            db.setUser(user);
+            db.getCurrentGamesFromDatabase();
+            ArrayList<Game> games = db.getGames();
 
-            // Array containing [gameID, user1ID, user2ID] for each game
+                    // Array containing [gameID, user1ID, user2ID] for each game
             gamesArray = new String[games.size()][3];
             int i = 0;
 
