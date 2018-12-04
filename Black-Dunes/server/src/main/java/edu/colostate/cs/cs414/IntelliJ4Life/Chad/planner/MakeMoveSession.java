@@ -25,7 +25,7 @@ public class MakeMoveSession {
 
     public MakeMoveSession(Request request, ActiveGames activeGames) {
         // first print the request
-        System.out.println(HTTP.echoRequest(request));
+//        System.out.println(HTTP.echoRequest(request));
 
         // extract the information from the body of the request.
         JsonParser jsonParser = new JsonParser();
@@ -68,8 +68,8 @@ public class MakeMoveSession {
 //        if(!databaseGame.getBoard().convertBoardToString().equals(game.getBoard().convertBoardToString())) {
 //            System.err.println("GAME IN DATABASE DOESN'T MATCH!");
 //        }
-        game.getBoard().printBoard();
-        databaseGame.getBoard().printBoard();
+//        game.getBoard().printBoard();
+//        databaseGame.getBoard().printBoard();
         result = new Result(game.getBoard().convertBoardToString(), makeMoveResult, game.getTurn());
     }
 

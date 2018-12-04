@@ -23,7 +23,7 @@ public class GetValidMovesSession {
 
     public GetValidMovesSession(Request request, ActiveGames activeGames) {
         // first print the request
-        System.out.println(HTTP.echoRequest(request));
+        //System.out.println(HTTP.echoRequest(request));
 
         // extract the information from the body of the request.
         JsonParser jsonParser = new JsonParser();
@@ -38,7 +38,7 @@ public class GetValidMovesSession {
 
 //        Game game = activeGames.getGameFromGameID(pieceData.gameID);
         Game game = db.getGameFromDatabaseByID(Integer.parseInt(pieceData.gameID));
-        game.getBoard().printBoard();
+//        game.getBoard().printBoard();
 
         if(game == null) {
             validMoves = new int[0][0];
@@ -51,9 +51,9 @@ public class GetValidMovesSession {
             int[][] validMovesArray = new int[validMovesList.size()][2];
             validMovesArray = validMovesList.toArray(validMovesArray);
 
-            System.out.println("Moves: ");
-            for (int i = 0; i < validMovesArray.length; i++)
-                System.out.println("move: " + Arrays.toString(validMovesArray[i]));
+//            System.out.println("Moves: ");
+//            for (int i = 0; i < validMovesArray.length; i++)
+//                System.out.println("move: " + Arrays.toString(validMovesArray[i]));
 
             validMoves = validMovesArray;
         }
