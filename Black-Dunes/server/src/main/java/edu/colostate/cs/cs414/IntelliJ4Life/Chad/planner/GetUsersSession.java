@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class GetUsersSession {
     private UserData userData;
     private ReturnData[] usersArray;
-
+    private UserReturnData returnUserData;
     /**
      * Gets all the users to return to the frontend
      *
@@ -53,6 +53,28 @@ public class GetUsersSession {
         }
     }
 
+    public GetUsersSession(Request request) {
+        // first print the request
+        System.out.println(HTTP.echoRequest(request));
+
+        // extract the information from the body of the request.
+        JsonParser jsonParser = new JsonParser();
+        JsonElement requestBody = jsonParser.parse(request.body());
+
+        // convert the body of the request to a Java class.
+        Gson gson = new Gson();
+        userData = gson.fromJson(requestBody, UserData.class);
+
+        Database db = new Database();
+
+        //get userID
+        int userID = Integer.parseInt(userData.userID);
+
+        User tempuser = db.getUserFromDatabaseByID(userID);
+        User.Profile profile = tempuser.new Profile();
+        returnUserData = new UserReturnData(tempuser.getUserID(), tempuser.getNickName(), tempuser.getEmail(), profile.getWins(), profile.getLosses());
+    }
+
     /**
      * Handles the response for get users.
      * Does the conversion from a Java class to a Json string.*
@@ -60,6 +82,11 @@ public class GetUsersSession {
     public String getUsers() {
         Gson gson = new Gson();
         return gson.toJson(usersArray);
+    }
+
+    public String getUserData() {
+        Gson gson = new Gson();
+        return gson.toJson(returnUserData);
     }
 
     private class UserData {
@@ -74,5 +101,22 @@ public class GetUsersSession {
             userID = _userID;
             nickname = _nickname;
         }
+    }
+
+    private class UserReturnData {
+        private int userID;
+        private String nickname;
+        private String email;
+        private int wins;
+        private int losses;
+
+        private UserReturnData(int userID, String nickname, String email, int wins, int losses) {
+            this.userID = userID;
+            this.nickname = nickname;
+            this.email = email;
+            this.wins = wins;
+            this.losses = losses;
+        }
+
     }
 }

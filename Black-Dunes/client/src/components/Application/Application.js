@@ -5,6 +5,8 @@ import Login from './Login'
 import Logout from './Logout';
 import Register from './Register';
 import Invite from './Invite';
+import Profile from './Profile';
+import Notifications from './Notifications';
 
 
 /* Renders the application.
@@ -31,6 +33,10 @@ class Application extends Component {
                                  registerUser={this.props.info['registerUser']}/>;
             case 'invite':
                 return <Invite userID={this.props.info['userID']}/>;
+            case 'profile':
+                return <Profile userID={this.props.info['userID']}/>;
+            case 'notifications':
+                return <Notifications userID={this.props.info['userID']}/>;
             default:
                 return <div/>;
             }

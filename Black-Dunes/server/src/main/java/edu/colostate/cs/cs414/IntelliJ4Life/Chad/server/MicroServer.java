@@ -1,13 +1,6 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.GetBoardSession;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.LoginSession;
-
-import com.google.gson.Gson;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.*;
-import org.json.*;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
-
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -50,10 +43,10 @@ public class MicroServer {
     get("/hello/:name", this::hello);
     get("/team", this::team);
     get("/board", this::getBoard);
+    get("/config", this::config);
 
 
     // client is sending data, so a HTTP POST is used instead of a GET
-    get("/config", this::config);
     post("/plan", this::plan);
     post("/login", this::login);
     post("/register", this::register);
@@ -64,6 +57,10 @@ public class MicroServer {
     post("/removeUser", this::removeUser);
     post("/getValidMovesSession", this::getValidMoves);
     post("/makeMove", this::makeMove);
+    post("/getProfile", this::getProfile);
+    post("/getNotifications", this::getNotifications);
+    post("/sendInvites", this::sendInvites);
+    post("/invitationInteraction", this::invitationInteraction);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -200,12 +197,6 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    //get user for auth at some point
-//    JSONObject userObj = new JSONObject(request.params(":user"));
-//    User user = new User(userObj.getInt("userID"), userObj.getString("username"),
-//            userObj.getString("nickName"), userObj.getString("email"));
-
-    //connect to db and update game
     Database db = new Database();
     db.updateGameInDatabase(Integer.parseInt(request.params(":gameID")),
             request.params(":gameBoard"), Integer.parseInt(request.params(":turn")));
@@ -280,19 +271,6 @@ public class MicroServer {
     return new MakeMoveSession(request, activeGames).getMakeMove();
   }
 
-  /** A REST API that creates a new game and adds it to activeGames and the database.
-   *
-   * @param request
-   * @param response
-   * @return
-   */
-  private String createGame(Request request, Response response) {
-    response.type("text/plain");
-    response.header("Access-Control-Allow-Origin", "*");
-
-    return "";
-  }
-
   /** A REST API that returns the board to the frontend.
    *
    * @param request
@@ -305,5 +283,66 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     return new GetBoardSession(request, activeGames).getBoard();
+  }
+
+  /** A REST API that returns the profile to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getProfile(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getProfile");
+    return new GetUsersSession(request).getUserData();
+  }
+
+  /** A REST API that returns the notifications for a user to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getNotifications(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getNotifications");
+    return new NotificationsSession(request).getNotifications();
+  }
+
+
+  /** A REST API that sends a game invite to a user
+   *
+   * @param request
+   * @param response
+   */
+  private String sendInvites(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("sendInvites");
+    return new InvitesSession(request).sendInvitesStatus();
+  }
+
+
+  /** A REST API that handles invitation interactions on the front end
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String invitationInteraction(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("invitationInteraction");
+    return new GetUsersSession(request).getUserData();
   }
 }

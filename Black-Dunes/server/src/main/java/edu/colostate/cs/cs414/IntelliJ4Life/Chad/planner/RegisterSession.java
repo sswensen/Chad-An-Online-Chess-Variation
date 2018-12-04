@@ -29,16 +29,10 @@ public class RegisterSession {
         // convert the body of the request to a Java class.
         Gson gson = new Gson();
         user = gson.fromJson(requestBody, RegisterUser.class);
-        // plan the trip.
-        // distance.plan();
 
         Database db = new Database();
         boolean registered = db.registerUserInDatabase(user.username, user.nickname, user.email, user.password);
         newUser = db.getUserFromDatabase(user.username, user.password);
-        // log something.
-//        System.out.println("UserID: " + user.getUserID());
-//        System.out.println("Username: " + user.getUsername());
-//        System.out.println("Email: " + user.getEmail());
     }
 
     /**

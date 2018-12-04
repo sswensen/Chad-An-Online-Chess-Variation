@@ -1,19 +1,15 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
-import {Button, Card, CardBody, Col, Container, Row} from 'reactstrap'
-import {request} from "../../api/api";
+import {Button, Col, Container, Row, tr} from 'reactstrap'
+import {request} from '../../api/api';
 
-/* Options allows the user to change the parameters for planning
- * and rendering the trip map and itinerary.
- * The options reside in the parent object so they may be shared with the Trip object.
- * Allows the user to set the options used by the application via a set of buttons.
- */
 class Invite extends Component {
     constructor(props) {
         super(props);
         this.state = {
             users: [],
-            selectedUsers: []
+            selectedUsers: [],
+            invitations: []
         };
 
         this.handleInviteSubmit = this.handleInviteSubmit.bind(this);
@@ -23,6 +19,7 @@ class Invite extends Component {
 
     componentDidMount() {
         this.getUsers();
+        this.getInvites();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -43,14 +40,36 @@ class Invite extends Component {
     }
 
     async sendInvites() {
-        const userIDs = this.state.selectedUsers.map(user => user.value);
-        let updated = request({userIDs: userIDs}, 'sendInvites');
+        const body = {
+            senderID: this.props.userID,
+            userIDs: this.state.selectedUsers.map(user => user.value)
+        };
+        let updated = request(body, 'sendInvites');
         updated.then((values) => {
-           if (values) {
-               return this.setState({error: ''})
-           } else {
-               return this.setState({error: 'Sending invites failed'});
-           }
+            if (values) {
+                return this.setState({error: ''});
+            } else {
+                return this.setState({error: 'Sending invites failed'});
+            }
+        });
+    }
+
+    async getInvites() {
+        const body = {
+            notificationType: 'invitation',
+            userID: this.props.userID
+        }
+        let updated = request(body, 'getNotifications');
+        updated.then((values) => {
+            if (values) {
+                console.log(values);
+                return this.setState({
+                    error: '',
+                    invitations: values
+                });
+            } else {
+                return this.setState({error: 'Sending invites failed'});
+            }
         });
     }
 
@@ -71,10 +90,6 @@ class Invite extends Component {
         }
     }
 
-    listUserInvites() {
-        return <li/>;
-    }
-
     render() {
         return (
             <Container>
@@ -89,19 +104,24 @@ class Invite extends Component {
                                     closeMenuOnSelect={false}
                                     options={this.state.users}
                                     isMulti
-                                    onChange={(selected) => {this.setState({selectedUsers: selected})}}
+                                    onChange={(selected) => {
+                                        this.setState({selectedUsers: selected})
+                                    }}
                                 />
-                                <Button className="send-invite" sm={12} md={12} lg={12} type="submit" value="Register" data-test="submit" onClick={this.handleInviteSubmit}>
+                                <Button className="send-invite" sm={12} md={12} lg={12} type="submit" value="Register"
+                                        data-test="submit" onClick={this.handleInviteSubmit}>
                                     Submit
                                 </Button>
                             </div>
                         </div>
                     </Col>
                     <Col>
-                        <div className = "user-invites">
-                            <h3>Edit Invites</h3>
-                            {this.listUserInvites()}
+                        <div>
+                            <h3>Invitation Interactoin</h3>
                         </div>
+                        <Table>
+
+                        </Table>
                     </Col>
                 </Row>
             </Container>
