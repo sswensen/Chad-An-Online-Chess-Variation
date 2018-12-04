@@ -63,6 +63,7 @@ public class MicroServer {
     post("/getUsers", this::getUsers);
     post("/getValidMovesSession", this::getValidMoves);
     post("/makeMove", this::makeMove);
+    post("/sendInvites", this::sendInvites);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -291,5 +292,19 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     return new GetBoardSession(request, activeGames).getBoard();
+  }
+
+  /** A REST API that returns the board to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String sendInvites(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    return new SendInvitesSession(request, activeGames).sendInvites();
   }
 }
