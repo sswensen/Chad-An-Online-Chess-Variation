@@ -172,6 +172,18 @@ public class Database {
         return new User(-1, "", "");
     }
 
+    public boolean deleteUserFromDatabase(int id) {
+        String query = "DELETE FROM Users WHERE ID = " + id + ";";
+        return sendUpdateQueryToDatabase(query);
+    }
+
+    public boolean setAllGamesFinishedByUserID(int id) {
+        String query = "UPDATE Games SET Finished = 1 \n" +
+                "WHERE User1ID = " + id + " OR User2ID = " + id + ";";
+        sendUpdateQueryToDatabase(query);
+        return false;
+    }
+
     public User getUserFromDatabaseByID(int id) {
         if(checkIfUserExistsInDatabaseByID(id)) {
             String query = "SELECT ID, Username, Nickname, Email " +
