@@ -30,6 +30,8 @@ public class GetBoardSession {
         // convert the body of the request to a Java class.
         Gson gson = new Gson();
         gameInfo = gson.fromJson(requestBody, GameInfo.class);
+        if(gameInfo.gameID != null) {
+            Game game = activeGames.getGameFromGameID(gameInfo.gameID);
 
         Database db = new Database();
         Game game = activeGames.getGameFromGameID(gameInfo.gameID);

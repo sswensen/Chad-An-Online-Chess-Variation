@@ -136,7 +136,7 @@ class FooterComponent extends Component {
         return (
             <div>
                 <ul>
-                    <li><a href="http://admissions.colostate.edu" className="company-sub-widget">GitHub Repo</a></li>
+                    <li><a href="https://github.com/sswensen/cs414-f18-001-IntelliJ4Life" className="company-sub-widget">GitHub Repo</a></li>
                     <li><a href="http://www.colostate.edu/info-contact.aspx" className="company-sub-widget">Contact
                         CSU</a></li>
                     <li><a href="http://www.colostate.edu/info-disclaimer.aspx"
