@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
-import {Button, Card, CardBody, Col, Container, Row} from 'reactstrap'
+import {Button, Col, Container, Row} from 'reactstrap'
 import {request} from '../../api/api';
 
 class Invite extends Component {
@@ -38,14 +38,17 @@ class Invite extends Component {
     }
 
     async sendInvites() {
-        const userIDs = this.state.selectedUsers.map(user => user.value);
-        let updated = request({userIDs: userIDs}, 'sendInvites');
+        const body = {
+            senderID: this.props.userID,
+            userIDs: this.state.selectedUsers.map(user => user.value)
+        };
+        let updated = request(body, 'sendInvites');
         updated.then((values) => {
-           if (values) {
-               return this.setState({error: ''})
-           } else {
-               return this.setState({error: 'Sending invites failed'});
-           }
+            if (values) {
+                return this.setState({error: ''})
+            } else {
+                return this.setState({error: 'Sending invites failed'});
+            }
         });
     }
 
