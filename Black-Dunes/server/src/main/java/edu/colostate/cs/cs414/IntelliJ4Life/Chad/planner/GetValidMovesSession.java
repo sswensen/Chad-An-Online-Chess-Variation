@@ -36,8 +36,8 @@ public class GetValidMovesSession {
         int userIdInt = Integer.parseInt(pieceData.userID);
         Database db = new Database();
 
-        //Game game = activeGames.getGameFromGameID(pieceData.gameID);
-        Game game = db.getGameFromDatabaseByID(Integer.parseInt(pieceData.gameID));
+        Game game = activeGames.getGameFromGameID(pieceData.gameID);
+        //Game game = db.getGameFromDatabaseByID(Integer.parseInt(pieceData.gameID));
 
 
         if(game == null) {
