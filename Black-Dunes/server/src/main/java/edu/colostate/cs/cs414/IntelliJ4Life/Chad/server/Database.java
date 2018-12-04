@@ -151,7 +151,7 @@ public class Database {
             return null;
         }
         String query = "SELECT * FROM Notifications " +
-                "WHERE (User1ID = " + userID + ") OR (User2ID = " + userID + ");\n";
+                "WHERE (User1ID = '" + userID + "') OR (User2ID = '" + userID + "');\n";
         String dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
         try {
             Class.forName(myDriver);
