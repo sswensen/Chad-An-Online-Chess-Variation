@@ -3,15 +3,13 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
-import org.json.JSONObject;
 import spark.Request;
 
 import java.util.ArrayList;
 
-public class SendInvitesSession {
+public class InvitesSession {
     private InviteInfo inviteInfo;
     private boolean response;
 
@@ -21,7 +19,7 @@ public class SendInvitesSession {
      * @param request
      */
 
-    public SendInvitesSession(Request request) {
+    public InvitesSession(Request request) {
         // first print the request
         System.out.println(HTTP.echoRequest(request));
 

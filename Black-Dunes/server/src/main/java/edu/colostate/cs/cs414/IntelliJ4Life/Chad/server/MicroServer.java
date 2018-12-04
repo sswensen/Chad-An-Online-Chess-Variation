@@ -298,7 +298,7 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     System.out.println("getNotifications");
-    return new GetUsersSession(request).getUserData();
+    return new NotificationsSession(request).getNotifications();
   }
 
 
@@ -313,7 +313,7 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     System.out.println("sendInvites");
-    return new SendInvitesSession(request).sendInvitesStatus();
+    return new InvitesSession(request).sendInvitesStatus();
   }
 
 

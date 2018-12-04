@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
-import {Button, Col, Container, Row} from 'reactstrap'
+import {Button, Col, Container, Row, tr} from 'reactstrap'
 import {request} from '../../api/api';
 
 class Invite extends Component {
@@ -8,7 +8,8 @@ class Invite extends Component {
         super(props);
         this.state = {
             users: [],
-            selectedUsers: []
+            selectedUsers: [],
+            invitations: []
         };
 
         this.handleInviteSubmit = this.handleInviteSubmit.bind(this);
@@ -18,6 +19,7 @@ class Invite extends Component {
 
     componentDidMount() {
         this.getUsers();
+        this.getInvites();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -45,7 +47,26 @@ class Invite extends Component {
         let updated = request(body, 'sendInvites');
         updated.then((values) => {
             if (values) {
-                return this.setState({error: ''})
+                return this.setState({error: ''});
+            } else {
+                return this.setState({error: 'Sending invites failed'});
+            }
+        });
+    }
+
+    async getInvites() {
+        const body = {
+            type: 'invitation',
+            userID: this.props.userID
+        }
+        let updated = request(body, 'getNotifications');
+        updated.then((values) => {
+            if (values) {
+                console.log(values);
+                return this.setState({
+                    error: '',
+                    invitations: values
+                });
             } else {
                 return this.setState({error: 'Sending invites failed'});
             }
@@ -69,10 +90,6 @@ class Invite extends Component {
         }
     }
 
-    listUserInvites() {
-        return <li/>;
-    }
-
     render() {
         return (
             <Container>
@@ -87,18 +104,20 @@ class Invite extends Component {
                                     closeMenuOnSelect={false}
                                     options={this.state.users}
                                     isMulti
-                                    onChange={(selected) => {this.setState({selectedUsers: selected})}}
+                                    onChange={(selected) => {
+                                        this.setState({selectedUsers: selected})
+                                    }}
                                 />
-                                <Button className="send-invite" sm={12} md={12} lg={12} type="submit" value="Register" data-test="submit" onClick={this.handleInviteSubmit}>
+                                <Button className="send-invite" sm={12} md={12} lg={12} type="submit" value="Register"
+                                        data-test="submit" onClick={this.handleInviteSubmit}>
                                     Submit
                                 </Button>
                             </div>
                         </div>
                     </Col>
                     <Col>
-                        <div className = "user-invites">
+                        <div>
                             <h3>Edit Invites</h3>
-                            {this.listUserInvites()}
                         </div>
                     </Col>
                 </Row>

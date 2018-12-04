@@ -1,6 +1,7 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
+import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.NotificationsSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
 
 import java.sql.*;
@@ -115,8 +116,8 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
-    public boolean addInviteToDatabase(int senderId, int inviteeId, String message) {
-        if(!checkIfUserExistsInDatabaseByID(senderId) || !checkIfUserExistsInDatabaseByID(inviteeId)) {
+    public boolean addInviteToDatabase(int senderID, int inviteeID, String message) {
+        if(!checkIfUserExistsInDatabaseByID(senderID) || !checkIfUserExistsInDatabaseByID(inviteeID)) {
             return false;
         }
         String query = "INSERT INTO Notifications (" +
@@ -124,11 +125,47 @@ public class Database {
                 "User2ID, " +
                 "Message" +
                 ") VALUES (" +
-                "'" + senderId + "', " +
-                "'" + inviteeId + "', " +
+                "'" + senderID + "', " +
+                "'" + inviteeID + "', " +
                 "'" + message + "'" +
                 ");\n";
         return sendUpdateQueryToDatabase(query);
+    }
+
+    public boolean addNotificationToDatabase(int userID, String message) {
+        if(!checkIfUserExistsInDatabaseByID(userID)) {
+            return false;
+        }
+        String query = "INSERT INTO Notifications (" +
+                "User1ID, " +
+                "Message" +
+                ") VALUES (" +
+                "'" + userID + "', " +
+                "'" + message + "'" +
+                ");\n";
+        return sendUpdateQueryToDatabase(query);
+    }
+
+    public ArrayList<NotificationRow> getNotificationsFromDatabase(int userID) {
+        if(!checkIfUserExistsInDatabaseByID(userID)) {
+            return null;
+        }
+        String query = "SELECT * FROM Notifications " +
+                "WHERE (User1ID = " + userID + ") OR (User2ID = " + userID + ");\n";
+        String dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                Statement stQuery = conn.createStatement();
+                ResultSet rsQuery = stQuery.executeQuery(query);
+            ) {
+                return parseNotificationsFromResultSet(rsQuery);
+            }
+        } catch(Exception e) {
+            System.out.println(query);
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+        return null;
     }
 
     public ArrayList<User> getAllUsersFromDatabase() {
@@ -281,6 +318,22 @@ public class Database {
         return out;
     }
 
+    private ArrayList<NotificationRow> parseNotificationsFromResultSet(ResultSet rs) {
+        ArrayList<NotificationRow> notificationRows = new ArrayList<>();
+        try {
+            while(rs.next()) {
+                int notificationID = Integer.parseInt(rs.getString("ID"));
+                int user1ID = Integer.parseInt(rs.getString("User1ID"));
+                int user2ID = Integer.parseInt(rs.getString("User2ID"));
+                String message = rs.getString("User2ID");
+                notificationRows.add(new NotificationRow(notificationID, user1ID, user2ID, message));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return notificationRows;
+    }
+
     private ArrayList<User> parseUsersFromResultSet(ResultSet rs) throws SQLException {
         ArrayList<User> out = new ArrayList<User>();
         while(rs.next()) {
@@ -350,6 +403,20 @@ public class Database {
 
     public void setAuth(boolean auth) {
         this.auth = auth;
+    }
+
+    public class NotificationRow {
+        public int notificationID;
+        public int user1ID;
+        public int user2ID;
+        public String message;
+
+        public NotificationRow(int notificationID, int user1ID, int user2ID, String message) {
+            this.notificationID = notificationID;
+            this.user1ID = user1ID;
+            this.user2ID = user2ID;
+            this.message = message;
+        }
     }
 
     public static void main(String[] args) {
