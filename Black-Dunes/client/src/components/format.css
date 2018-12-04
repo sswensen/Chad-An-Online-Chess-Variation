@@ -155,3 +155,7 @@ code {
 .pagefade-exit.pagefade-exit-active {
     opacity:0;
 }
+
+.send-invite {
+  margin-top: 15px;
+}
