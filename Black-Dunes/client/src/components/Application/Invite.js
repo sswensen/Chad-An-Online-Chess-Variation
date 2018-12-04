@@ -13,6 +13,7 @@ class Invite extends Component {
         };
 
         this.handleInviteSubmit = this.handleInviteSubmit.bind(this);
+        this.handleAcceptSubmit = this.handleAcceptSubmit.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.sendInvites = this.sendInvites.bind(this);
     }
@@ -89,6 +90,19 @@ class Invite extends Component {
         }
     }
 
+    async handleAcceptSubmit(invitationID) {
+        const body = {
+            type: 'accept',
+            inviteId: invitationID
+        };
+        let updated = request(body, 'invitationInteraction');
+        updated.then((value) => {
+           if (value) {
+               alert('The game was accepted!');
+           }
+        });
+    }
+
     getInvitationRow(invitation) {
         if (invitation['user1ID'] === this.props.userID) {
             return (
@@ -104,7 +118,13 @@ class Invite extends Component {
                 <tr>
                     <td>{invitation['user1ID']}</td>
                     <td>
-                        <Button className="accept-button" outline color="success" size="sm">Accept</Button>
+                        <Button
+                            className="accept-button"
+                            outline color="success"
+                            size="sm"
+                            onClick={() => {this.handleAcceptSubmit(invitation['notificationID'])}}>
+                            Accept
+                        </Button>
                         <Button outline color="danger" size="sm">Reject</Button>
                     </td>
                 </tr>
