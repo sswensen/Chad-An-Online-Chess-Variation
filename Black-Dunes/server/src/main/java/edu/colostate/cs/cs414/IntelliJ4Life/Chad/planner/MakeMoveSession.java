@@ -44,8 +44,14 @@ public class MakeMoveSession {
 
         Database db = new Database();
         User user = db.getUserFromDatabaseByID(userIdInt);
-        Piece piece = game.getBoard().getBoard()[moveData.initialRow][moveData.initialCol];
-        int[] move = {moveData.afterRow, moveData.afterCol};
+
+        int initialRow = Integer.parseInt(moveData.initialRow);
+        int initialCol = Integer.parseInt(moveData.initialCol);
+        int afterRow   = Integer.parseInt(moveData.afterRow);
+        int afterCol   = Integer.parseInt(moveData.afterCol);
+
+        Piece piece = game.getBoard().getBoard()[initialRow][initialCol];
+        int[] move = {afterRow, afterCol};
 
         Player p = game.getPlayer(user);
 
@@ -74,12 +80,12 @@ public class MakeMoveSession {
     }
 
     private class MoveData {
-        private String gameID  = "";
-        private String userID  = "";
-        private int initialRow = -1;
-        private int initialCol = -1;
-        private int afterRow   = -1;
-        private int afterCol   = -1;
+        private String gameID     = "";
+        private String userID     = "";
+        private String initialRow = "";
+        private String initialCol = "";
+        private String afterRow   = "";
+        private String afterCol   = "";
     }
 
     private class Result {
