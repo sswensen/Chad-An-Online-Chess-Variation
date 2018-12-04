@@ -25,6 +25,7 @@
     "reactstrap": "^5.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.22.1",
+    "update": "^0.7.4",
     "webpack": "^3.10.0"
   },
   "devDependencies": {

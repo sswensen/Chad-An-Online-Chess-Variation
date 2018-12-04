@@ -33,7 +33,7 @@ public class RegisterSession {
         // distance.plan();
 
         Database db = new Database();
-        db.registerUserInDatabase(user.username, user.nickname, user.email, user.password);
+        boolean registered = db.registerUserInDatabase(user.username, user.nickname, user.email, user.password);
         newUser = db.getUserFromDatabase(user.username, user.password);
         // log something.
 //        System.out.println("UserID: " + user.getUserID());

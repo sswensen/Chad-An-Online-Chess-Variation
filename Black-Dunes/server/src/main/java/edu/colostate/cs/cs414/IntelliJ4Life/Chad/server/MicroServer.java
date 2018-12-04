@@ -164,7 +164,6 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println();
     LoginSession lSesh = new LoginSession(request);
     Database db = new Database(lSesh.getAuthUser());
     db.getCurrentGamesFromDatabase();
@@ -188,7 +187,6 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println();
     return new RegisterSession(request).getUserID(); // Send back user id, THIS IS INSECURE
   }
 
@@ -294,7 +292,6 @@ public class MicroServer {
     response.type("text/plain");
     response.header("Access-Control-Allow-Origin", "*");
 
-    System.out.println("getBoard");
     return new GetBoardSession(request, activeGames).getBoard();
   }
 

@@ -55,7 +55,6 @@ class Register extends Component {
         }
 
         this.props.registerUser(this.state.username, this.state.password, this.state.email, this.state.nickname);
-        this.props.updateLogin(this.state.username, this.state.password);
         return this.setState({error: ''});
     }
 
@@ -100,24 +99,28 @@ class Register extends Component {
                 <Col sm={0} md={6} lg={6}>
                     <label>Username</label>
                     <Input style={{width: "100%"}} placeholder="A Username" type="text"
+                           autoComplete="off"
                            data-test="username" value={this.state.username}
                            onChange={this.handleUserChange}/>
                 </Col>
                 <Col sm={12} md={6} lg={6}>
                     <label>Password</label>
                     <Input style={{width: "100%"}} placeholder="A Password" type="password"
+                           autoComplete="off"
                            data-test="password" value={this.state.password}
                            onChange={this.handlePassChange}/>
                 </Col>
                 <Col sm={12} md={6} lg={6}>
                     <label>Email</label>
                     <Input style={{width: "100%"}} placeholder="An Email" type="text"
+                           autoComplete="off"
                            data-test="Email" value={this.state.email}
                            onChange={this.handleEmailChange}/>
                 </Col>
                 <Col sm={12} md={6} lg={6}>
                     <label>Nickname</label>
                     <Input style={{width: "100%"}} placeholder="A Nickname" type="text"
+                           autoComplete="off"
                            data-test="Nickname" value={this.state.nickname}
                            onChange={this.handleNicknameChange}/>
                 </Col>
