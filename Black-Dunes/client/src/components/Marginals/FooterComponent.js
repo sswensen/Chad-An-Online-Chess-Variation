@@ -155,7 +155,7 @@ class FooterComponent extends Component {
 
     render() {
         return (
-            <footer>
+            <footer className="footer-full">
                 <br/>
                 {this.companyInformation()}
                 <div className="add-footer">

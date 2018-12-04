@@ -97,6 +97,11 @@
   padding: 0;
 }
 /* FOOTER STYLES*/
+.footer-full {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
 
 .add-footer{
   background-color: #1E4D2B;
