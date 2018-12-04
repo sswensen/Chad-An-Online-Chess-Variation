@@ -188,9 +188,11 @@ export default class Game extends React.Component {
             if (!squares[i] || squares[i].player !== this.state.player) {
                 //reset selection color
                 for(let x = 0; x < 144; x++) {
-                    squares[x].style = {
-                        backgroundImage: squares[i].style['backgroundImage']
-                    };
+                    if(squares[x] !== null) {
+                        squares[x].style = {
+                            backgroundImage: squares[x].style['backgroundImage']
+                        };
+                    }
                 }
                 this.setState({status: "Wrong selection. Choose player " + this.state.player + " pieces."});
                 squares[i] ? delete squares[i].style.backgroundColor : null;
