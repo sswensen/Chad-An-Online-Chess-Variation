@@ -34,15 +34,17 @@ public class MakeMoveSession {
         Gson gson = new Gson();
         moveData = gson.fromJson(requestBody, MoveData.class);
 
+        Database db = new Database();
         int userIdInt = Integer.parseInt(moveData.userID);
-        Game game = activeGames.getGameFromGameID(moveData.gameID);
+        //Game game = activeGames.getGameFromGameID(moveData.gameID);
+        Game game = db.getGameFromDatabaseByID(Integer.parseInt(moveData.gameID));
+
 
         if(game == null) {
             result = new Result(game.getBoard().convertBoardToString(), false, game.getTurn());
             return;
         }
 
-        Database db = new Database();
         User user = db.getUserFromDatabaseByID(userIdInt);
 
         int initialRow = Integer.parseInt(moveData.initialRow);
