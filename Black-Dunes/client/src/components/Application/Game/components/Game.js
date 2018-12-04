@@ -11,6 +11,7 @@ import Rook from '../pieces/rook.js';
 import King from '../pieces/king.js';
 import Queen from '../pieces/queen.js';
 import piece from "../pieces/piece";
+import Select from "react-select";
 
 export default class Game extends React.Component {
     constructor() {
@@ -24,7 +25,7 @@ export default class Game extends React.Component {
             status: '',
             turn: 'white',
             games: [],
-            selectedGame: 0,
+            gameID: 0,
             validMoves: []
         };
         this.getGames();
@@ -39,19 +40,19 @@ export default class Game extends React.Component {
         let update = request(user, 'getGames');
         update.then((value => {
             this.updateGames(value);
-            console.log(value);
         }));
     }
 
     updateGames(value) {
         this.setState({
-            games: value
+            games: this.getGamesDisplay(value)
         });
     }
 
     getBoard() {
+        console.log("getBoard() gameID:" + this.state.gameID);
         let gameInfo = {
-            gameID: '3'
+            gameID: this.state.gameID
         };
         let update = request(gameInfo, 'getBoard');
         update.then((value => {
@@ -162,8 +163,6 @@ export default class Game extends React.Component {
             return false;
         for(var i = arr1.length; i--;) {
             if(arr1[i] !== arr2[i]) {
-                console.log(arr1[i]);
-                console.log(arr2[i]);
                 return false;
             }
         }
@@ -299,7 +298,7 @@ export default class Game extends React.Component {
 
     async getValidMoves(row, col) {
         let obj = {
-            gameID: 4,
+            gameID: this.state.gameID,
             userID: this.props.userID,
             row: row,
             col: col
@@ -367,6 +366,36 @@ export default class Game extends React.Component {
         return false;
     }
 
+    getGamesDisplay(games) {
+        const display = [];
+        for(let i = 0; i < games.length; i++) {
+            display.push(
+                <button
+                    className="game-btn"
+                    id={games[i][0]}
+                    onClick={() => this.getBoard(games[i][0])}>
+                    {games[i][2]}
+                </button>)
+        }
+
+        return (
+            <div className="game-btn-container" >{display}</div>
+        );
+    }
+
+    getBoard(gameID) {
+        console.log(gameID);
+        let gameInfo = {
+            gameID: gameID
+        };
+        let update = request(gameInfo, 'getBoard');
+        update.then((value => {
+            this.updateGame(value);
+        }));
+        this.setState({
+            gameID: gameID
+        });
+    }
 
     render() {
         return (
@@ -375,6 +404,7 @@ export default class Game extends React.Component {
                     <CardBody>
                         <div>
                             <h3>Games</h3>
+                            <p>Games versus:</p>
                             {this.state.games}
                         </div>
                         <div>

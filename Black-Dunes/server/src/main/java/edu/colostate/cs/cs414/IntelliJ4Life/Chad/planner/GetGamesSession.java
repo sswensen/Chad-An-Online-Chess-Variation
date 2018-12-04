@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class GetGamesSession {
     private UserData userData;
-    private int[][] gamesArray;
+    private String[][] gamesArray;
 
     /**
      * Gets all the games to return to the frontend in form of [gameID, user1ID, user2ID]
@@ -42,7 +42,7 @@ public class GetGamesSession {
         //get user
         User user = db.getUserFromDatabaseByID(userID);
 
-        gamesArray = new int[0][0];
+        gamesArray = new String[0][0];
 
         if (user != null) {
             System.out.println("user.userID: " + user.getUserID());
@@ -52,13 +52,13 @@ public class GetGamesSession {
             ArrayList<Game> games = activeGames.getGamesFromUserID(String.valueOf(user.getUserID()));
 
             // Array containing [gameID, user1ID, user2ID] for each game
-            gamesArray = new int[games.size()][3];
+            gamesArray = new String[games.size()][3];
             int i = 0;
 
             for (Game g : games) {
-                gamesArray[i][0] = g.getGameID();
-                gamesArray[i][1] = g.getPlayerOne().getUser().getUserID();
-                gamesArray[i][2] = g.getPlayerTwo().getUser().getUserID();
+                gamesArray[i][0] = Integer.toString(g.getGameID());
+                gamesArray[i][1] = g.getPlayerOne().getUser().getNickName();
+                gamesArray[i][2] = g.getPlayerTwo().getUser().getNickName();
 
                 i++;
             }
