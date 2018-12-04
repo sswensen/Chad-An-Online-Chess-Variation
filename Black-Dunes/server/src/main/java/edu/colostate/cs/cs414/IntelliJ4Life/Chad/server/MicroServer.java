@@ -168,7 +168,7 @@ public class MicroServer {
       activeGames.add(g);
     }
 
-    return lSesh.getUserID();
+    return lSesh.getAuthUserJson();
 
   }
 

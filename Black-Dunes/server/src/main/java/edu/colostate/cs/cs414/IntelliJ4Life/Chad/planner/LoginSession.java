@@ -48,6 +48,11 @@ public class LoginSession {
         return authUser;
     }
 
+    public String getAuthUserJson() {
+        Gson gson = new Gson();
+        return gson.toJson(authUser);
+    }
+
     public void setAuthUser(User authUser) {
         this.authUser = authUser;
     }

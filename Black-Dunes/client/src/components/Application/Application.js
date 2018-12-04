@@ -18,7 +18,7 @@ class Application extends Component {
             case 'home':
                 return <Home/>;
             case 'game':
-                return <Game userID={this.props.info['userID']}/>;
+                return <Game userID={this.props.info['userID']} nickname={this.props.info['nickname']}/>;
             case 'login':
                 return <Login error={this.props.info['error']} updateUsername={this.props.info['updateUsername']}
                                   updatePassword={this.props.info['updatePassword']} updateLogin={this.props.info['updateLogin']}/>;
