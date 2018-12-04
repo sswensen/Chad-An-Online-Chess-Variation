@@ -89,6 +89,7 @@ class App extends Component {
     }
 
 
+
     async updateLogin(username, password) {
         let user = {
             username: username,
@@ -146,6 +147,7 @@ class App extends Component {
             this.setState({
                 pages: [
                     {title: 'Home', page: 'home', link: '/'},
+                    {title: 'Profile', page: 'profile', link: '/profile'},
                     {title: 'Invite', page: 'invite', link: '/invite'},
                     {title: 'Game', page: 'game', link: '/game'},
                     {title: 'Logout', page: 'logout', link: '/logout'},

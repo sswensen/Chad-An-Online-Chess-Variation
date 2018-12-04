@@ -63,6 +63,8 @@ public class MicroServer {
     post("/getUsers", this::getUsers);
     post("/getValidMovesSession", this::getValidMoves);
     post("/makeMove", this::makeMove);
+    post("/getProfile", this::getProfile);
+
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -294,5 +296,20 @@ public class MicroServer {
 
     System.out.println("getBoard");
     return new GetBoardSession(request, activeGames).getBoard();
+  }
+
+  /** A REST API that returns the profile to the frontend.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String getProfile(Request request, Response response) {
+
+    response.type("text/plain");
+    response.header("Access-Control-Allow-Origin", "*");
+
+    System.out.println("getProfile");
+    return new GetUsersSession(request).getUserData();
   }
 }
