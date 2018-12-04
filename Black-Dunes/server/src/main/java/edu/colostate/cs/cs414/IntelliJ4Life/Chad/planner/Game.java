@@ -85,6 +85,10 @@ public class Game {
 
     public Player getPlayerTwo() { return playerTwo; }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
     /*******************
      * Public Methods
      ******************/

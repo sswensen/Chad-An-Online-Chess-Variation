@@ -6,15 +6,15 @@ class Notifications extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            notifications: ['You suck Joe', 'You are the worst', 'Hope you are having fun! -Mom']
+            notifications: []
         };
 
         this.getNotifications = this.getNotifications.bind(this);
     }
 
-    // componentDidMount() {
-    //     this.getNotifications();
-    // }
+    componentDidMount() {
+        this.getNotifications();
+    }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -24,6 +24,7 @@ class Notifications extends Component {
 
     async getNotifications() {
         let user = {
+            notificationType: 'notification',
             userID: this.props.userID
         };
         let updated = request(user, 'getNotifications');
@@ -44,7 +45,7 @@ class Notifications extends Component {
                         <div className="notifications">
                             <ListGroup>
                                 {this.state.notifications.map((notification) => (
-                                    <ListGroupItem>{notification}</ListGroupItem>
+                                    <ListGroupItem>{notification['message']}</ListGroupItem>
                                 ))}
                             </ListGroup>
                         </div>

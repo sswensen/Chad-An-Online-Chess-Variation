@@ -5,6 +5,7 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.NotificationsSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Database {
@@ -95,6 +96,26 @@ public class Database {
         String query = "UPDATE Games g SET Board = \'" + board + "\', Turn\n = " + turn +
                 " WHERE g.GameID = " + gameID + ";";
         sendUpdateQueryToDatabase(query); // TODO do something with the return value (t/f)
+    }
+
+    public boolean addGameToDatabase(int user1ID, int user2ID, LocalDateTime startTime, int turn, String board) {
+        if(!checkIfUserExistsInDatabaseByID(user1ID) || !checkIfUserExistsInDatabaseByID(user2ID)) {
+            return false;
+        }
+        String query = "INSERT INTO Games (" +
+                "User1ID, " +
+                "User2ID, " +
+                "StartTime, " +
+                "Turn, " +
+                "Board" +
+                ") VALUES (" +
+                "'" + user1ID + "', " +
+                "'" + user2ID + "', " +
+                "'" + startTime + "', " +
+                "'" + turn + "', " +
+                "'" + board + "'" +
+                ");\n";
+        return sendUpdateQueryToDatabase(query);
     }
 
     public boolean registerUserInDatabase(String username, String nickname, String email, String password) {
@@ -199,6 +220,37 @@ public class Database {
             System.err.println("Encountered exception: " + e.getMessage());
         }
         return null;
+    }
+
+    public NotificationRow getNotificationFromDatabaseByInviteID(int inviteID) {
+        if(!checkIfNotificationExistsInDatabaseByID(inviteID)) {
+            return null;
+        }
+        String query = "SELECT * FROM Notifications " +
+                "WHERE (ID = '" + inviteID + "');\n";
+        String dbUrl = "jdbc:mysql://cs414.db.10202520.4f5.hostedresource.net/cs414";
+        try {
+            Class.forName(myDriver);
+            try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
+                Statement stQuery = conn.createStatement();
+                ResultSet rsQuery = stQuery.executeQuery(query);
+            ) {
+                return parseNotificationsFromResultSet(rsQuery).get(0);
+            }
+        } catch(Exception e) {
+            System.out.println(query);
+            System.err.println("Encountered exception: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private boolean checkIfNotificationExistsInDatabaseByID(int id) {
+        String usernameQuery = "SELECT COUNT(*) AS Count FROM Notifications WHERE ID = \'" + id + "\';";
+        if(getCountAllFromDatabase(usernameQuery) > 0) {
+            //System.err.println("User already exists");
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<User> getAllUsersFromDatabase() {

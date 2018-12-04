@@ -343,6 +343,6 @@ public class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
 
     System.out.println("invitationInteraction");
-    return new GetUsersSession(request).getUserData();
+    return new InvitationInteractionSession(request).getInfo();
   }
 }
