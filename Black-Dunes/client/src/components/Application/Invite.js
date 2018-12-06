@@ -25,7 +25,7 @@ class Invite extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            error: nextProps.error
+            message: nextProps.message
         });
     }
 
@@ -45,12 +45,15 @@ class Invite extends Component {
             senderID: this.props.userID,
             userIDs: this.state.selectedUsers.map(user => user.value)
         };
+        this.setState({
+           selectedUsers: []
+        });
         let updated = request(body, 'sendInvites');
         updated.then((values) => {
             if (values) {
-                return this.setState({error: ''});
+                return this.setState({message: 'Invites sent!'});
             } else {
-                return this.setState({error: 'Sending invites failed'});
+                return this.setState({message: 'Sending invites failed'});
             }
         });
     }
@@ -64,11 +67,11 @@ class Invite extends Component {
         updated.then((values) => {
             if (values) {
                 return this.setState({
-                    error: '',
+                    message: '',
                     invitations: values
                 });
             } else {
-                return this.setState({error: 'Sending invites failed'});
+                return this.setState({message: 'Getting invites failed'});
             }
         });
     }
@@ -83,10 +86,10 @@ class Invite extends Component {
 
     handleInviteSubmit() {
         if (this.state.selectedUsers.length === 0) {
-            return this.setState({error: 'You must select at least one user'});
+            return this.setState({message: 'You must select at least one user'});
         } else {
             this.sendInvites();
-            return this.setState({error: ''});
+            return true;
         }
     }
 
@@ -99,8 +102,37 @@ class Invite extends Component {
         updated.then((value) => {
            if (value) {
                alert('The game was accepted!');
+               this.getInvites();
            }
         });
+    }
+
+    async handleRejectSubmit(invitationID) {
+        const body = {
+            type: 'reject',
+            inviteID: invitationID.toString()
+        };
+        let updated = request(body, 'invitationInteraction');
+        updated.then((value) => {
+            if (value) {
+                alert('The invite has been successfully rejected');
+                this.getInvites();
+            }
+        })
+    }
+
+    async handleCancelSubmit(invitationID) {
+        const body = {
+            type: 'cancel',
+            inviteID: invitationID.toString()
+        };
+        let updated = request(body, 'invitationInteraction');
+        updated.then((value) => {
+            if (value) {
+                alert('The invite has been successfully cancelled');
+                this.getInvites();
+            }
+        })
     }
 
     getInvitationRow(invitation) {
@@ -109,7 +141,12 @@ class Invite extends Component {
                 <tr>
                     <td>{invitation['user2ID']}</td>
                     <td>
-                        <Button outline color="secondary" size="sm">Cancel</Button>
+                        <Button
+                            outline color="secondary"
+                            size="sm"
+                            onClick={() => {this.handleCancelSubmit(invitation['notificationID'])}}>
+                            Cancel
+                        </Button>
                     </td>
                 </tr>
             );
@@ -125,7 +162,12 @@ class Invite extends Component {
                             onClick={() => {this.handleAcceptSubmit(invitation['notificationID'])}}>
                             Accept
                         </Button>
-                        <Button outline color="danger" size="sm">Reject</Button>
+                        <Button
+                            outline color="danger"
+                            size="sm"
+                            onClick={() => {this.handleRejectSubmit(invitation['notificationID'])}}>
+                            Reject
+                        </Button>
                     </td>
                 </tr>
             );
@@ -151,7 +193,7 @@ class Invite extends Component {
                                     }}
                                 />
                                 <Button className="send-invite" sm={12} md={12} lg={12} type="submit" value="Register"
-                                        data-test="submit" onClick={this.handleInviteSubmit}>
+                                        data-test="submit" onClick={() => {this.handleInviteSubmit}}>
                                     Submit
                                 </Button>
                             </div>

@@ -8,6 +8,7 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import org.json.JSONObject;
 import spark.Request;
+
 import java.time.LocalDateTime;
 
 public class InvitationInteractionSession {
@@ -34,6 +35,8 @@ public class InvitationInteractionSession {
 
         if (interactionInfo.type.equals("accept")) {
             acceptInvite();
+        } else if (interactionInfo.type.equals("reject")) {
+            rejectInvite();
         }
     }
 
@@ -54,10 +57,24 @@ public class InvitationInteractionSession {
         game.startGame(user2);
 
         boolean result = db.addGameToDatabase(user1.getUserID(), user2.getUserID(),
-                             game.getStartTime(), game.getTurn(),
-                             game.getBoard().convertBoardToString());
+                game.getStartTime(), game.getTurn(),
+                game.getBoard().convertBoardToString());
 
         interactionResult = new InteractionResult(result);
+    }
+
+    public void rejectInvite() {
+        Database db = new Database();
+
+        int inviteID = Integer.parseInt(interactionInfo.inviteID);
+        Database.NotificationRow row = db.getNotificationFromDatabaseByInviteID(inviteID);
+        User user1 = db.getUserFromDatabaseByID(row.user1ID);
+        User user2 = db.getUserFromDatabaseByID(row.user2ID);
+
+
+        db.addNotificationToDatabase(user1.getUserID(), "Sorry chief, " + user2.getNickName() +
+                " rejected your invitation, lol.");
+        interactionResult = new InteractionResult(db.deleteNotificationRowFromDatabaseByInvitationID(inviteID));
     }
 
     /**
