@@ -36,11 +36,6 @@ export default class Home extends Component {
                             <li>
                                 Castle walls do not block check
                             </li>
-                            <li>
-                                Plan the trip with the options you selected.
-                                Review and revise the trip origin and order.
-                                Save the trip map and itinerary for future reference.
-                            </li>
                         </ul>
                     </CardBody>
                 </Card>
