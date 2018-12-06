@@ -45,13 +45,13 @@ class Invite extends Component {
             senderID: this.props.userID,
             userIDs: this.state.selectedUsers.map(user => user.value)
         };
-        this.setState({
-           selectedUsers: []
-        });
         let updated = request(body, 'sendInvites');
         updated.then((values) => {
             if (values) {
-                return this.setState({message: 'Invites sent!'});
+                return this.setState({
+                    message: 'Invites sent!',
+                    selectedUsers: []
+                });
             } else {
                 return this.setState({message: 'Sending invites failed'});
             }
@@ -193,7 +193,7 @@ class Invite extends Component {
                                     }}
                                 />
                                 <Button className="send-invite" sm={12} md={12} lg={12} type="submit" value="Register"
-                                        data-test="submit" onClick={() => {this.handleInviteSubmit}}>
+                                        data-test="submit" onClick={() => {this.handleInviteSubmit()}}>
                                     Submit
                                 </Button>
                             </div>

@@ -33,18 +33,14 @@ public class InvitationInteractionSession {
         Gson gson = new Gson();
         interactionInfo = gson.fromJson(requestBody, InteractionInfo.class);
 
-        if (interactionInfo.type.equals("accept")) {
-            acceptInvite();
-        } else if (interactionInfo.type.equals("reject")) {
-            rejectInvite();
-        }
+        interactWithInvite(interactionInfo.type);
     }
 
     /**
      * Handles the accepting an invite.
      * Does the conversion from a Java class to a Json string.*
      */
-    public void acceptInvite() {
+    public void interactWithInvite(String interactionType) {
         Database db = new Database();
 
         int inviteID = Integer.parseInt(interactionInfo.inviteID);
@@ -52,29 +48,23 @@ public class InvitationInteractionSession {
         User user1 = db.getUserFromDatabaseByID(row.user1ID);
         User user2 = db.getUserFromDatabaseByID(row.user2ID);
 
-        Game game = new Game(user1);
+        boolean result = false;
 
-        game.startGame(user2);
+        if (interactionType.equals("accept")) {
+            Game game = new Game(user1);
 
-        boolean result = db.addGameToDatabase(user1.getUserID(), user2.getUserID(),
-                game.getStartTime(), game.getTurn(),
-                game.getBoard().convertBoardToString());
+            game.startGame(user2);
+
+            result = db.addGameToDatabase(user1.getUserID(), user2.getUserID(),
+                    game.getStartTime(), game.getTurn(),
+                    game.getBoard().convertBoardToString());
+        } else if (interactionType.equals("reject")) {
+            db.addNotificationToDatabase(user1.getUserID(), "Sorry chief, " + user2.getNickName() +
+                    " rejected your invitation, lol.");
+            result = db.deleteNotificationRowFromDatabaseByInvitationID(inviteID);
+        }
 
         interactionResult = new InteractionResult(result);
-    }
-
-    public void rejectInvite() {
-        Database db = new Database();
-
-        int inviteID = Integer.parseInt(interactionInfo.inviteID);
-        Database.NotificationRow row = db.getNotificationFromDatabaseByInviteID(inviteID);
-        User user1 = db.getUserFromDatabaseByID(row.user1ID);
-        User user2 = db.getUserFromDatabaseByID(row.user2ID);
-
-
-        db.addNotificationToDatabase(user1.getUserID(), "Sorry chief, " + user2.getNickName() +
-                " rejected your invitation, lol.");
-        interactionResult = new InteractionResult(db.deleteNotificationRowFromDatabaseByInvitationID(inviteID));
     }
 
     /**

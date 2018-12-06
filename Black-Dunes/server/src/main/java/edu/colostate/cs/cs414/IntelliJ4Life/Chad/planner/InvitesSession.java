@@ -47,9 +47,7 @@ public class InvitesSession {
 
         Invite invite = new Invite(sender.getNickName() + " invited you to a game!", sender);
         for (User user: users) {
-            if (!db.addInviteToDatabase(senderID, user.getUserID(), invite.getMessage(), maxGroupID + 1)){
-                response = false;
-            }
+            response = db.addInviteToDatabase(senderID, user.getUserID(), invite.getMessage(), maxGroupID + 1);
         }
 
         invite.inviteUsers(users);
