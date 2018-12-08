@@ -18,14 +18,14 @@ ol, ul {
     float: left;
     font-size: 24px;
     font-weight: bold;
-    line-height: 34px;
-    height: 36px;
+    line-height: 21px;
+    height: 21px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 36px;
-    background-size: 36px 36px;
+    width: 21px;
+    background-size: 21px 21px;
 }
 
 .square:focus {

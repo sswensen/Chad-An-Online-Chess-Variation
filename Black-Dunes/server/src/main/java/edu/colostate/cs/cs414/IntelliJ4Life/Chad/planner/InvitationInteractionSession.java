@@ -3,12 +3,8 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
-import org.json.JSONObject;
 import spark.Request;
-import java.time.LocalDateTime;
 
 public class InvitationInteractionSession {
     private InteractionInfo interactionInfo;
@@ -32,16 +28,14 @@ public class InvitationInteractionSession {
         Gson gson = new Gson();
         interactionInfo = gson.fromJson(requestBody, InteractionInfo.class);
 
-        if (interactionInfo.type.equals("accept")) {
-            acceptInvite();
-        }
+        interactWithInvite(interactionInfo.type);
     }
 
     /**
      * Handles the accepting an invite.
      * Does the conversion from a Java class to a Json string.*
      */
-    public void acceptInvite() {
+    public void interactWithInvite(String interactionType) {
         Database db = new Database();
 
         int inviteID = Integer.parseInt(interactionInfo.inviteID);
@@ -49,13 +43,29 @@ public class InvitationInteractionSession {
         User user1 = db.getUserFromDatabaseByID(row.user1ID);
         User user2 = db.getUserFromDatabaseByID(row.user2ID);
 
-        Game game = new Game(user1);
+        boolean result = false;
 
-        game.startGame(user2);
+        switch (interactionType) {
+            case "accept":
+                Game game = new Game(user1);
 
-        boolean result = db.addGameToDatabase(user1.getUserID(), user2.getUserID(),
-                             game.getStartTime(), game.getTurn(),
-                             game.getBoard().convertBoardToString());
+                game.startGame(user2);
+
+                result = db.addGameToDatabase(user1.getUserID(), user2.getUserID(),
+                        game.getStartTime(), game.getTurn(),
+                        game.getBoard().convertBoardToString());
+                break;
+            case "reject":
+                db.addNotificationToDatabase(user1.getUserID(), "Sorry chief, " + user2.getNickName() +
+                        " rejected your invitation, lol.");
+                result = db.deleteNotificationRowFromDatabaseByInvitationID(inviteID);
+                break;
+            case "cancel":
+                db.addNotificationToDatabase(user2.getUserID(), "Just letting you know " + user1.getNickName() +
+                        " cancelled their invitation to you, tough look champ");
+                result = db.deleteNotificationRowFromDatabaseByInvitationID(inviteID);
+                break;
+        }
 
         interactionResult = new InteractionResult(result);
     }
@@ -78,7 +88,7 @@ public class InvitationInteractionSession {
         private boolean result;
 
         private InteractionResult(boolean _result) {
-            result = _result;
+            this.result = _result;
         }
     }
 }

@@ -244,6 +244,15 @@ public class Database {
         return null;
     }
 
+    public boolean deleteNotificationRowFromDatabaseByInvitationID(int inviteID) {
+        if(!checkIfNotificationExistsInDatabaseByID(inviteID)) {
+            return false;
+        }
+
+        String query = "DELETE FROM Notifications WHERE (ID = '" + inviteID + "');";
+        return sendUpdateQueryToDatabase(query);
+    }
+
     private boolean checkIfNotificationExistsInDatabaseByID(int id) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Notifications WHERE ID = \'" + id + "\';";
         if(getCountAllFromDatabase(usernameQuery) > 0) {
