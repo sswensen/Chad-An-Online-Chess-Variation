@@ -8,6 +8,9 @@ public class Board {
     private King whiteKing;
     private King blackKing;
 
+    /**
+     * Constructor that initializes an empty board
+     */
     public Board() {
         this.spaces = new Piece[12][12];
 
@@ -47,6 +50,12 @@ public class Board {
         }
     }
 
+    /**
+     * Constructor using a String representing the board to
+     * initialize the board
+     *
+     * @param board - String representing the board
+     */
     public Board(String board) {
         this.spaces = buildBoardFromString(board);
     }
@@ -54,22 +63,48 @@ public class Board {
     /*******************
      * Public Methods
      ******************/
+
+    /**
+     * Returns the black king on the board
+     *
+     * @return - King object for the black king
+     */
     public King getBlackKing() {
         return blackKing;
     }
 
+    /**
+     * Sets the black king instance variable for the black king's
+     * location on the board
+     *
+     * @param blackKing - King object for the black king
+     */
     public void setBlackKing(King blackKing) {
         this.blackKing = blackKing;
     }
 
+    /**
+     * Returns the white king on the board
+     *
+     * @return - King object for the white king
+     */
     public King getWhiteKing() {
         return whiteKing;
     }
 
+    /**
+     * Sets the white king instance variable for the white king's
+     * location on the board
+     *
+     * @param whiteKing - King object for the white king
+     */
     public void setWhiteKing(King whiteKing) {
         this.whiteKing = whiteKing;
     }
 
+    /**
+     * Converts the board to a string to be stored in the database
+     */
     public String convertBoardToString() {
         ArrayList<int[]> locations = new ArrayList<>();
         // int[] = {xcord, ycord, piece_type[1->Rook, 2->Queen, 3->King], piece_color[0->Black, 1->White]
@@ -115,6 +150,12 @@ public class Board {
         return boardAsString.trim();
     }
 
+    /**
+     * Uses a string passed in as a parameter to build the board
+     *
+     * @param newBoard - String representation of the board
+     * @return - 2D piece array of the board
+     */
     public Piece[][] buildBoardFromString(String newBoard) {
         String[] splitArray = newBoard.split("\\s+");
         ArrayList<int[]> allLocations = new ArrayList<>();
@@ -164,6 +205,9 @@ public class Board {
         return board;
     }
 
+    /**
+     * Prints the board in a human readable format
+     */
     public void printBoard() {
         String[][] tempBoard = new String[12][12];
         for (int i = 0; i < tempBoard.length; i++) {
@@ -216,12 +260,30 @@ public class Board {
     /*******************
      * Accessors
      ******************/
+
+    /**
+     * Gets the 2D Piece array representing the board
+     *
+     * @return - 2D Piece representation of the board
+     */
     public Piece[][] getBoard() {
         return this.spaces;
     }
 
+    /**
+     * Sets the board instance variable
+     *
+     * @param newBoard - board to be set as the new board
+     */
     public void setBoard(Piece[][] newBoard) { this.spaces = newBoard; }
 
+    /**
+     * Gets all the pieces for the board for a specific color
+     * and returns them as an arraylist
+     *
+     * @param color - color to search for
+     * @return - ArrayList of pieces for the specified color
+     */
     public ArrayList<int[]> getAllPieces(Color color) {
         ArrayList<int[]> returnList = new ArrayList<>();
         for (int i = 0; i < this.spaces.length; i++) {
@@ -236,6 +298,13 @@ public class Board {
         return returnList;
     }
 
+    /**
+     * Gets the piece at the given position
+     *
+     * @param x - x position of the desired piece
+     * @param y - y position of the desired piece
+     * @return - Piece the caller is looking for
+     */
     public Piece getPiece(int x, int y) {
         if(spaces[x][y] instanceof Piece && spaces[x][y] != null)
             return this.spaces[x][y];
@@ -243,6 +312,11 @@ public class Board {
             return null;
     }
 
+    /**
+     * Main method for testing purposes
+     *
+     * @param args - program arguments, null for this main method
+     */
     public static void main(String[] args) {
         Board board = new Board();
         System.out.println("Original board created from default constructor");

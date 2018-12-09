@@ -25,26 +25,48 @@ public class Database {
     private final static String count = "";
     private final static String search = "";
 
+    /**
+     * Constructor to intialize the database
+     */
     public Database() {
         this.user = null;
         this.auth = false;
     }
 
+    /**
+     * Constructor to intialize the database with a user
+     *
+     * @param user - User for the database
+     */
     public Database(User user) {
         this.user = user;
         this.auth = true;
     }
 
+    /**
+     * Constructor to intialize the database with a match and a limit
+     *
+     * @param match - String used for matching
+     * @param limit - limit for the database
+     */
     public Database(String match, int limit) {
         this.match = match;
         this.limit = limit;
     }
 
+    /**
+     * Sets user for database
+     *
+     * @param user - User to set
+     */
     public void setUser(User user) {
         this.user = user;
         this.auth = true;
     }
 
+    /**
+     * Gets the current games from the database
+     */
     public void getCurrentGamesFromDatabase() {
         String q1 = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
                 "FROM Games g, Users u\n" +
@@ -71,6 +93,12 @@ public class Database {
         }
     }
 
+    /**
+     * Get a game from the database by game ID
+     *
+     * @param gameID - gameID used to get game from database
+     * @return - Game retrieved from database
+     */
     public Game getGameFromDatabaseByID(int gameID) {
         String query = "SELECT GameID, StartTime, Board, User1ID, User2ID, Turn, Finished\n" +
                 "FROM Games g, Users u\n" +
@@ -92,12 +120,29 @@ public class Database {
         return null;
     }
 
+    /**
+     * Update a game in the database
+     *
+     * @param gameID - Game ID to update
+     * @param board - new updated board for the game
+     * @param turn - new player's turn for the game
+     */
     public void updateGameInDatabase(int gameID, String board, int turn) {
         String query = "UPDATE Games g SET Board = \'" + board + "\', Turn\n = " + turn +
                 " WHERE g.GameID = " + gameID + ";";
         sendUpdateQueryToDatabase(query); // TODO do something with the return value (t/f)
     }
 
+    /**
+     * add game to the database
+     *
+     * @param user1ID - User ID for first user
+     * @param user2ID - user ID for second user
+     * @param startTime - start time for the game
+     * @param turn - turn for the game
+     * @param board - board for the game
+     * @return - true if successfull, false otherwise
+     */
     public boolean addGameToDatabase(int user1ID, int user2ID, LocalDateTime startTime, int turn, String board) {
         if(!checkIfUserExistsInDatabaseByID(user1ID) || !checkIfUserExistsInDatabaseByID(user2ID)) {
             return false;
@@ -118,6 +163,15 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
+    /**
+     * register user into database
+     *
+     * @param username - username for the user
+     * @param nickname - nickname for the user
+     * @param email - email for the useer
+     * @param password - password for the user
+     * @return - true if successful, false otherwise
+     */
     public boolean registerUserInDatabase(String username, String nickname, String email, String password) {
         if(checkIfUserExistsInDatabase(username, email)) {
             // TODO caller needs to prompt again for new email/username
@@ -137,6 +191,11 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
+    /**
+     * Gets the highest group ID number
+     *
+     * @return - gets the highest gourp ID
+     */
     public int getMaxInviteGroupIdFromDatabase() {
         String query = "SELECT MAX(GroupID) FROM Notifications;";
         String dbUrl;
@@ -168,6 +227,15 @@ public class Database {
         return -1;
     }
 
+    /**
+     * adds an invite to the database
+     *
+     * @param senderID - sender ID for the invite
+     * @param inviteeID - invite ID for the invite
+     * @param message - messgage for the invite
+     * @param groupID - group ID for the invite
+     * @return - true if successful, false otherwise
+     */
     public boolean addInviteToDatabase(int senderID, int inviteeID, String message, int groupID) {
         if(!checkIfUserExistsInDatabaseByID(senderID) || !checkIfUserExistsInDatabaseByID(inviteeID)) {
             return false;
@@ -186,6 +254,13 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
+    /**
+     * Adds notification to the database
+     *
+     * @param userID - User ID for notification
+     * @param message - message for notification
+     * @return - true if successful, false otherwisee
+     */
     public boolean addNotificationToDatabase(int userID, String message) {
         if(!checkIfUserExistsInDatabaseByID(userID)) {
             return false;
@@ -200,6 +275,12 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
+    /**
+     * Gets all the notifications for the specified user
+     *
+     * @param userID - userID used to get the notifications
+     * @return - ArrayList of notifications
+     */
     public ArrayList<NotificationRow> getNotificationsFromDatabase(int userID) {
         if(!checkIfUserExistsInDatabaseByID(userID)) {
             return null;
@@ -222,6 +303,12 @@ public class Database {
         return null;
     }
 
+    /**
+     * Gets the notification from the database by InviteID
+     *
+     * @param inviteID - Invite ID to get
+     * @return - returns desired notification
+     */
     public NotificationRow getNotificationFromDatabaseByInviteID(int inviteID) {
         if(!checkIfNotificationExistsInDatabaseByID(inviteID)) {
             return null;
@@ -244,6 +331,12 @@ public class Database {
         return null;
     }
 
+    /**
+     * Deletes a notification from database by the invite ID
+     *
+     * @param inviteID - Invite ID to delete
+     * @return - true if successful, false otherwise
+     */
     public boolean deleteNotificationRowFromDatabaseByInvitationID(int inviteID) {
         if(!checkIfNotificationExistsInDatabaseByID(inviteID)) {
             return false;
@@ -253,6 +346,12 @@ public class Database {
         return sendUpdateQueryToDatabase(query);
     }
 
+    /**
+     * Checks if a notification is in the database
+     *
+     * @param id - ID of notification to check
+     * @return - true if the notification is in the database, false otherwise
+     */
     private boolean checkIfNotificationExistsInDatabaseByID(int id) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Notifications WHERE ID = \'" + id + "\';";
         if(getCountAllFromDatabase(usernameQuery) > 0) {
@@ -262,6 +361,11 @@ public class Database {
         return false;
     }
 
+    /**
+     * Gets all the users from the database
+     *
+     * @return - ArrayList of all the users in the database
+     */
     public ArrayList<User> getAllUsersFromDatabase() {
 
         String query = "SELECT ID, Username, Nickname, Email " +
@@ -283,6 +387,13 @@ public class Database {
         return null;
     }
 
+    /**
+     * Gets a user from the database by the username and password
+     *
+     * @param username - username of user to get
+     * @param password - password of user to get
+     * @return
+     */
     public User getUserFromDatabase(String username, String password) {
         username = username.toLowerCase();
         password = password.toLowerCase();
@@ -319,11 +430,23 @@ public class Database {
         return new User(-1, "", "");
     }
 
+    /**
+     * Deletss user from the database by the user ID
+     *
+     * @param id - ID of user to delete from database
+     * @return - true if successful, false otherwise
+     */
     public boolean deleteUserFromDatabase(int id) {
         String query = "DELETE FROM Users WHERE ID = " + id + ";";
         return sendUpdateQueryToDatabase(query);
     }
 
+    /**
+     * Sets all the games for a specific user to finished
+     *
+     * @param id - ID used to get games for the user
+     * @return - true if successful, false otherwise
+     */
     public boolean setAllGamesFinishedByUserID(int id) {
         String query = "UPDATE Games SET Finished = 1 \n" +
                 "WHERE User1ID = " + id + " OR User2ID = " + id + ";";
@@ -331,6 +454,12 @@ public class Database {
         return false;
     }
 
+    /**
+     * Gets a user from the database by the user ID
+     *
+     * @param id - User ID for the desired user
+     * @return - User object of desired user
+     */
     public User getUserFromDatabaseByID(int id) {
         if(checkIfUserExistsInDatabaseByID(id)) {
             String query = "SELECT ID, Username, Nickname, Email " +
@@ -364,6 +493,12 @@ public class Database {
         return new User(-1, "", "");
     }
 
+    /**
+     * Checks if specified user is in the database by user ID
+     *
+     * @param id - User ID to check is in database
+     * @return - true if in database, false otherwise
+     */
     private boolean checkIfUserExistsInDatabaseByID(int id) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE ID = \'" + id + "\';";
         if(getCountAllFromDatabase(usernameQuery) > 0) {
@@ -373,6 +508,12 @@ public class Database {
         return false;
     }
 
+    /**
+     * Checks if specified user is in the database by the username
+     *
+     * @param username - username to check is in database
+     * @return - true if in database, false otherwise
+     */
     private boolean checkIfUserExistsInDatabase(String username) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
         if(getCountAllFromDatabase(usernameQuery) > 0) {
@@ -382,6 +523,13 @@ public class Database {
         return false;
     }
 
+    /**
+     * Checks if specified user is in the database by the username
+     *
+     * @param username - username to check is in database
+     * @param email - email to check is in database
+     * @return - true if in database, false otherwise
+     */
     private boolean checkIfUserExistsInDatabase(String username, String email) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
         String emailQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Email = \'" + email.toLowerCase() + "\';";
@@ -392,6 +540,13 @@ public class Database {
         return false;
     }
 
+    /**
+     * Returns the parsed Game objects from the result of the SQL query
+     *
+     * @param rs - result set from the database
+     * @return - ArrayList of games to return
+     * @throws SQLException
+     */
     private ArrayList<Game> parseGamesFromResultSet(ResultSet rs) throws SQLException {
         ArrayList<Game> out = new ArrayList<Game>();
         while(rs.next()) {
@@ -424,6 +579,13 @@ public class Database {
         return out;
     }
 
+    /**
+     * Returns the parsed Game object from the result of the SQL query
+     *
+     * @param rs - result set from the database
+     * @return - Games object to return
+     * @throws SQLException
+     */
     private Game parseGameFromResultSet(ResultSet rs) throws SQLException {
         if(rs.next()) {
             int gameID = Integer.parseInt(rs.getString("GameID"));
@@ -442,6 +604,12 @@ public class Database {
             return null;
     }
 
+    /**
+     * Returns the parsed Notification objects from the result of the SQL query
+     *
+     * @param rs - result set from the database
+     * @return - ArrayList of Notifications to return
+     */
     private ArrayList<NotificationRow> parseNotificationsFromResultSet(ResultSet rs) {
         ArrayList<NotificationRow> notificationRows = new ArrayList<>();
         try {
@@ -458,6 +626,13 @@ public class Database {
         return notificationRows;
     }
 
+    /**
+     * Returns the parsed User objects from the result of the SQL query
+     *
+     * @param rs - result set from the database
+     * @return - ArrayList of users to return
+     * @throws SQLException
+     */
     private ArrayList<User> parseUsersFromResultSet(ResultSet rs) throws SQLException {
         ArrayList<User> out = new ArrayList<User>();
         while(rs.next()) {
@@ -471,6 +646,10 @@ public class Database {
         return out;
     }
 
+    /**
+     * @param query - query to send to the database
+     * @return - true if successful, false otherwise
+     */
     private boolean sendUpdateQueryToDatabase(String query) {
         String dbUrl;
 
@@ -491,6 +670,12 @@ public class Database {
         return false;
     }
 
+    /**
+     * Gets the total number of entries in the database
+     *
+     * @param query - query to send to the database
+     * @return - total number of entries in the database
+     */
     private int getCountAllFromDatabase(String query) {
         String dbUrl;
 
@@ -512,19 +697,39 @@ public class Database {
         return -1;
     }
 
+    /**
+     * Authenticates user by setting auth variable to true
+     *
+     * @param user - user to authenticate
+     */
     private void authenticateUser(User user) {
         this.user = user;
         this.auth = true;
     }
 
+    /**
+     * Gets all the games from the database
+     *
+     * @return - Games in the database
+     */
     public ArrayList<Game> getGames() {
         return games;
     }
 
+    /**
+     * Returns the authorization
+     *
+     * @return - ture if authorized, false otherwise
+     */
     public boolean isAuth() {
         return auth;
     }
 
+    /**
+     * Sets the authorization
+     *
+     * @param auth - authorization to set
+     */
     public void setAuth(boolean auth) {
         this.auth = auth;
     }
@@ -543,6 +748,11 @@ public class Database {
         }
     }
 
+    /**
+     * Main method for testing purposes
+     *
+     * @param args - program arguments, null for this main method
+     */
     public static void main(String[] args) {
         User u = new User(1, "sswensen", "swenyjr", "sswensen@email.com");
         Database db = new Database(u);
