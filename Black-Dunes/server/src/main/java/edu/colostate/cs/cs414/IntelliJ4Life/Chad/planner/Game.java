@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
 
+/**
+ *
+ */
 public class Game {
     private LocalDateTime startTime;
     private Board board;
@@ -14,7 +17,14 @@ public class Game {
     private Player playerTwo;
     private int turn; // 0 if white, 1 if black
     private int GameID;
+    private int finished = 0;
 
+    /**
+     * Creates a game for a specific user without the other player
+     * having joined yet
+     *
+     * @param user - the user beginning the game
+     */
     public Game(User user) {
         startTime = null;
         board = null;
@@ -22,7 +32,18 @@ public class Game {
         playerTwo = new Player(Color.BLACK);
     }
 
-    public Game(int GameID, String startTimeString, String board, User player1, User player2, int turn) {
+    /**
+     * Initializes a game using all the parameters
+     *
+     * @param GameID
+     * @param startTimeString
+     * @param board
+     * @param player1
+     * @param player2
+     * @param turn
+     * @param finished
+     */
+    public Game(int GameID, String startTimeString, String board, User player1, User player2, int turn, int finished) {
         // Do we need to use the playerIDs?
         this.GameID = GameID;
         //this.startTime = LocalDateTime.parse(startTimeString); // TODO Fix this conversion
@@ -36,15 +57,27 @@ public class Game {
             this. playerTwo = new Player(player2, this, Color.BLACK);
             this.turn = 1;
         }
+        this.finished = finished;
     }
 
     /*******************
      * Accessors
      ******************/
+
+    /**
+     * Gets the game duration
+     *
+     * @return - duration of the game
+     */
     public LocalDateTime getGameDuration() {
-        return startTime; // TODO this needs to be updated to minus current time from start time
+        return startTime;
     }
 
+    /**
+     * Gets the rules for the game
+     *
+     * @return - rules for the game
+     */
     public String getRules() {
         return "White begins. Players move, and must move, in turn.\n" +
                 "\n" +
@@ -59,42 +92,104 @@ public class Game {
                 "The mutual right of capture exists, and only exists, between an attacking piece on the wall and a defending piece inside the castle. Apart from this situation pieces simply block one another.";
     }
 
+    /**
+     * Returns the board for the game
+     *
+     * @return - Board object for the game
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Returns the turn for the game
+     *
+     * @return - integer representing the turn for the game
+     */
     public int getTurn() { return turn; }
 
+    /**
+     * Sets the turn for the game
+     *
+     * @param turn - turn to be set
+     */
     public void setTurn(int turn) { this.turn = turn; }
-    
+
+    /**
+     * Sets the board for the game
+     *
+     * @param board - Board object to be set for the game
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * Returns the game ID for the game
+     *
+     * @return - Board object for the game
+     */
     public int getGameID() {
         return GameID;
     }
 
+    /**
+     * Sets the game ID for the game
+     *
+     * @param gameID - Game ID for the game
+     */
     public void setGameID(int gameID) {
         GameID = gameID;
     }
 
+    /**
+     * Returns Player One for the game
+     *
+     * @return - Player One for the game
+     */
     public Player getPlayerOne() { return playerOne; }
 
+    /**
+     * Returns Player Two for the game
+     *
+     * @return - Player Two for the game
+     */
     public Player getPlayerTwo() { return playerTwo; }
+
+    /**
+     * Returns the start time for the game
+     *
+     * @return - start time for the game
+     */
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
 
     /*******************
      * Public Methods
-     ******************/
+     *****************
+
+     /**
+     * gets the player for the specific user
+     *
+     * @param user - User for which the player corresponds
+     * @return - Player object for the user
+     */
     public Player getPlayer(User user){
-        if(playerOne.getUser().equals(user))
+        if(playerOne.getUser().getUserID() == user.getUserID())
             return playerOne;
-        else if(playerTwo.getUser().equals(user))
+        else if(playerTwo.getUser().getUserID() == user.getUserID())
             return playerTwo;
         else
             return null;
     }
 
+    /**
+     * Starts the game
+     *
+     * @param userTwo - Second user for the game
+     * @return - True if the game is succesfully started, false otherwise
+     */
     public boolean startGame(User userTwo) {
         if (userTwo != playerOne.getUser() || !isStarted()) {
             this.playerTwo = new Player(userTwo, this, Color.BLACK);
@@ -108,10 +203,22 @@ public class Game {
         }
     }
 
+    /**
+     * Returns whether or not the game is started
+     *
+     * @return true if the game is started, false otherwise
+     */
     public boolean isStarted(){
         return startTime != null;
     }
 
+
+    /**
+     * Returns whether it is that specific players turn
+     *
+     * @param player - Player to see if it is their turn
+     * @return - true if it is that player's turn, false otherwise
+     */
     public boolean isTurn(Player player) {
         if(player.equals(playerOne)){
             return turn == 0;
@@ -123,6 +230,14 @@ public class Game {
             return false;
     }
 
+    /**
+     * Makes the move
+     *
+     * @param player - player to make the move for
+     * @param piece - piece to move
+     * @param move - location to move to
+     * @return - True if moved successfully, false otherwise
+     */
     public boolean makeMove(Player player, Piece piece, int[] move) {
         if(isTurn(player) && piece.isValid(move, board.getBoard())){
             //Check if move causes check, and then notify the other player
@@ -166,10 +281,10 @@ public class Game {
             }
             else if (isStaleMate(opponentColor))
                 endGame(player, "stalemate");
-            else{//Update game if the move is valid and the game is still going
-                Database db = new Database();
-                db.updateGameInDatabase(GameID, board.convertBoardToString(), turn);
-            }
+
+            // Update game in database
+            Database db = new Database();
+            db.updateGameInDatabase(GameID, board.convertBoardToString(), turn);
             return true;
         }
         else {
@@ -177,6 +292,12 @@ public class Game {
         }
     }
 
+    /**
+     * Returns whether the players king is in checkmate
+     *
+     * @param oppoonentColor - opponents color
+     * @return - True if in checkmate, false otherwise
+     */
     public boolean isCheckMate(Color oppoonentColor) {
         // first determine if the opposing king is in check
         if (oppoonentColor == Color.BLACK){
@@ -212,6 +333,12 @@ public class Game {
         return true;
     }
 
+    /**
+     * Returns whether the players king is in stalemate
+     *
+     * @param opponentColor - opponents color
+     * @return - True if in stalemate, false otherwise
+     */
     public boolean isStaleMate(Color opponentColor) {
         /*
          *  Stalemate occurs when both of the following circumstances are satisfied
@@ -246,6 +373,11 @@ public class Game {
     /*******************
      * Helper Methods
      ******************/
+    /**
+     * Sends notification to other player if they are in check
+     *
+     * @param player - player to send notification too
+     */
     private void sendCheckNotification(Player player) {
         if(player.equals(playerOne))
             playerTwo.getUser().receiveNotification(
@@ -255,11 +387,22 @@ public class Game {
                     new Notification(playerTwo.getUser().getNickName() + " moved. Now your Kind is in check!"));
     }
 
+    /**
+     * Ends the game
+     *
+     * @param player - losing player
+     * @param endType - checkmate, stalemate, or quit
+     */
     private void endGame(Player player, String endType) {
         sendCheckMateNotification(player);
         System.out.println("END GAME");
     }
 
+    /**
+     * Sends notification to other player if they are in checkmate
+     *
+     * @param player - player to send notification too
+     */
     private void sendCheckMateNotification(Player player) {
         if(player.equals(playerOne)) {
             playerOne.getUser().receiveNotification(
@@ -275,6 +418,11 @@ public class Game {
         }
     }
 
+    /**
+     * Main method for testing purposes
+     *
+     * @param args - program arguments, null for this main method
+     */
     public static void main(String[] args) {
         //Setup
         User userOne = new User("Tommy", "Tommy@gmail.com");
@@ -337,5 +485,5 @@ public class Game {
             }
             counter++;
         }
-    }    
+    }
 }

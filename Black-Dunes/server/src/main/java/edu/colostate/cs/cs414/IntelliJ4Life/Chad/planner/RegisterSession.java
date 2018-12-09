@@ -5,11 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
+import org.json.JSONObject;
 import spark.Request;
 
-public class LoginSession {
-    private LoginUser user;
-    private User authUser;
+public class RegisterSession {
+    private RegisterUser user;
+    private User newUser;
 
     /**
      * Handles trip planning request, creating a new trip object from the trip request.
@@ -18,50 +19,27 @@ public class LoginSession {
      * @param request
      */
 
-    public LoginSession(Request request) {
+    public RegisterSession(Request request) {
         // first print the request
-//        System.out.println(HTTP.echoRequest(request));
+        System.out.println(HTTP.echoRequest(request));
 
         // extract the information from the body of the request.
         JsonParser jsonParser = new JsonParser();
         JsonElement requestBody = jsonParser.parse(request.body());
         // convert the body of the request to a Java class.
         Gson gson = new Gson();
-        user = gson.fromJson(requestBody, LoginUser.class);
-        // plan the trip.
-        // distance.plan();
-
-        // TODO convert LoginUser to a User after authenticating and verifying in the database.
+        user = gson.fromJson(requestBody, RegisterUser.class);
 
         Database db = new Database();
-        authUser = db.getUserFromDatabase(user.username, user.password);
-
-        // log something.
-//        System.out.println("UserID: " + user.getUserID());
-//        System.out.println("Username: " + user.getUsername());
-//        System.out.println("Email: " + user.getEmail());
-
-
-    }
-
-    public User getAuthUser() {
-        return authUser;
-    }
-
-    public String getAuthUserJson() {
-        Gson gson = new Gson();
-        return gson.toJson(authUser);
-    }
-
-    public void setAuthUser(User authUser) {
-        this.authUser = authUser;
+        boolean registered = db.registerUserInDatabase(user.username, user.nickname, user.email, user.password);
+        newUser = db.getUserFromDatabase(user.username, user.password);
     }
 
     /**
      * Handles the response for a User object.
      * Does the conversion from a Java class to a Json string.*
      */
-    public String getUserGson() {
+    public String getUser() {
         Gson gson = new Gson();
         return gson.toJson(user);
     }
@@ -72,11 +50,13 @@ public class LoginSession {
      */
     public String getUserID() {
         Gson gson = new Gson();
-        return gson.toJson(authUser.getUserID());
+        return gson.toJson(newUser.getUserID());
     }
 
-    private class LoginUser {
+    private class RegisterUser {
         private String username = "";
         private String password = "";
+        private String email = "";
+        private String nickname = "";
     }
 }

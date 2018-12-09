@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import {Container, Card, CardHeader, CardBody} from 'reactstrap'
 
-export default class Info extends Component {
+export default class Home extends Component {
     render() {
         return (
             <Container>
                 <Card>
                     <CardBody>
-                        <p className="lead">"Do you even lift, bro?"</p>
+                        <p className="lead">GAME RULES</p>
                         <ul>
                             <li>
                                 Each player owns a 3x3 castle surrounded by 12 squares of walls.
@@ -35,11 +35,6 @@ export default class Info extends Component {
                             </li>
                             <li>
                                 Castle walls do not block check
-                            </li>
-                            <li>
-                                Plan the trip with the options you selected.
-                                Review and revise the trip origin and order.
-                                Save the trip map and itinerary for future reference.
                             </li>
                         </ul>
                     </CardBody>

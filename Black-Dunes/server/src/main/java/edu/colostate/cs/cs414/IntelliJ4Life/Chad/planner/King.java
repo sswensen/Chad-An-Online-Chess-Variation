@@ -8,10 +8,21 @@ public class King extends Piece {
     /*******************
      * Constructor
      ******************/
+    /**
+     * Constructor for creating a king
+     *
+     * @param color - color to set the king as
+     */
     public King(Color color) {
         initializePiece(color);
     }
 
+    /**
+     * Constructor for creating a king with an initial position
+     *
+     * @param color - color to set the king as
+     * @param position - initial position to set the piece at
+     */
     public King(Color color, int[] position) {
         initializePiece(color, position);
     }
@@ -19,6 +30,13 @@ public class King extends Piece {
     /*******************
      * Overrides
      ******************/
+
+    /**
+     * Returns the valid moves for the object
+     *
+     * @param board - 2D piece array representing the board
+     * @return - ArrayList of valid moves for the piece
+     */
     @Override
     public ArrayList<int[]> validMoves(Piece[][] board) {
         int[] position = this.getPosition();
@@ -141,6 +159,11 @@ public class King extends Piece {
         return returnList;
     }
 
+    /**
+     * toString method for the king
+     *
+     * @return - String represention of the king
+     */
     @Override
     public String toString() {
         if (this.getColor() == Color.BLACK) {
@@ -153,7 +176,14 @@ public class King extends Piece {
 
     /*******************
      * Public Methods
-     ******************/
+     *******************
+
+     /**
+     * Returns whether or not the king is in check
+     *
+     * @param board - 2D piece array representing the board
+     * @return
+     */
     // Check if the king is in check
     public boolean inCheck(Piece[][] board) {
         int[] position = this.getPosition();

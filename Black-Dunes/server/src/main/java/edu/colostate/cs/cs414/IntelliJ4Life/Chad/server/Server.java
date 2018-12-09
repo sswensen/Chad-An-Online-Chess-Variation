@@ -15,8 +15,8 @@ public class Server {
    ** @param args command line arguments optionally containing port and team name.
    */
   public static void main(String[] args) {
-    Session session = new Session();
-    MicroServer server = new MicroServer(getPort(args), getName(args));
+    ActiveGames activeGames = new ActiveGames();
+    MicroServer server = new MicroServer(getPort(args), getName(args), activeGames);
   }
 
   /** Obtain the port number from the command line arguments.  Defaults if none provided.
@@ -28,7 +28,7 @@ public class Server {
     if (args.length > 0)
       return Integer.parseInt(args[0]);
     else
-      return 8088; // some default
+      return 7778; // some default
 
   }
 

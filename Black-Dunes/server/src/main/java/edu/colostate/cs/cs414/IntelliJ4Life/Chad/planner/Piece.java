@@ -10,32 +10,68 @@ public abstract class Piece {
     /*******************
      * Accessors
      ******************/
+    /**
+     * Gets the position for the piece
+     *
+     * @return - position for the piece
+     */
     public int[] getPosition() {
         return this.position;
     }
-    
+
+    /**
+     * Sets the position for the piece
+     *
+     * @param position
+     */
     public void setPosition(int[] position) {
         this.position = position;
     }
 
+    /**
+     * Returns whether or not the piece is taken
+     *
+     * @return - true if piece is taken, false otherwise
+     */
     public boolean isTaken() {
         return this.isTaken;
     }
 
+    /**
+     * Gets the color for the piece
+     *
+     * @return - the oolor for the piece
+     */
     public Color getColor(){
         return this.color;
     }
 
+    /**
+     * Sets the color for the piece
+     *
+     * @param color - color to set for the piece
+     */
     public void setColor(Color color) {
         this.color = color;
     }
 
+    /**
+     * Initializes the piece
+     *
+     * @param color - color to initialize the piece as
+     */
     public void initializePiece(Color color) {
         this.color = color;
         this.isTaken = false;
         this.position = new int[] {-1, -1};
     }
 
+    /**
+     * initializes the piece with the given color and position
+     *
+     * @param color - color to initialize the piece as
+     * @param position - position for the new piece to be at
+     */
     public void initializePiece(Color color, int[] position) {
         this.color = color;
         this.isTaken = false;
@@ -45,9 +81,20 @@ public abstract class Piece {
     /*******************
      * Public Methods
      ******************/
-    // Returns a list of valid moves in the form of locations the piece can move to
+    /**
+     * Returns a list of valid moves in the form of locations the piece can move to
+     *
+     * @param board - 2D Piece array representing the board
+     */
     abstract public ArrayList<int[]> validMoves(Piece[][] board);
 
+    /**
+     * Determines if the move is valid
+     *
+     * @param move - move to make for the piece
+     * @param board - 2D Piece array representing the board
+     * @return - true if valid, false otherwise
+     */
     // Find if a specific move is valid by checking if it exists in the validMoves list
     public boolean isValid(int[] move, Piece[][] board) {
         ArrayList<int[]> validMoves = this.validMoves(board);
@@ -61,7 +108,12 @@ public abstract class Piece {
         return false;
     }
 
-    // Conducts the passed in move
+    /**
+     * Moves the piece with the given move
+     *
+     * @param move - move to make for the piece
+     * @param board - 2D Piece array representing the board
+     */
     public void move(int[] move, Piece[][] board) {
         // Sanity check -- validity should be determined in game class
         assert isValid(move, board) : "Invalid Move";
@@ -91,13 +143,22 @@ public abstract class Piece {
         }
     }
 
-    // Removes the piece from the board due to capture
+    /**
+     * Removes the piece from the board due to capture
+     */
     public void take() {
         this.isTaken = true;
         this.position = new int[] {-1, -1};
     }
 
-    // Determine whether a specific move causes check
+    /**
+     * Determine whether a specific move causes check
+     *
+     * @param move - move that may cause check
+     * @param color - color of the piece to move
+     * @param board - 2D Piece array representing the board
+     * @return - true if it causes check, false otherwise
+     */
     public boolean causesCheck(int[] move, Color color, Piece[][] board) {
         King king = null;
         boolean found = false;
@@ -153,13 +214,24 @@ public abstract class Piece {
         return false;
     }
 
+    /**
+     * toString method for the piece
+     *
+     * @return - String represetation of the piece
+     */
     // toString method
     public abstract String toString();
 
      /*******************
      * Helpers
      ******************/
-    // Returns true or false depending on if the piece is on a caatle wall
+
+    /**
+     * Returns true or false depending on if the piece is on a caatle wall
+     *
+     * @param color - color wall to check if the piece is on
+     * @return - true if piece is on a wall, false otherwise
+     */
     private boolean onWall(Color color){
         int[][] walls;
 
@@ -190,6 +262,12 @@ public abstract class Piece {
         return false;
     }
 
+    /**
+     * Returns whether or not the piece is in the castle
+     *
+     * @param color - color castle to check for
+     * @return - true if in the castle, false otherwise
+     */
     private boolean inCastle(Color color) {
         int[][] castleLocs;
 
@@ -218,6 +296,14 @@ public abstract class Piece {
         return false;
     }
 
+    /**
+     * Adds the move to the valid moves list
+     *
+     * @param move - move to add to list
+     * @param board - 2D Piece array representing the board
+     * @param validMoves - valid moves arrayList to add to
+     * @return - true if successfully added, false otherwise
+     */
     // Adds valid moves to the valid moves list and returns whether or not the calling function should keep adding moves
     protected boolean addMoveToList(int[] move, Piece[][] board, ArrayList<int[]> validMoves){
         int row = move[0];

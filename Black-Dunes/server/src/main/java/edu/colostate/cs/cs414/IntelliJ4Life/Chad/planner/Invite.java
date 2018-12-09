@@ -6,22 +6,29 @@ public class Invite extends Notification {
     private InviteStatus inviteStatus;
     private User sender;
 
+    /** Object that represents an invite
+     *
+     * @param message
+     * @param sender
+     */
     public Invite(String message, User sender) {
         super(message);
         this.inviteStatus = InviteStatus.PENDING;
         this.sender = sender;
     }
 
-    /************
-     * Accessors
-     ***********/
+    /** Accessor that accesses the sender the of the invite
+     *
+     * @return
+     */
     public User getSender() {
         return sender;
     }
 
-    /*************
-     * Public Methods
-     *************/
+    /** Method to accept an invite
+     *
+     * @return
+     */
     public boolean accept() {
        if (this.inviteStatus == InviteStatus.PENDING) {
            this.inviteStatus = InviteStatus.ACCEPTED;
@@ -32,6 +39,10 @@ public class Invite extends Notification {
        }
     }
 
+    /** Method to cancel an invite
+     *
+     * @return
+     */
     public boolean cancel() {
         if (this.inviteStatus == InviteStatus.PENDING) {
             this.inviteStatus = InviteStatus.CANCELLED;
@@ -42,6 +53,11 @@ public class Invite extends Notification {
         }
     }
 
+    /** Method to invite a list of users
+     *
+     * @param users
+     * @return
+     */
     public boolean inviteUsers(ArrayList<User> users) {
         if (this.inviteStatus ==  InviteStatus.PENDING) {
             for (User user: users) {

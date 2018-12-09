@@ -8,10 +8,21 @@ public class Rook extends Piece {
     /*******************
      * Constructors
      ******************/
+    /**
+     * Constructor to create the Rook object
+     *
+     * @param color - color for the piece to be
+     */
     public Rook(Color color) {
         initializePiece(color);
     }
 
+    /**
+     * Constructor to create the Rook object
+     *
+     * @param color - color for the piece to be
+     * @param position - position to start the piece at
+     */
     public Rook(Color color, int[] position) {
         initializePiece(color, position);
     }
@@ -19,6 +30,12 @@ public class Rook extends Piece {
     /*******************
      * Overrides
      ******************/
+    /**
+     * Returns the valid moves for the piece
+     *
+     * @param board - 2D Piece array representing the board
+     * @return - ArrayList of valid moves for the piece
+     */
     @Override
     public ArrayList<int[]> validMoves(Piece[][] board) {
         int[] position = this.getPosition();
@@ -73,6 +90,11 @@ public class Rook extends Piece {
         return returnList;
     }
 
+    /**
+     * toString method for the piece
+     *
+     * @return - String representation of the piece
+     */
     @Override
     public String toString() {
         if (this.getColor() == Color.BLACK) {
