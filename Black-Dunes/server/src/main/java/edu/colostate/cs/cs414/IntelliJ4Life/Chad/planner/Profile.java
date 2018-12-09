@@ -12,14 +12,29 @@ public class Profile {
     /************
      * Accessors
      ***********/
+    /**
+     * Gets the wins for the player
+     *
+     * @return - integer for the wins of the player
+     */
     public int getWins() {
         return wins;
     }
 
+    /**
+     * Gets the losses for the player
+     *
+     * @return - integer for the losses of the player
+     */
     public int getLosses() {
         return losses;
     }
 
+    /**
+     * Gets the draws for the player
+     *
+     * @return - integer for the draws of the player
+     */
     public int getDraws() {
         return draws;
     }
@@ -27,14 +42,23 @@ public class Profile {
     /*************
      * Public Methods
      *************/
+    /**
+     * increments the win count for the player
+     */
     public void addWin() {
         this.wins++;
     }
 
+    /**
+     * increments the loss count for the player
+     */
     public void addLoss() {
         this.losses++;
     }
 
+    /**
+     * increments the draw count for the player
+     */
     public void addDraw() {
         this.draws++;
     }

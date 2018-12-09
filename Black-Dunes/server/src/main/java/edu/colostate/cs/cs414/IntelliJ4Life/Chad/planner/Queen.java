@@ -7,10 +7,21 @@ public class Queen extends Piece{
     /*******************
      * Constructor
      ******************/
+    /**
+     * Constructor to create the Queen object
+     *
+     * @param color - color for the piece to be
+     */
     public Queen(Color color) {
         initializePiece(color);
     }
 
+    /**
+     * Constructor to create the Queen object
+     *
+     * @param color - color for the piece to be
+     * @param position - position to start the piece at
+     */
     public Queen(Color color, int[] position) {
         initializePiece(color, position);
     }
@@ -18,6 +29,12 @@ public class Queen extends Piece{
     /*******************
      * Overrides
      ******************/
+    /**
+     * Returns the valid moves for the piece
+     *
+     * @param board - 2D Piece array representing the board
+     * @return - ArrayList of valid moves for the piece
+     */
     @Override
     public ArrayList<int[]> validMoves(Piece[][] board) {
         int[] position = this.getPosition();
@@ -136,6 +153,11 @@ public class Queen extends Piece{
         return returnList;
     }
 
+    /**
+     * toString method for the piece
+     *
+     * @return - String representation of the piece
+     */
     @Override
     public String toString() {
         if (this.getColor() == Color.BLACK) {

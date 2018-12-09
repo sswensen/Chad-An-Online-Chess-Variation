@@ -13,6 +13,11 @@ public class Config {
   // We can convert this to grab a list of users when sending names for invites
   private List<String> units = Arrays.asList("miles", "kilos");
 
+  /**
+   * Gets the config
+   *
+   * @return String representing the config
+   */
   static String getConfig() {
     Config conf = new Config();
     Gson gson = new Gson();

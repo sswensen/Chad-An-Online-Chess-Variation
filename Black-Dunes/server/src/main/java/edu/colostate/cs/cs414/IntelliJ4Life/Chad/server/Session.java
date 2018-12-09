@@ -9,6 +9,12 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 public class Session {
+
+    /**
+     * main method to rest a game -- now obsolete
+     *
+     * @param args - null since no program arguments are needed
+     */
     public static void main(String[] args) {
         //User u = new User(1, "sswensen", "TestNickname1", "sswensen@email.com");
         //User u2 = new User(2, "cwlarson", "TestNickname2", "cwlarson@email.com");
