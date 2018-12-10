@@ -1,50 +1,55 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
-/** The main class for the application.
- *
+/**
+ * The main class for the application.
+ * <p>
  * Command line arguments are of the form:
  * [port] [teaminfo]...
- *
+ * <p>
  * Examples that produce the same result:
  * 31400 t00 Double Aughts
  * 31400 "t00 Double Aughts"
  */
 public class Server {
 
-  /** Main program starts a web microserver on the specified network port
-   ** @param args command line arguments optionally containing port and team name.
+  /**
+   * Main program starts a web microserver on the specified network port
+   * * @param args command line arguments optionally containing port and team name.
    */
   public static void main(String[] args) {
     ActiveGames activeGames = new ActiveGames();
     MicroServer server = new MicroServer(getPort(args), getName(args), activeGames);
   }
 
-  /** Obtain the port number from the command line arguments.  Defaults if none provided.
+  /**
+   * Obtain the port number from the command line arguments.  Defaults if none provided.
+   *
    * @param args
    * @return
    */
   private static int getPort(String[] args) {
 
-    if (args.length > 0)
+    if(args.length > 0)
       return Integer.parseInt(args[0]);
     else
       return 7778; // some default
 
   }
 
-  /** Obtain the name from the command line arguments.  Defaults if not specified.
+  /**
+   * Obtain the name from the command line arguments.  Defaults if not specified.
+   *
    * @param args
    * @return a concatenation of the arguments after the port
    */
   private static String getName(String[] args) {
 
-    if (args.length > 1) {
+    if(args.length > 1) {
       String name = args[1];
-      for (int i = 2; i < args.length; i++)
+      for(int i = 2; i < args.length; i++)
         name = name + " " + args[i];
       return name;
-    }
-    else
+    } else
       return "Unknown";
   }
 

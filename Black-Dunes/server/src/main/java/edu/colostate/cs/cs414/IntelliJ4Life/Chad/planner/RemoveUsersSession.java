@@ -3,12 +3,9 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
-
-import java.util.ArrayList;
 
 
 public class RemoveUsersSession {
@@ -62,7 +59,7 @@ public class RemoveUsersSession {
         private int userID;
         private String nickname;
 
-        private ReturnData(int _userID, String _nickname){
+        private ReturnData(int _userID, String _nickname) {
             userID = _userID;
             nickname = _nickname;
         }

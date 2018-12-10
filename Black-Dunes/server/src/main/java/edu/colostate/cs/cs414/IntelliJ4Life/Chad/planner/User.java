@@ -12,7 +12,7 @@ public class User {
      * Constructor for the User object
      *
      * @param nickName - nickname for the user
-     * @param email - email for the user
+     * @param email    - email for the user
      */
     public User(String nickName, String email) {
         this.nickName = nickName;
@@ -22,9 +22,9 @@ public class User {
     /**
      * Constructor for the User object
      *
-     * @param userID - userId for the user
+     * @param userID   - userId for the user
      * @param nickName - nickname for the user
-     * @param email - email for the user
+     * @param email    - email for the user
      */
     public User(int userID, String nickName, String email) {
         this.userID = userID;
@@ -35,10 +35,10 @@ public class User {
     /**
      * Constructor for the User object
      *
-     * @param userID - userId for the user
+     * @param userID   - userId for the user
      * @param username - username for the user
      * @param nickName - nickname for the user
-     * @param email - email for the user
+     * @param email    - email for the user
      */
     public User(int userID, String username, String nickName, String email) {
         this.userID = userID;
@@ -95,7 +95,9 @@ public class User {
      *
      * @return - nickname for the user
      */
-    public String getNickName() { return nickName; }
+    public String getNickName() {
+        return nickName;
+    }
 
     /**
      * sets the nickname for the user
@@ -186,12 +188,12 @@ public class User {
      * send invite to all the users in the given list
      *
      * @param invite - Invite objcet to send
-     * @param users - list of users to send the invite too
+     * @param users  - list of users to send the invite too
      * @return - true if invites sent successfully, false otherwise
      */
     public boolean sendInvite(Invite invite, ArrayList<User> users) {
-        if (invite.inviteUsers(users)) {
-            if (!sentInvites.contains(invite)) {
+        if(invite.inviteUsers(users)) {
+            if(!sentInvites.contains(invite)) {
                 this.sentInvites.add(invite);
             }
             return true;
@@ -206,7 +208,7 @@ public class User {
      * @param notification - notification to receive
      */
     public void receiveNotification(Notification notification) {
-        if (!receivedNotifications.contains(notification)) {
+        if(!receivedNotifications.contains(notification)) {
             this.receivedNotifications.add(notification);
         }
     }
@@ -218,12 +220,11 @@ public class User {
      * @return - true if successfully accepted, false otherwisee
      */
     public boolean acceptInvitation(Invite invite) {
-        if (receivedNotifications.contains(invite)) {
+        if(receivedNotifications.contains(invite)) {
             boolean accepted = invite.accept();
             // This is where the user will be added to the game
             return accepted;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -234,7 +235,7 @@ public class User {
      * @param invite - invite sent by other user
      */
     public void rejectInvitation(Invite invite) {
-        if (this.receivedNotifications.contains(invite)) {
+        if(this.receivedNotifications.contains(invite)) {
             this.receivedNotifications.remove(invite);
             Notification reject = new Notification(this.nickName + " rejected your invite, loser.");
             invite.getSender().receiveNotification(reject);

@@ -21,8 +21,8 @@ public class Player {
     /**
      * Constructor for initializing a player
      *
-     * @param user - user the player corresponds to
-     * @param game - gmae the player will be in
+     * @param user  - user the player corresponds to
+     * @param game  - gmae the player will be in
      * @param color - color the player will be
      */
     public Player(User user, Game game, Color color) {
@@ -40,14 +40,18 @@ public class Player {
      *
      * @return - user for the spcific player
      */
-    public User getUser() { return user; }
+    public User getUser() {
+        return user;
+    }
 
     /**
      * Returns the color for the player
      *
      * @return - color for the player
      */
-    public Color getColor() { return color; }
+    public Color getColor() {
+        return color;
+    }
 
     /*************
      * Public Methods
@@ -74,7 +78,7 @@ public class Player {
      * makes the move for the player
      *
      * @param piece - piece to move
-     * @param move - move to make
+     * @param move  - move to make
      * @return - true if move is successful, false otherwise
      */
     public boolean makeMove(Piece piece, int[] move) {

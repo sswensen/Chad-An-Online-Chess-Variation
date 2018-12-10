@@ -9,13 +9,13 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class GetUsersSession {
     private UserData userData;
     private ReturnData[] usersArray;
     private UserReturnData returnUserData;
+
     /**
      * Gets all the users to return to the frontend
      *
@@ -44,8 +44,8 @@ public class GetUsersSession {
         int i = 0;
 
         // Convert users ArrayList to array removing the current user
-        for (User u : users) {
-            if (u.getUserID() != userID) {
+        for(User u : users) {
+            if(u.getUserID() != userID) {
                 usersArray[i] = new ReturnData(u.getUserID(), u.getNickName());
 
                 i++;
@@ -97,7 +97,7 @@ public class GetUsersSession {
         private int userID;
         private String nickname;
 
-        private ReturnData(int _userID, String _nickname){
+        private ReturnData(int _userID, String _nickname) {
             userID = _userID;
             nickname = _nickname;
         }

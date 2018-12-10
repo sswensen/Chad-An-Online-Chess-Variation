@@ -5,8 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
-import org.json.JSONObject;
 import spark.Request;
 
 public class GetBoardSession {
@@ -36,8 +34,7 @@ public class GetBoardSession {
         // Game game = activeGames.getGameFromGameID(gameInfo.gameID);
         if(gameInfo.gameID == null) {
             boardResponse = (new BoardResponse("", 0, -1));
-        }
-        else {
+        } else {
             Game game = db.getGameFromDatabaseByID(Integer.parseInt(gameInfo.gameID));
 
             String board = game.getBoard().convertBoardToString();
@@ -69,7 +66,7 @@ public class GetBoardSession {
 
         private BoardResponse(String _board, int _turn, int _userID) {
             board = _board;
-            turn  = _turn;
+            turn = _turn;
             userID = _userID;
         }
     }

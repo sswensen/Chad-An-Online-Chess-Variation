@@ -45,7 +45,7 @@ public class InvitationInteractionSession {
 
         boolean result = false;
 
-        switch (interactionType) {
+        switch(interactionType) {
             case "accept":
                 Game game = new Game(user1);
 

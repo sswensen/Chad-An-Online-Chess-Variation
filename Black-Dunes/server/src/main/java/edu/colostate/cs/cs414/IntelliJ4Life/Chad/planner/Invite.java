@@ -6,7 +6,8 @@ public class Invite extends Notification {
     private InviteStatus inviteStatus;
     private User sender;
 
-    /** Object that represents an invite
+    /**
+     * Object that represents an invite
      *
      * @param message
      * @param sender
@@ -17,7 +18,8 @@ public class Invite extends Notification {
         this.sender = sender;
     }
 
-    /** Accessor that accesses the sender the of the invite
+    /**
+     * Accessor that accesses the sender the of the invite
      *
      * @return
      */
@@ -25,42 +27,43 @@ public class Invite extends Notification {
         return sender;
     }
 
-    /** Method to accept an invite
+    /**
+     * Method to accept an invite
      *
      * @return
      */
     public boolean accept() {
-       if (this.inviteStatus == InviteStatus.PENDING) {
-           this.inviteStatus = InviteStatus.ACCEPTED;
-           return true;
-       }
-       else {
-           return false;
-       }
-    }
-
-    /** Method to cancel an invite
-     *
-     * @return
-     */
-    public boolean cancel() {
-        if (this.inviteStatus == InviteStatus.PENDING) {
-            this.inviteStatus = InviteStatus.CANCELLED;
+        if(this.inviteStatus == InviteStatus.PENDING) {
+            this.inviteStatus = InviteStatus.ACCEPTED;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    /** Method to invite a list of users
+    /**
+     * Method to cancel an invite
+     *
+     * @return
+     */
+    public boolean cancel() {
+        if(this.inviteStatus == InviteStatus.PENDING) {
+            this.inviteStatus = InviteStatus.CANCELLED;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Method to invite a list of users
      *
      * @param users
      * @return
      */
     public boolean inviteUsers(ArrayList<User> users) {
-        if (this.inviteStatus ==  InviteStatus.PENDING) {
-            for (User user: users) {
+        if(this.inviteStatus == InviteStatus.PENDING) {
+            for(User user : users) {
                 user.receiveNotification(this);
             }
             return true;

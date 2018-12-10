@@ -35,18 +35,18 @@ public class InvitesSession {
 
         ArrayList<User> users = new ArrayList<>();
 
-        for (int i = 0; i < inviteInfo.userIDs.length; i++) {
+        for(int i = 0; i < inviteInfo.userIDs.length; i++) {
             int userID = Integer.parseInt(inviteInfo.userIDs[i]);
             User u = db.getUserFromDatabaseByID(userID);
             users.add(u);
         }
 
         int senderID = Integer.parseInt(inviteInfo.senderID);
-        User sender  = db.getUserFromDatabaseByID(senderID);
+        User sender = db.getUserFromDatabaseByID(senderID);
         int maxGroupID = db.getMaxInviteGroupIdFromDatabase();
 
         Invite invite = new Invite(sender.getNickName() + " invited you to a game!", sender);
-        for (User user: users) {
+        for(User user : users) {
             response = db.addInviteToDatabase(senderID, user.getUserID(), invite.getMessage(), maxGroupID + 1);
         }
 

@@ -1,6 +1,5 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Rook extends Piece {
@@ -20,7 +19,7 @@ public class Rook extends Piece {
     /**
      * Constructor to create the Rook object
      *
-     * @param color - color for the piece to be
+     * @param color    - color for the piece to be
      * @param position - position to start the piece at
      */
     public Rook(Color color, int[] position) {
@@ -48,19 +47,19 @@ public class Rook extends Piece {
          */
 
         // loop over rows less than the current row
-        for (int i = row - 1; i >= 0; i--) {
+        for(int i = row - 1; i >= 0; i--) {
             int[] move = {i, col};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
 
         // Loop over rows greater than the current row
-        for (int i = row + 1; i < 12; i++) {
+        for(int i = row + 1; i < 12; i++) {
             int[] move = {i, col};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
@@ -70,19 +69,19 @@ public class Rook extends Piece {
          */
 
         // loop over columns less than the current column
-        for (int i = col - 1; i >= 0; i--) {
+        for(int i = col - 1; i >= 0; i--) {
             int[] move = {row, i};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
 
         // loop over columns greater than the current column
-        for (int i = col + 1; i < 12; i++) {
+        for(int i = col + 1; i < 12; i++) {
             int[] move = {row, i};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
@@ -97,10 +96,9 @@ public class Rook extends Piece {
      */
     @Override
     public String toString() {
-        if (this.getColor() == Color.BLACK) {
+        if(this.getColor() == Color.BLACK) {
             return "BR";
-        }
-        else {
+        } else {
             return "WR";
         }
     }

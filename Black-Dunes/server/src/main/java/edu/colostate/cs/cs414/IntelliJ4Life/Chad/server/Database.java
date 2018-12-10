@@ -1,7 +1,6 @@
 package edu.colostate.cs.cs414.IntelliJ4Life.Chad.server;
 
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Game;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.NotificationsSession;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
 
 import java.sql.*;
@@ -124,8 +123,8 @@ public class Database {
      * Update a game in the database
      *
      * @param gameID - Game ID to update
-     * @param board - new updated board for the game
-     * @param turn - new player's turn for the game
+     * @param board  - new updated board for the game
+     * @param turn   - new player's turn for the game
      */
     public void updateGameInDatabase(int gameID, String board, int turn) {
         String query = "UPDATE Games g SET Board = \'" + board + "\', Turn\n = " + turn +
@@ -136,11 +135,11 @@ public class Database {
     /**
      * add game to the database
      *
-     * @param user1ID - User ID for first user
-     * @param user2ID - user ID for second user
+     * @param user1ID   - User ID for first user
+     * @param user2ID   - user ID for second user
      * @param startTime - start time for the game
-     * @param turn - turn for the game
-     * @param board - board for the game
+     * @param turn      - turn for the game
+     * @param board     - board for the game
      * @return - true if successfull, false otherwise
      */
     public boolean addGameToDatabase(int user1ID, int user2ID, LocalDateTime startTime, int turn, String board) {
@@ -168,7 +167,7 @@ public class Database {
      *
      * @param username - username for the user
      * @param nickname - nickname for the user
-     * @param email - email for the useer
+     * @param email    - email for the useer
      * @param password - password for the user
      * @return - true if successful, false otherwise
      */
@@ -216,8 +215,7 @@ public class Database {
 
                 if(maxGroupId != -1) {
                     return maxGroupId;
-                }
-                else {
+                } else {
                     System.err.println("No group ID's in database");
                 }
             }
@@ -230,10 +228,10 @@ public class Database {
     /**
      * adds an invite to the database
      *
-     * @param senderID - sender ID for the invite
+     * @param senderID  - sender ID for the invite
      * @param inviteeID - invite ID for the invite
-     * @param message - messgage for the invite
-     * @param groupID - group ID for the invite
+     * @param message   - messgage for the invite
+     * @param groupID   - group ID for the invite
      * @return - true if successful, false otherwise
      */
     public boolean addInviteToDatabase(int senderID, int inviteeID, String message, int groupID) {
@@ -257,7 +255,7 @@ public class Database {
     /**
      * Adds notification to the database
      *
-     * @param userID - User ID for notification
+     * @param userID  - User ID for notification
      * @param message - message for notification
      * @return - true if successful, false otherwisee
      */
@@ -292,7 +290,7 @@ public class Database {
             Class.forName(myDriver);
             try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
                 Statement stQuery = conn.createStatement();
-                ResultSet rsQuery = stQuery.executeQuery(query);
+                ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
                 return parseNotificationsFromResultSet(rsQuery);
             }
@@ -320,7 +318,7 @@ public class Database {
             Class.forName(myDriver);
             try(Connection conn = DriverManager.getConnection(dbUrl, dbusername, dbpass);
                 Statement stQuery = conn.createStatement();
-                ResultSet rsQuery = stQuery.executeQuery(query);
+                ResultSet rsQuery = stQuery.executeQuery(query)
             ) {
                 return parseNotificationsFromResultSet(rsQuery).get(0);
             }
@@ -354,11 +352,8 @@ public class Database {
      */
     private boolean checkIfNotificationExistsInDatabaseByID(int id) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Notifications WHERE ID = \'" + id + "\';";
-        if(getCountAllFromDatabase(usernameQuery) > 0) {
-            //System.err.println("User already exists");
-            return true;
-        }
-        return false;
+        //System.err.println("User already exists");
+        return getCountAllFromDatabase(usernameQuery) > 0;
     }
 
     /**
@@ -501,11 +496,8 @@ public class Database {
      */
     private boolean checkIfUserExistsInDatabaseByID(int id) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE ID = \'" + id + "\';";
-        if(getCountAllFromDatabase(usernameQuery) > 0) {
-            //System.err.println("User already exists");
-            return true;
-        }
-        return false;
+        //System.err.println("User already exists");
+        return getCountAllFromDatabase(usernameQuery) > 0;
     }
 
     /**
@@ -516,28 +508,22 @@ public class Database {
      */
     private boolean checkIfUserExistsInDatabase(String username) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
-        if(getCountAllFromDatabase(usernameQuery) > 0) {
-            //System.err.println("User already exists");
-            return true;
-        }
-        return false;
+        //System.err.println("User already exists");
+        return getCountAllFromDatabase(usernameQuery) > 0;
     }
 
     /**
      * Checks if specified user is in the database by the username
      *
      * @param username - username to check is in database
-     * @param email - email to check is in database
+     * @param email    - email to check is in database
      * @return - true if in database, false otherwise
      */
     private boolean checkIfUserExistsInDatabase(String username, String email) {
         String usernameQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Username = \'" + username.toLowerCase() + "\';";
         String emailQuery = "SELECT COUNT(*) AS Count FROM Users WHERE Email = \'" + email.toLowerCase() + "\';";
-        if(getCountAllFromDatabase(usernameQuery) > 0 || getCountAllFromDatabase(emailQuery) > 0) {
-            //System.err.println("User already exists");
-            return true;
-        }
-        return false;
+        //System.err.println("User already exists");
+        return getCountAllFromDatabase(usernameQuery) > 0 || getCountAllFromDatabase(emailQuery) > 0;
     }
 
     /**
@@ -599,8 +585,7 @@ public class Database {
 
 
             return new Game(gameID, startTime, board, u1, u2, turn, finished);
-        }
-        else
+        } else
             return null;
     }
 
@@ -620,7 +605,7 @@ public class Database {
                 String message = rs.getString("Message");
                 notificationRows.add(new NotificationRow(notificationID, user1ID, user2ID, message));
             }
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
         return notificationRows;
