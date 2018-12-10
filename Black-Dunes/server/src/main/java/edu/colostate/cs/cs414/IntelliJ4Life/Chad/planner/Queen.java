@@ -2,7 +2,7 @@ package edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner;
 
 import java.util.ArrayList;
 
-public class Queen extends Piece{
+public class Queen extends Piece {
 
     /*******************
      * Constructor
@@ -19,7 +19,7 @@ public class Queen extends Piece{
     /**
      * Constructor to create the Queen object
      *
-     * @param color - color for the piece to be
+     * @param color    - color for the piece to be
      * @param position - position to start the piece at
      */
     public Queen(Color color, int[] position) {
@@ -47,19 +47,19 @@ public class Queen extends Piece{
          */
 
         // loop over rows less than the current row
-        for (int i = row - 1; i >= 0; i--) {
+        for(int i = row - 1; i >= 0; i--) {
             int[] move = {i, col};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
 
         // Loop over rows greater than the current row
-        for (int i = row + 1; i < 12; i++) {
+        for(int i = row + 1; i < 12; i++) {
             int[] move = {i, col};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
@@ -69,19 +69,19 @@ public class Queen extends Piece{
          */
 
         // loop over columns less than the current column
-        for (int i = col - 1; i >= 0; i--) {
+        for(int i = col - 1; i >= 0; i--) {
             int[] move = {row, i};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
 
         // loop over columns greater than the current column
-        for (int i = col + 1; i < 12; i++) {
+        for(int i = col + 1; i < 12; i++) {
             int[] move = {row, i};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
         }
@@ -94,10 +94,10 @@ public class Queen extends Piece{
         int i = row - 1;
         int j = col - 1;
 
-        while (i >= 0 && j >= 0) {
+        while(i >= 0 && j >= 0) {
             int[] move = {i, j};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
 
@@ -109,10 +109,10 @@ public class Queen extends Piece{
         i = row - 1;
         j = col + 1;
 
-        while (i >= 0 && j < 12) {
+        while(i >= 0 && j < 12) {
             int[] move = {i, j};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
 
@@ -124,10 +124,10 @@ public class Queen extends Piece{
         i = row + 1;
         j = col - 1;
 
-        while (i < 12 && j >= 0) {
+        while(i < 12 && j >= 0) {
             int[] move = {i, j};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
 
@@ -139,10 +139,10 @@ public class Queen extends Piece{
         i = row + 1;
         j = col + 1;
 
-        while (i < 12 && j < 12) {
+        while(i < 12 && j < 12) {
             int[] move = {i, j};
 
-            if (!(addMoveToList(move, board, returnList))) {
+            if(!(addMoveToList(move, board, returnList))) {
                 break;
             }
 
@@ -160,10 +160,9 @@ public class Queen extends Piece{
      */
     @Override
     public String toString() {
-        if (this.getColor() == Color.BLACK) {
+        if(this.getColor() == Color.BLACK) {
             return "BQ";
-        }
-        else {
+        } else {
             return "WQ";
         }
     }

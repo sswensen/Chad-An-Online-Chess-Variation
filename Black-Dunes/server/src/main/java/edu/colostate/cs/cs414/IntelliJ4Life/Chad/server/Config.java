@@ -7,21 +7,21 @@ import java.util.List;
 
 public class Config {
 
-  private short version = 1;
-  private String type = "config";
+    private short version = 1;
+    private String type = "config";
 
-  // We can convert this to grab a list of users when sending names for invites
-  private List<String> units = Arrays.asList("miles", "kilos");
+    // We can convert this to grab a list of users when sending names for invites
+    private List<String> units = Arrays.asList("miles", "kilos");
 
-  /**
-   * Gets the config
-   *
-   * @return String representing the config
-   */
-  static String getConfig() {
-    Config conf = new Config();
-    Gson gson = new Gson();
+    /**
+     * Gets the config
+     *
+     * @return String representing the config
+     */
+    static String getConfig() {
+        Config conf = new Config();
+        Gson gson = new Gson();
 
-    return gson.toJson(conf);
-  }
+        return gson.toJson(conf);
+    }
 }

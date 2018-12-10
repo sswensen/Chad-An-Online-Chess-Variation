@@ -5,8 +5,8 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.Piece;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.planner.User;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Session {
 
@@ -95,7 +95,7 @@ public class Session {
 
         // Resume game
         boolean playing = true;
-        while(playing){
+        while(playing) {
             // Get current game
             db.getCurrentGamesFromDatabase();
             // TODO PRIMARY What happens if database updates between when this is called and it is called again? We need to do a lookup by game id, maybe instead of storing choice, we store game id instead. GameID lookup method needs to be implemented into dtabase class
@@ -103,47 +103,46 @@ public class Session {
             game.getBoard().printBoard();
 
             // Determine turn
-            if(game.getTurn() == 0){ //PlayerOne's turn
+            if(game.getTurn() == 0) { //PlayerOne's turn
                 System.out.println("\nWHITE's turn");
                 System.out.print("Enter the position of the piece you want to move(row,col): \n");
-                String[] location = sc.nextLine().toString().split(",");
+                String[] location = sc.nextLine().split(",");
                 //Get piece to move
                 Piece piece = game.getPlayerOne().getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
                 // TODO handle piece being null (like when selecting the opponent's color)
-                if (piece == null) {
+                if(piece == null) {
                     System.out.println("Invalid piece selection");
                     continue;
                 }
                 ArrayList<int[]> validMoves = piece.validMoves(game.getBoard().getBoard());
                 System.out.print("Valid moves for " + piece + ": ");
-                for (int i = 0; i < validMoves.size(); i++){
+                for(int i = 0; i < validMoves.size(); i++) {
                     System.out.print(Arrays.toString(validMoves.get(i)) + " ");
                 }
                 System.out.println();
                 System.out.print("Enter the position to move the piece(row,col): \n");
-                String[] destination = sc.nextLine().toString().split(",");
+                String[] destination = sc.nextLine().split(",");
                 //Make move
                 if(!game.getPlayerOne().makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
                     game.setTurn(Math.abs(game.getTurn() - 1));
-            }
-            else{ //PlayerTwo's turn
+            } else { //PlayerTwo's turn
                 System.out.println("\nBLACK's turn");
                 System.out.print("Enter the position of the piece you want to move(row,col): \n");
-                String[] location = sc.nextLine().toString().split(",");
+                String[] location = sc.nextLine().split(",");
                 Piece piece = game.getPlayerTwo().getPiece(Integer.parseInt(location[0]), Integer.parseInt(location[1]));
-                if (piece == null) {
+                if(piece == null) {
                     System.out.println("Invalid piece selection");
                     continue;
                 }
                 //Get piece to move
                 ArrayList<int[]> validMoves = piece.validMoves(game.getBoard().getBoard());
                 System.out.print("Valid moves for " + piece + ": ");
-                for (int i = 0; i < validMoves.size(); i++){
+                for(int i = 0; i < validMoves.size(); i++) {
                     System.out.print(Arrays.toString(validMoves.get(i)) + " ");
                 }
                 System.out.println();
                 System.out.print("Enter the position to move the piece(row,col): \n");
-                String[] destination = sc.nextLine().toString().split(",");
+                String[] destination = sc.nextLine().split(",");
                 //Make move
                 if(!game.getPlayerTwo().makeMove(piece, new int[]{Integer.parseInt(destination[0]), Integer.parseInt(destination[1])}))
                     game.setTurn(Math.abs(game.getTurn() - 1));

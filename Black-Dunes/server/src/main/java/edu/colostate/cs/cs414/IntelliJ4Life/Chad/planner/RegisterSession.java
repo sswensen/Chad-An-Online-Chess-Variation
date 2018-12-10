@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
-import org.json.JSONObject;
 import spark.Request;
 
 public class RegisterSession {

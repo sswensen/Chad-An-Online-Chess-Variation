@@ -5,11 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GetGamesSession {
     private UserData userData;
@@ -44,7 +42,7 @@ public class GetGamesSession {
 
         gamesArray = new String[0][0];
 
-        if (user != null) {
+        if(user != null) {
 //            System.out.println("user.userID: " + user.getUserID());
 //            System.out.println();
 
@@ -54,11 +52,11 @@ public class GetGamesSession {
             db.getCurrentGamesFromDatabase();
             ArrayList<Game> games = db.getGames();
 
-                    // Array containing [gameID, user1ID, user2ID] for each game
+            // Array containing [gameID, user1ID, user2ID] for each game
             gamesArray = new String[games.size()][3];
             int i = 0;
 
-            for (Game g : games) {
+            for(Game g : games) {
                 gamesArray[i][0] = Integer.toString(g.getGameID());
                 gamesArray[i][1] = g.getPlayerOne().getUser().getNickName();
                 gamesArray[i][2] = g.getPlayerTwo().getUser().getNickName();

@@ -5,17 +5,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
-
-import java.util.ArrayList;
 
 public class MakeMoveSession {
     private MoveData moveData;
     private Result result;
 
     /**
-     *
      * Handles a request to make a move, using the userID, gameID, and initial piece location
      * and the location desired to move to. Response is data structure containing the updated
      * board and if the move completed successfully
@@ -49,15 +45,15 @@ public class MakeMoveSession {
 
         int initialRow = Integer.parseInt(moveData.initialRow);
         int initialCol = Integer.parseInt(moveData.initialCol);
-        int afterRow   = Integer.parseInt(moveData.afterRow);
-        int afterCol   = Integer.parseInt(moveData.afterCol);
+        int afterRow = Integer.parseInt(moveData.afterRow);
+        int afterCol = Integer.parseInt(moveData.afterCol);
 
         Piece piece = game.getBoard().getBoard()[initialRow][initialCol];
         int[] move = {afterRow, afterCol};
 
         Player p = game.getPlayer(user);
 
-        if (piece.getColor() != p.getColor()) {
+        if(piece.getColor() != p.getColor()) {
             result = new Result(game.getBoard().convertBoardToString(), false, game.getTurn());
             return;
         }
@@ -83,12 +79,12 @@ public class MakeMoveSession {
     }
 
     private class MoveData {
-        private String gameID     = "";
-        private String userID     = "";
+        private String gameID = "";
+        private String userID = "";
         private String initialRow = "";
         private String initialCol = "";
-        private String afterRow   = "";
-        private String afterCol   = "";
+        private String afterRow = "";
+        private String afterCol = "";
     }
 
     private class Result {
@@ -97,9 +93,9 @@ public class MakeMoveSession {
         private int turn;
 
         private Result(String _board, boolean _IsSuccess, int _turn) {
-            board     = _board;
+            board = _board;
             IsSuccess = _IsSuccess;
-            turn      = _turn;
+            turn = _turn;
         }
     }
 }

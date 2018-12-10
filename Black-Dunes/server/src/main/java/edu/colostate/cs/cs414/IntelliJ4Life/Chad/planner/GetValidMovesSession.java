@@ -5,11 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.ActiveGames;
 import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.Database;
-import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GetValidMovesSession {
     private PieceData pieceData;

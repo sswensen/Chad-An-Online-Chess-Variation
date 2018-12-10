@@ -8,7 +8,6 @@ import edu.colostate.cs.cs414.IntelliJ4Life.Chad.server.HTTP;
 import spark.Request;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class NotificationsSession {
     private NotificationTypeRequest notificationTypeRequest;
@@ -37,15 +36,15 @@ public class NotificationsSession {
         ArrayList<Database.NotificationRow> notificationRows = db.getNotificationsFromDatabase(notificationTypeRequest.userID);
         response = new ArrayList<>();
 
-        if (notificationTypeRequest.notificationType.equals("notification")) {
-            for (Database.NotificationRow row: notificationRows) {
-                if (row.user2ID == -1) {
+        if(notificationTypeRequest.notificationType.equals("notification")) {
+            for(Database.NotificationRow row : notificationRows) {
+                if(row.user2ID == -1) {
                     response.add(row);
                 }
             }
-        } else if (notificationTypeRequest.notificationType.equals("invitation")) {
-            for (Database.NotificationRow row: notificationRows) {
-                if (row.user2ID > -1) {
+        } else if(notificationTypeRequest.notificationType.equals("invitation")) {
+            for(Database.NotificationRow row : notificationRows) {
+                if(row.user2ID > -1) {
                     response.add(row);
                 }
             }
